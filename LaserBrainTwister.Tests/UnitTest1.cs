@@ -1,6 +1,5 @@
 using LaserBrainTwister.Domain;
 using Shouldly;
-using System.Collections.Generic;
 using Xunit;
 
 namespace LaserBrainTwister.Tests;
@@ -25,6 +24,16 @@ public class UnitTest1
         node0.LinkedNodes[0].ShouldBe(node1);
     }
 
+
+    [Fact]
+    public void Add1LinkWithTree()
+    {
+        var nodesTree = new NodesTree(0, 1);
+        nodesTree.AddLink(0, 1);
+        nodesTree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
+        nodesTree.Nodes[0].LinkedNodes[0].ShouldBe(nodesTree.Nodes[1]);
+    }
+
     [Fact]
     public void AddMoreLinkedNodes()
     {
@@ -41,7 +50,7 @@ public class UnitTest1
     [Fact]
     public void NodeTreeWith1Node()
     {
-        NodeTree nodeTree = new();
+        NodesTree nodeTree = new();
         Node node0 = Node.New(0);
         nodeTree.Nodes.Add(node0);
         nodeTree.Nodes.Count.ShouldBe(1);
@@ -50,7 +59,7 @@ public class UnitTest1
     [Fact]
     public void BrowseNodeTreeWith3SimpleNodes()
     {
-        NodeTree nodeTree = new();
+        NodesTree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -73,7 +82,7 @@ public class UnitTest1
     [Fact]
     public void BrowseNodeTreeWith2Ways()
     {
-        NodeTree nodeTree = new();
+        NodesTree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -105,7 +114,7 @@ public class UnitTest1
     [Fact]
     public void BrowseNodeTreeWithMoreWays()
     {
-        NodeTree nodeTree = new();
+        NodesTree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -154,7 +163,7 @@ public class UnitTest1
     [Fact]
     public void BrowseWithCycle()
     {
-        NodeTree nodeTree = new();
+        NodesTree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
