@@ -33,6 +33,7 @@ public class NodeTree
 
         foreach (var node in nodeOrigin.LinkedNodes)
         {
+            if (beginTree.Nodes.Any(n => n.Number == node.Number)) continue;
             var browsedTree = new BrowsedTree();
             browsedTree.Nodes.AddRange(beginTree.Nodes);
             browsedTree.Nodes.Add(node);

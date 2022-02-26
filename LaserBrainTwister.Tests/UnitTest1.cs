@@ -150,4 +150,28 @@ public class UnitTest1
         browsedTrees[2].Nodes[2].ShouldBe(node5);
         browsedTrees[2].Nodes[3].ShouldBe(node6);
     }
+
+    [Fact]
+    public void BrowseWithCycle()
+    {
+        NodeTree nodeTree = new();
+        Node node0 = Node.New(0);
+        Node node1 = Node.New(1);
+        Node node2 = Node.New(2);
+
+        nodeTree.Nodes.Add(node0);
+        nodeTree.Nodes.Add(node1);
+        nodeTree.Nodes.Add(node2);
+
+        node0.AddLinkedNode(node1);
+        node1.AddLinkedNode(node2);
+        node1.AddLinkedNode(node0);
+
+        var browsedTrees = nodeTree.BrowseNodes();
+        browsedTrees.Count.ShouldBe(1);
+        browsedTrees[0].Nodes.Count.ShouldBe(3);
+        browsedTrees[0].Nodes[0].ShouldBe(node0);
+        browsedTrees[0].Nodes[1].ShouldBe(node1);
+        browsedTrees[0].Nodes[2].ShouldBe(node2);
+    }
 }
