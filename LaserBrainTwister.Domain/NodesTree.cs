@@ -25,35 +25,32 @@ public class NodesTree
         fromNode.AddLinkedNode(toNode);
     }
 
-    public List<BrowsedTree> BrowseNodes()
+    public List<TreeRoute> TreeRoutes()
     {
-        var beginTree = new BrowsedTree();
+        var beginTree = new TreeRoute();
         beginTree.Nodes.Add(Nodes[0]);
-        return BrowseNodes(beginTree);
+        return TreeRoutes(beginTree);
     }
 
-    private static List<BrowsedTree> BrowseNodes(BrowsedTree beginTree)
+    private static List<TreeRoute> TreeRoutes(TreeRoute beginTree)
     {
-        var result = new List<BrowsedTree>();
+        var result = new List<TreeRoute>();
         var nodeOrigin = beginTree.Nodes.Last();
         if (nodeOrigin.LinkedNodes.Count == 0)
         {
-            var browsedTree = new BrowsedTree();
+            var browsedTree = new TreeRoute();
             browsedTree.Nodes.AddRange(beginTree.Nodes);
-            return new List<BrowsedTree> { browsedTree };
+            return new List<TreeRoute> { browsedTree };
         }
 
         foreach (var node in nodeOrigin.LinkedNodes)
         {
             if (beginTree.Nodes.Any(n => n.Number == node.Number)) continue;
-            var browsedTree = new BrowsedTree();
+            var browsedTree = new TreeRoute();
             browsedTree.Nodes.AddRange(beginTree.Nodes);
             browsedTree.Nodes.Add(node);
-            result.AddRange(BrowseNodes(browsedTree));
+            result.AddRange(TreeRoutes(browsedTree));
         }
         return result;
     }
-
-
-    private Node? NodeFromNumber(int number) => Nodes.FirstOrDefault(n => n.Number == number);
 }

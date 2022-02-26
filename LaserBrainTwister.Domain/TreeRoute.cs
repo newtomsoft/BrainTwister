@@ -1,6 +1,6 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public class BrowsedTree
+public class TreeRoute
 {
     public readonly List<Node> Nodes = new();
 }

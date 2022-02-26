@@ -1,17 +1,14 @@
-﻿using LaserBrainTwister.Domain;
-using Shouldly;
-using Xunit;
+﻿namespace LaserBrainTwister.Tests;
 
-namespace LaserBrainTwister.Tests;
 public class NodesTreeTests
 {
     [Fact]
     public void NodeTreeWith1Node()
     {
-        var nodeTree = new NodesTree();
+        var nodesTree = new NodesTree();
         var node0 = Node.New(0);
-        nodeTree.Nodes.Add(node0);
-        nodeTree.Nodes.Count.ShouldBe(1);
+        nodesTree.Nodes.Add(node0);
+        nodesTree.Nodes.Count.ShouldBe(1);
     }
 
     [Fact]
@@ -24,26 +21,18 @@ public class NodesTreeTests
     }
 
     [Fact]
-    public void BrowseNodeTreeWith3SimpleNodes()
+    public void BrowseNodeTreeWith3SimpleNodesUsingTreeOnly()
     {
-        NodesTree nodeTree = new();
-        Node node0 = Node.New(0);
-        Node node1 = Node.New(1);
-        Node node2 = Node.New(2);
+        NodesTree nodeTree = new(0, 1, 2);
+        nodeTree.AddLink(0, 1);
+        nodeTree.AddLink(1, 2);
 
-        nodeTree.Nodes.Add(node0);
-        nodeTree.Nodes.Add(node1);
-        nodeTree.Nodes.Add(node2);
-
-        node0.AddLinkedNode(node1);
-        node1.AddLinkedNode(node2);
-
-        var browsedTrees = nodeTree.BrowseNodes();
+        var browsedTrees = nodeTree.TreeRoutes();
         browsedTrees.Count.ShouldBe(1);
         browsedTrees[0].Nodes.Count.ShouldBe(3);
-        browsedTrees[0].Nodes[0].ShouldBe(node0);
-        browsedTrees[0].Nodes[1].ShouldBe(node1);
-        browsedTrees[0].Nodes[2].ShouldBe(node2);
+        browsedTrees[0].Nodes[0].ShouldBe(nodeTree.Nodes[0]);
+        browsedTrees[0].Nodes[1].ShouldBe(nodeTree.Nodes[1]);
+        browsedTrees[0].Nodes[2].ShouldBe(nodeTree.Nodes[2]);
     }
 
     [Fact]
@@ -65,7 +54,7 @@ public class NodesTreeTests
         node1.AddLinkedNode(node3);
         node2.AddLinkedNode(node3);
 
-        var browsedTrees = nodeTree.BrowseNodes();
+        var browsedTrees = nodeTree.TreeRoutes();
         browsedTrees.Count.ShouldBe(2);
         browsedTrees[0].Nodes.Count.ShouldBe(3);
         browsedTrees[0].Nodes[0].ShouldBe(node0);
@@ -107,7 +96,7 @@ public class NodesTreeTests
         node4.AddLinkedNode(node6);
         node5.AddLinkedNode(node6);
 
-        var browsedTrees = nodeTree.BrowseNodes();
+        var browsedTrees = nodeTree.TreeRoutes();
         browsedTrees.Count.ShouldBe(3);
         browsedTrees[0].Nodes.Count.ShouldBe(4);
         browsedTrees[0].Nodes[0].ShouldBe(node0);
@@ -143,7 +132,7 @@ public class NodesTreeTests
         node1.AddLinkedNode(node2);
         node1.AddLinkedNode(node0);
 
-        var browsedTrees = nodeTree.BrowseNodes();
+        var browsedTrees = nodeTree.TreeRoutes();
         browsedTrees.Count.ShouldBe(1);
         browsedTrees[0].Nodes.Count.ShouldBe(3);
         browsedTrees[0].Nodes[0].ShouldBe(node0);

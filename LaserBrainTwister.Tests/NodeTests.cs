@@ -1,9 +1,6 @@
-using LaserBrainTwister.Domain;
-using Shouldly;
-using Xunit;
-
 namespace LaserBrainTwister.Tests;
-public class UnitTest1
+
+public class NodeTests
 {
     [Fact]
     public void Create1Node()

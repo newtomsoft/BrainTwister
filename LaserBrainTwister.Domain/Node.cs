@@ -1,6 +1,5 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-
 public class Node
 {
     public int Number { get; }
