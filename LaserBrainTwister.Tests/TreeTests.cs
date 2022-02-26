@@ -5,40 +5,16 @@ public class TreeTests
     [Fact]
     public void TreeWith1Node()
     {
-        var tree = new Tree();
+        var tree = new Tree(0);
         var node0 = Node.New(0);
         tree.Nodes.Add(node0);
         tree.Nodes.Count.ShouldBe(1);
     }
 
     [Fact]
-    public void Add1Link()
-    {
-        var tree = new Tree(0, 1);
-        tree.LinkFrom(0, 1);
-        tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[0].LinkedNodes[0].ShouldBe(tree.Nodes[1]);
-    }
-
-    [Fact]
-    public void RouteWith3SimpleNodes()
-    {
-        Tree tree = new(0, 1, 2);
-        tree.LinkFrom(0, 1);
-        tree.LinkFrom(1, 2);
-
-        var routes = tree.GetRoutes();
-        routes.Count.ShouldBe(1);
-        routes[0].Nodes.Count.ShouldBe(3);
-        routes[0].Nodes[0].ShouldBe(tree.Nodes[0]);
-        routes[0].Nodes[1].ShouldBe(tree.Nodes[1]);
-        routes[0].Nodes[2].ShouldBe(tree.Nodes[2]);
-    }
-
-    [Fact]
     public void RouteWith2Ways()
     {
-        Tree tree = new();
+        Tree tree = new(0);
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -70,7 +46,7 @@ public class TreeTests
     [Fact]
     public void BrowseNodeTreeWithMoreWays()
     {
-        Tree tree = new();
+        Tree tree = new(0);
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -119,7 +95,7 @@ public class TreeTests
     [Fact]
     public void BrowseWithCycle()
     {
-        Tree tree = new();
+        Tree tree = new(0);
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);

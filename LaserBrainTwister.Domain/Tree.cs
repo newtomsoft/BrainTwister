@@ -4,29 +4,27 @@ public class Tree
 {
     public readonly List<Node> Nodes = new();
 
-    public Tree(params int[] numbers) => AddNodes(numbers);
+    public Tree(int nodesNumber) => AddNodes(nodesNumber);
 
-    public void AddNodes(params int[] numbers)
-    {
-        foreach (var number in numbers) Nodes.Add(Node.New(number));
-    }
+    public void AddNodes(int number) => Nodes.AddRange(Enumerable.Range(0, number).Select(n => Node.New(n)));
 
-    public Segment LinkFrom(int fromNodeNumber, int toNodeNumber)
-    {
-        var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        var toNode = Nodes.FirstOrDefault(n => n.Number == toNodeNumber);
-        if (fromNode is null) throw new ArgumentException("segment from doesn't exist");
-        if (toNode is null) throw new ArgumentException("segment to doesn't exist");
-        fromNode.AddLinkedNode(toNode);
-        return new Segment(fromNode, toNode, this);
-    }
 
+    /// <summary>
+    /// To link 2 nodes. Use Segment.To Method immediatly after this
+    /// </summary>
+    /// <param name="fromNodeNumber"></param>
+    /// <returns>begin of the segment used to link 2 nodes</returns>
+    /// <exception cref="ArgumentException"></exception>
     public Segment LinkFrom(int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        return fromNode is null ? throw new ArgumentException("segment from doesn't exist") : new Segment(fromNode, Node.New(0), this);
+        return fromNode is null ? throw new ArgumentException("segment 'from' doesn't exist") : Segment.New(fromNode, Node.New(0), this);
     }
 
+    /// <summary>
+    /// Get all possibles route from first node to all nodes that have no linked node
+    /// </summary>
+    /// <returns></returns>
     public List<Route> GetRoutes()
     {
         var beginTree = new Route();

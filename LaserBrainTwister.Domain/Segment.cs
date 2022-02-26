@@ -6,8 +6,9 @@ public class Segment
     private readonly Node _end;
     private readonly Tree _tree;
 
-    static Segment From(Node begin, Node end, Tree tree) => new(begin, end, tree);
-    public Segment(Node begin, Node end, Tree tree)
+    public static Segment New(Node begin, Node end, Tree tree) => new(begin, end, tree);
+    
+    private Segment(Node begin, Node end, Tree tree)
     {
         _begin = begin;
         _end = end;
@@ -31,12 +32,12 @@ public class Segment
     private Segment To(Node LinkedNode)
     {
         _begin.AddLinkedNode(LinkedNode);
-        return From(_begin, LinkedNode, _tree);
+        return New(_begin, LinkedNode, _tree);
     }
 
     private Segment Then(Node LinkedNode)
     {
         _end.AddLinkedNode(LinkedNode);
-        return From(_end, LinkedNode, _tree);
+        return New(_end, LinkedNode, _tree);
     }
 }
