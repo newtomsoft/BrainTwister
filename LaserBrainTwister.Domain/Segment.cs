@@ -7,7 +7,7 @@ public class Segment
     private readonly Tree _tree;
 
     public static Segment New(Node begin, Node end, Tree tree) => new(begin, end, tree);
-    
+
     private Segment(Node begin, Node end, Tree tree)
     {
         _begin = begin;

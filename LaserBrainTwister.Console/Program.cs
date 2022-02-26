@@ -1,7 +1,6 @@
 ﻿using LaserBrainTwister.Domain;
 
 var Tree = new Tree(22);
-
 Tree.LinkFrom(0).To(1);
 Tree.LinkFrom(1).To(2).To(11);
 Tree.LinkFrom(2).To(1).To(3).To(12);
@@ -27,4 +26,4 @@ Tree.LinkFrom(20).To(21).To(15).To(19);
 var routes = Tree.GetRoutes();
 var longestRoute = routes.MaxBy(r => r.Nodes.Count);
 if (longestRoute!.Nodes.Count == Tree.Nodes.Count) Console.WriteLine($"Possible solution : {longestRoute}");
-else Console.WriteLine($"No route found which passed by all nodes. The longest : {longestRoute}");
+else Console.WriteLine($"No route found that passe by all nodes. The longest is : {longestRoute}");

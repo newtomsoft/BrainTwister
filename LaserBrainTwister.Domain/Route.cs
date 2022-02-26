@@ -14,9 +14,10 @@ public class Route
         var stringBuilder = new StringBuilder();
         foreach (var node in Nodes)
         {
-            stringBuilder.Append(node.Number.ToString());
+            stringBuilder.Append(node.Number);
             stringBuilder.Append(' ');
         }
+        stringBuilder.Remove(stringBuilder.Length - 1, 1);
         return stringBuilder.ToString();
     }
 }

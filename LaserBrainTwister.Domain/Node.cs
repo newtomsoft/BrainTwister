@@ -3,7 +3,7 @@
 public class Node
 {
     public int Number { get; }
-    public List<Node> LinkedNodes { get; private set; }
+    public List<Node> LinkedNodes { get; }
 
     public static Node New(int number) => new(number);
 
@@ -13,5 +13,5 @@ public class Node
         LinkedNodes = new();
     }
 
-    public void AddLinkedNode(Node node) => LinkedNodes.Add(node);
+    internal void AddLinkedNode(Node node) => LinkedNodes.Add(node);
 }

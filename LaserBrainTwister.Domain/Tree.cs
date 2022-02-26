@@ -6,11 +6,8 @@ public class Tree
 
     public Tree(int nodesNumber) => AddNodes(nodesNumber);
 
-    public void AddNodes(int number) => Nodes.AddRange(Enumerable.Range(0, number).Select(n => Node.New(n)));
-
-
     /// <summary>
-    /// To link 2 nodes. Use Segment.To Method immediatly after this
+    /// To link 2 nodes. Use Segment.To() immediatly after this
     /// </summary>
     /// <param name="fromNodeNumber"></param>
     /// <returns>begin of the segment used to link 2 nodes</returns>
@@ -31,6 +28,8 @@ public class Tree
         beginTree.AddNode(Nodes.First());
         return GetRoutes(beginTree);
     }
+
+    private void AddNodes(int number) => Nodes.AddRange(Enumerable.Range(0, number).Select(n => Node.New(n)));
 
     private static List<Route> GetRoutes(Route beginTree)
     {
