@@ -25,28 +25,28 @@ public class Tree
         fromNode.AddLinkedNode(toNode);
     }
 
-    public List<TreeRoute> TreeRoutes()
+    public List<Route> TreeRoutes()
     {
-        var beginTree = new TreeRoute();
+        var beginTree = new Route();
         beginTree.Nodes.Add(Nodes[0]);
         return TreeRoutes(beginTree);
     }
 
-    private static List<TreeRoute> TreeRoutes(TreeRoute beginTree)
+    private static List<Route> TreeRoutes(Route beginTree)
     {
-        var result = new List<TreeRoute>();
+        var result = new List<Route>();
         var nodeOrigin = beginTree.Nodes.Last();
         if (nodeOrigin.LinkedNodes.Count == 0)
         {
-            var browsedTree = new TreeRoute();
+            var browsedTree = new Route();
             browsedTree.Nodes.AddRange(beginTree.Nodes);
-            return new List<TreeRoute> { browsedTree };
+            return new List<Route> { browsedTree };
         }
 
         foreach (var node in nodeOrigin.LinkedNodes)
         {
             if (beginTree.Nodes.Any(n => n.Number == node.Number)) continue;
-            var browsedTree = new TreeRoute();
+            var browsedTree = new Route();
             browsedTree.Nodes.AddRange(beginTree.Nodes);
             browsedTree.Nodes.Add(node);
             result.AddRange(TreeRoutes(browsedTree));
