@@ -5,7 +5,7 @@ public class NodesTreeTests
     [Fact]
     public void NodeTreeWith1Node()
     {
-        var nodesTree = new NodesTree();
+        var nodesTree = new Tree();
         var node0 = Node.New(0);
         nodesTree.Nodes.Add(node0);
         nodesTree.Nodes.Count.ShouldBe(1);
@@ -14,7 +14,7 @@ public class NodesTreeTests
     [Fact]
     public void Add1Link()
     {
-        var nodesTree = new NodesTree(0, 1);
+        var nodesTree = new Tree(0, 1);
         nodesTree.AddLink(0, 1);
         nodesTree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
         nodesTree.Nodes[0].LinkedNodes[0].ShouldBe(nodesTree.Nodes[1]);
@@ -23,7 +23,7 @@ public class NodesTreeTests
     [Fact]
     public void BrowseNodeTreeWith3SimpleNodesUsingTreeOnly()
     {
-        NodesTree nodeTree = new(0, 1, 2);
+        Tree nodeTree = new(0, 1, 2);
         nodeTree.AddLink(0, 1);
         nodeTree.AddLink(1, 2);
 
@@ -38,7 +38,7 @@ public class NodesTreeTests
     [Fact]
     public void BrowseNodeTreeWith2Ways()
     {
-        NodesTree nodeTree = new();
+        Tree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -70,7 +70,7 @@ public class NodesTreeTests
     [Fact]
     public void BrowseNodeTreeWithMoreWays()
     {
-        NodesTree nodeTree = new();
+        Tree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);
@@ -119,7 +119,7 @@ public class NodesTreeTests
     [Fact]
     public void BrowseWithCycle()
     {
-        NodesTree nodeTree = new();
+        Tree nodeTree = new();
         Node node0 = Node.New(0);
         Node node1 = Node.New(1);
         Node node2 = Node.New(2);

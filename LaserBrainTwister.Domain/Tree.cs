@@ -1,10 +1,10 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public class NodesTree
+public class Tree
 {
     public readonly List<Node> Nodes = new();
 
-    public NodesTree(params int[] numbers) => AddNodes(numbers);
+    public Tree(params int[] numbers) => AddNodes(numbers);
 
     public void AddNodes(params int[] numbers)
     {
