@@ -1,40 +1,70 @@
 ﻿namespace LaserBrainTwister.Domain;
 
+
+public class BrowsedTree
+{
+    public readonly List<Node> Nodes = new();
+}
+
+public class NodeTree
+{
+    public readonly List<Node> Nodes = new();
+
+    public void AddNode(int number) => Nodes.Add(Node.New(number));
+
+
+    public List<BrowsedTree> BrowseNodes()
+    {
+        var beginTree = new BrowsedTree();
+        beginTree.Nodes.Add(Nodes[0]);
+        return BrowseNodes(beginTree);
+    }
+
+    private static List<BrowsedTree> BrowseNodes(BrowsedTree beginTree)
+    {
+        var result = new List<BrowsedTree>();
+        var nodeOrigin = beginTree.Nodes.Last();
+        if (nodeOrigin.LinkedNodes.Count == 0)
+        {
+            var browsedTree = new BrowsedTree();
+            browsedTree.Nodes.AddRange(beginTree.Nodes);
+            return new List<BrowsedTree> { browsedTree };
+        }
+
+        foreach (var node in nodeOrigin.LinkedNodes)
+        {
+            var browsedTree = new BrowsedTree();
+            browsedTree.Nodes.AddRange(beginTree.Nodes);
+            browsedTree.Nodes.Add(node);
+            result.AddRange(BrowseNodes(browsedTree));
+        }
+        return result;
+    }
+
+
+    private Node? NodeFromNumber(int number) => Nodes.FirstOrDefault(n => n.Number == number);
+}
+
+
 public class Node
 {
-    public static readonly List<Node> AllNodes = new();
     public int Number { get; }
-    public List<int> LinkedNodeNumbers { get; private set; }
+    public List<Node> LinkedNodes { get; private set; }
 
 
-    public static Node New(int number)
-    {
-        var node = NodeFromNumber(number);
-        return node is null ? new Node(number) : node;
-    }
+    public static Node New(int number) => new Node(number);
 
-    public static Node? NodeFromNumber(int number) => AllNodes.FirstOrDefault(n => n.Number == number);
+
 
     protected Node(int number)
-    {       
-        AllNodes.Add(this);
+    {
         Number = number;
-        LinkedNodeNumbers = new();
+        LinkedNodes = new();
     }
 
-    public Node(int number, List<int> linkedNodesNumber) : this(number)
+    public void AddLinkedNode(Node node)
     {
-        LinkedNodeNumbers = linkedNodesNumber;
-    }
-
-    public void AddLinkedNode(int nodeNumber)
-    {
-        if (NodeFromNumber(nodeNumber) is not null) LinkedNodeNumbers.Add(nodeNumber);
-        else
-        {
-            _ = new Node(nodeNumber);
-            AddLinkedNode(nodeNumber);
-        }
+        LinkedNodes.Add(node);
     }
 }
 
