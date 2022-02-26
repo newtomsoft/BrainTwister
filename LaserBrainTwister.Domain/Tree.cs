@@ -11,46 +11,46 @@ public class Tree
         foreach (var number in numbers) Nodes.Add(Node.New(number));
     }
 
-    public void AddNodes(Range range)
-    {
-        for (int number = range.Start.Value; number <= range.End.Value; number++)
-            Nodes.Add(Node.New(number));
-    }
-
-    public Segment AddLink(int fromNodeNumber, int toNodeNumber)
+    public Segment LinkFrom(int fromNodeNumber, int toNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
         var toNode = Nodes.FirstOrDefault(n => n.Number == toNodeNumber);
-        if (fromNode is null || toNode is null) return null;
+        if (fromNode is null) throw new ArgumentException("segment from doesn't exist");
+        if (toNode is null) throw new ArgumentException("segment to doesn't exist");
         fromNode.AddLinkedNode(toNode);
         return new Segment(fromNode, toNode, this);
     }
 
-    public List<Route> Routes()
+    public Segment LinkFrom(int fromNodeNumber)
     {
-        var beginTree = new Route();
-        beginTree.Nodes.Add(Nodes[0]);
-        return Routes(beginTree);
+        var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
+        return fromNode is null ? throw new ArgumentException("segment from doesn't exist") : new Segment(fromNode, Node.New(0), this);
     }
 
-    private static List<Route> Routes(Route beginTree)
+    public List<Route> GetRoutes()
+    {
+        var beginTree = new Route();
+        beginTree.AddNode(Nodes.First());
+        return GetRoutes(beginTree);
+    }
+
+    private static List<Route> GetRoutes(Route beginTree)
     {
         var result = new List<Route>();
         var nodeOrigin = beginTree.Nodes.Last();
         if (nodeOrigin.LinkedNodes.Count == 0)
         {
             var browsedTree = new Route();
-            browsedTree.Nodes.AddRange(beginTree.Nodes);
+            browsedTree.AddNodes(beginTree.Nodes);
             return new List<Route> { browsedTree };
         }
-
         foreach (var node in nodeOrigin.LinkedNodes)
         {
             if (beginTree.Nodes.Any(n => n.Number == node.Number)) continue;
             var browsedTree = new Route();
-            browsedTree.Nodes.AddRange(beginTree.Nodes);
-            browsedTree.Nodes.Add(node);
-            result.AddRange(Routes(browsedTree));
+            browsedTree.AddNodes(beginTree.Nodes);
+            browsedTree.AddNode(node);
+            result.AddRange(GetRoutes(browsedTree));
         }
         return result;
     }

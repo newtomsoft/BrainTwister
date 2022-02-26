@@ -5,7 +5,7 @@ public class Node
     public int Number { get; }
     public List<Node> LinkedNodes { get; private set; }
 
-    public static Node New(int number) => new Node(number);
+    public static Node New(int number) => new(number);
 
     private Node(int number)
     {

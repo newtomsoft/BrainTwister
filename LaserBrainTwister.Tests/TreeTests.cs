@@ -15,7 +15,7 @@ public class TreeTests
     public void Add1Link()
     {
         var tree = new Tree(0, 1);
-        tree.AddLink(0, 1);
+        tree.LinkFrom(0, 1);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[0].LinkedNodes[0].ShouldBe(tree.Nodes[1]);
     }
@@ -24,10 +24,10 @@ public class TreeTests
     public void RouteWith3SimpleNodes()
     {
         Tree tree = new(0, 1, 2);
-        tree.AddLink(0, 1);
-        tree.AddLink(1, 2);
+        tree.LinkFrom(0, 1);
+        tree.LinkFrom(1, 2);
 
-        var routes = tree.Routes();
+        var routes = tree.GetRoutes();
         routes.Count.ShouldBe(1);
         routes[0].Nodes.Count.ShouldBe(3);
         routes[0].Nodes[0].ShouldBe(tree.Nodes[0]);
@@ -54,7 +54,7 @@ public class TreeTests
         node1.AddLinkedNode(node3);
         node2.AddLinkedNode(node3);
 
-        var routes = tree.Routes();
+        var routes = tree.GetRoutes();
         routes.Count.ShouldBe(2);
         routes[0].Nodes.Count.ShouldBe(3);
         routes[0].Nodes[0].ShouldBe(node0);
@@ -96,7 +96,7 @@ public class TreeTests
         node4.AddLinkedNode(node6);
         node5.AddLinkedNode(node6);
 
-        var routes = tree.Routes();
+        var routes = tree.GetRoutes();
         routes.Count.ShouldBe(3);
         routes[0].Nodes.Count.ShouldBe(4);
         routes[0].Nodes[0].ShouldBe(node0);
@@ -132,7 +132,7 @@ public class TreeTests
         node1.AddLinkedNode(node2);
         node1.AddLinkedNode(node0);
 
-        var routes = tree.Routes();
+        var routes = tree.GetRoutes();
         routes.Count.ShouldBe(1);
         routes[0].Nodes.Count.ShouldBe(3);
         routes[0].Nodes[0].ShouldBe(node0);
