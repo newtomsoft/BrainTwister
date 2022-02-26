@@ -17,22 +17,23 @@ public class Tree
             Nodes.Add(Node.New(number));
     }
 
-    public void AddLink(int fromNodeNumber, int toNodeNumber)
+    public Segment AddLink(int fromNodeNumber, int toNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
         var toNode = Nodes.FirstOrDefault(n => n.Number == toNodeNumber);
-        if (fromNode is null || toNode is null) return;
+        if (fromNode is null || toNode is null) return null;
         fromNode.AddLinkedNode(toNode);
+        return new Segment(fromNode, toNode, this);
     }
 
-    public List<Route> TreeRoutes()
+    public List<Route> Routes()
     {
         var beginTree = new Route();
         beginTree.Nodes.Add(Nodes[0]);
-        return TreeRoutes(beginTree);
+        return Routes(beginTree);
     }
 
-    private static List<Route> TreeRoutes(Route beginTree)
+    private static List<Route> Routes(Route beginTree)
     {
         var result = new List<Route>();
         var nodeOrigin = beginTree.Nodes.Last();
@@ -49,7 +50,7 @@ public class Tree
             var browsedTree = new Route();
             browsedTree.Nodes.AddRange(beginTree.Nodes);
             browsedTree.Nodes.Add(node);
-            result.AddRange(TreeRoutes(browsedTree));
+            result.AddRange(Routes(browsedTree));
         }
         return result;
     }
