@@ -19,6 +19,13 @@ public class Tree
     }
 
     /// <summary>
+    /// LinkFrom(0)
+    /// </summary>
+    /// <returns></returns>
+    public Segment LinkFromOrigin() => LinkFrom(0);
+
+
+    /// <summary>
     /// Get all possibles route from first node to all nodes that have no linked node
     /// </summary>
     /// <returns></returns>
