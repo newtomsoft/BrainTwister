@@ -55,7 +55,7 @@ public class Segment : ISegment
     /// Use it with "Segment.To() after it"
     /// </summary>
     /// <returns></returns>
-    private Segment Next()
+    public ISegment Next()
     {
         var startNumber = _start.Number + 1;
         var startNode = _tree.Nodes.FirstOrDefault(n => n.Number == startNumber);
@@ -64,9 +64,9 @@ public class Segment : ISegment
             startNode = new Node(startNumber);
             _tree.Nodes.Add(startNode);
         }
-        return new(startNode, new(0), _tree);
+        return new Segment(startNode, new(0), _tree);
     }
-
+    
     public ISegment NextTo(params int[] nodesNumber) => Next().To(nodesNumber);
     public ISegment Reverse() => new Segment(_end, _start, _tree);
 

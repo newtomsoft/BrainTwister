@@ -20,7 +20,7 @@ public class TwoWaySegment : ISegment
         foreach (var nodeNumber in nodesNumber)
         {
             var nodeTo = _tree.Nodes.FirstOrDefault(n => n.Number == nodeNumber);
-            if(nodeTo is not null && _start.LinkedNodes.Contains(nodeTo)) continue;
+            if (nodeTo is not null && _start.LinkedNodes.Contains(nodeTo)) continue;
             if (nodeTo is null)
             {
                 nodeTo = new Node(nodeNumber);
@@ -59,7 +59,7 @@ public class TwoWaySegment : ISegment
         return new(_end, node, _tree);
     }
 
-    private TwoWaySegment Next()
+    public ISegment Next()
     {
         var startNumber = _start.Number + 1;
         var startNode = _tree.Nodes.FirstOrDefault(n => n.Number == startNumber);
@@ -68,6 +68,6 @@ public class TwoWaySegment : ISegment
             startNode = new Node(startNumber);
             _tree.Nodes.Add(startNode);
         }
-        return new(startNode, new(0), _tree);
+        return new TwoWaySegment(startNode, new(0), _tree);
     }
 }

@@ -127,7 +127,7 @@ public class RouteTests
     }
 
     [Fact]
-    public void RoutesWithComplexeTree0()
+    public void RoutesWithComplexTree0()
     {
         var tree = new Tree();
         tree.LinkFromOriginTo(1)
@@ -171,7 +171,7 @@ public class RouteTests
     }
 
     [Fact]
-    public void RoutesWithComplexeTree1()
+    public void RoutesWithComplexTree1()
     {
         var tree = new Tree();
         tree.LinkFromOriginTo(1)
@@ -220,7 +220,7 @@ public class RouteTests
     }
 
     [Fact]
-    public void RoutesWithComplexeTree2()
+    public void RoutesWithComplexTree2()
     {
         var tree = new Tree();
         tree.LinkFromOriginTo(1)

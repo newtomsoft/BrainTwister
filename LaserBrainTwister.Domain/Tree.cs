@@ -35,7 +35,6 @@ public class Tree
 
     private static IEnumerable<Route> GetRoutesToDeadEnd(Route startTree)
     {
-        var result = new List<Route>();
         var startNode = startTree.Nodes.Last();
         if (startNode.LinkedNodes.Count == 0)
             yield return new Route(startTree.Nodes);
