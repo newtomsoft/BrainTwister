@@ -1,11 +1,19 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public class Tree
+public interface ITree
 {
-    public readonly List<Node> Nodes = new();
+    List<Node> Nodes { get; }
+    ISegment LinkFrom(int fromNodeNumber);
+    ISegment LinkFromOriginTo(params int[] nodesNumber);
+    IEnumerable<Route> GetRoutesFromStartToDeadEnds();
+}
 
+public class Tree : ITree
+{
     public Tree() { }
 
+
+    public List<Node> Nodes { get; } = new();
 
     /// <summary>
     /// To link 2 nodes. Use Segment.To() immediately after this
@@ -13,10 +21,10 @@ public class Tree
     /// <param name="fromNodeNumber"></param>
     /// <returns>begin of the segment used to link 2 nodes</returns>
     /// <exception cref="ArgumentException"></exception>
-    public Segment LinkFrom(int fromNodeNumber)
+    public ISegment LinkFrom(int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        return fromNode is null ? new(AddNode(fromNodeNumber), new(0), this) : new(fromNode, new(0), this);
+        return fromNode is null ? new Segment(AddNode(fromNodeNumber), new(0), this) : new(fromNode, new(0), this);
     }
 
     public ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
@@ -48,7 +56,7 @@ public class Tree
                 yield return suitRoute;
         }
     }
-    protected Node AddNode(int number)
+    private Node AddNode(int number)
     {
         var node = new Node(number);
         Nodes.Add(node);

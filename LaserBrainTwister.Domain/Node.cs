@@ -14,10 +14,8 @@ public class Node
     public Node(Node node)
     {
         Number = node.Number;
-        foreach (var currentNode in node.LinkedNodes)
-        {
-            LinkedNodes.Add(new Node(currentNode));
-        }
+        foreach (var linkedNode in node.LinkedNodes)
+            LinkedNodes.Add(new Node(linkedNode));
     }
 
     internal void LinkNode(Node node) => LinkedNodes.Add(node);

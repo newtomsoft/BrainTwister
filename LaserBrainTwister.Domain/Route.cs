@@ -10,7 +10,7 @@ public class Route
     public Route(IEnumerable<Node> nodes) => AddNodes(nodes);
 
     public void AddNode(Node node) => Nodes.Add(node);
-    public void AddNodes(IEnumerable<Node> nodes) => Nodes.AddRange(nodes);
+    private void AddNodes(IEnumerable<Node> nodes) => Nodes.AddRange(nodes);
 
     public override string ToString()
     {

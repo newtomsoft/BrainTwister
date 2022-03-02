@@ -4,9 +4,9 @@ public class TwoWaySegment : ISegment
 {
     private readonly Node _start;
     private readonly Node _end;
-    private readonly Tree _tree;
+    private readonly ITree _tree;
 
-    public TwoWaySegment(Node start, Node end, Tree tree)
+    public TwoWaySegment(Node start, Node end, ITree tree)
     {
         _start = start;
         _end = end;

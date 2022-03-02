@@ -1,15 +1,17 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public class TwoWayTree : Tree
+public class TwoWayTree : ITree
 {
-    public new TwoWaySegment LinkFrom(int fromNodeNumber)
+    public List<Node> Nodes { get; } = new();
+
+    public ISegment LinkFrom(int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        return fromNode is null ? new(AddNode(fromNodeNumber), new(0), this) : new(fromNode, new(0), this);
+        return fromNode is null ? new TwoWaySegment(AddNode(fromNodeNumber), new(0), this) : new TwoWaySegment(fromNode, new(0), this);
     }
-    public new ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
+    public ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
 
-    public new IEnumerable<Route> GetRoutesFromStartToDeadEnds()
+    public IEnumerable<Route> GetRoutesFromStartToDeadEnds()
     {
         var route = new Route(Nodes.First());
         foreach (var currentRoute in GetRoutesToDeadEnd(route))
@@ -30,5 +32,12 @@ public class TwoWayTree : Tree
             foreach (var suitRoute in GetRoutesToDeadEnd(route))
                 yield return suitRoute;
         }
+    }
+
+    private Node AddNode(int number)
+    {
+        var node = new Node(number);
+        Nodes.Add(node);
+        return node;
     }
 }
