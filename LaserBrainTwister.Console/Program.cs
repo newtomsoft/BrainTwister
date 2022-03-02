@@ -1,29 +1,73 @@
 ﻿using LaserBrainTwister.Domain;
 
-var tree = new Tree(22);
-tree.LinkFromOrigin().To(1)
-              .Next().To(2, 11)
-              .Next().To(1, 3, 12)
-              .Next().To(2, 4, 14)
-              .Next().To(3, 9)
-              .Next().To(6, 17)
-              .Next().To(5, 7, 8)
-              .Next().To(6, 13)
-              .Next().To(6, 9, 18)
-              .Next().To(4, 8)
-              .Next().To(11, 16)
-              .Next().To(10, 12)
-              .Next().To(11, 13, 2)
-              .Next().To(7, 12, 15)
-              .Next().To(3, 15, 19)
-              .Next().To(13, 14, 20)
-              .Next().To(10, 17)
-              .Next().To(16, 5, 18)
-              .Next().To(17, 8, 19)
-              .Next().To(18, 14, 20)
-              .Next().To(21, 15, 19);
+var tree = new Tree();
+tree.LinkFromOriginTo(1)
+    .NextTo(2, 11)
+    .NextTo(1, 3, 12)
+    .NextTo(2, 4, 14)
+    .NextTo(3, 9)
+    .NextTo(6, 17)
+    .NextTo(5, 7, 8)
+    .NextTo(6, 13)
+    .NextTo(6, 9, 18)
+    .NextTo(4, 8)
+    .NextTo(11, 16)
+    .NextTo(10, 12)
+    .NextTo(11, 13, 2)
+    .NextTo(7, 12, 15)
+    .NextTo(3, 15, 19)
+    .NextTo(13, 14, 20)
+    .NextTo(10, 17)
+    .NextTo(16, 5, 18)
+    .NextTo(17, 8, 19)
+    .NextTo(18, 14, 20)
+    .NextTo(21, 15, 19);
 
-var routes = tree.GetRoutes();
+var routesCount = 0;
+var routesWithAllNodesCount = 0;
+foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
+{
+    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    {
+        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
+        routesWithAllNodesCount++;
+    }
+    routesCount++;
+}
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine("");
+Console.WriteLine("Other tree :");
+
+tree = new Tree();
+tree.LinkFromOriginTo(1)
+    .NextTo(0, 2, 24)
+    .NextTo(1, 3, 21)
+    .NextTo(2, 4, 25)
+    .NextTo(3, 5, 17)
+    .NextTo(4, 11)
+    .NextTo(7, 20)
+    .NextTo(6, 8, 15)
+    .NextTo(7, 9, 16)
+    .NextTo(8, 13)
+    .NextTo(11, 14)
+    .NextTo(10, 5, 12)
+    .NextTo(11, 13, 23)
+    .NextTo(12, 9, 19)
+    .NextTo(10, 15)
+    .NextTo(14, 7, 16)
+    .NextTo(15, 8, 17)
+    .NextTo(16, 4, 18)
+    .NextTo(17, 19, 22)
+    .NextTo(18, 13, 26)
+    .NextTo(6, 21)
+    .NextTo(20, 2, 22)
+    .NextTo(21, 18, 23)
+    .NextTo(22, 12)
+    .NextTo(1, 25)
+    .NextTo(24, 3, 26)
+    .NextTo(25, 19, 27);
+
+var routes = tree.GetRoutesFromStartToDeadEnds();
 var allNodesRoutes = routes.Where(r => r.Nodes.Count == tree.Nodes.Count).ToList();
 foreach (var route in allNodesRoutes)
     Console.WriteLine($"Possible solution : {route}");
@@ -32,112 +76,207 @@ if (allNodesRoutes.Count == 0)
     var longestRoute = routes.MaxBy(r => r.Nodes.Count);
     Console.WriteLine($"No route found that passe by all nodes. The longest is : {longestRoute}");
 }
+
 Console.WriteLine("");
+Console.WriteLine("Other tree :");
 
+tree = new Tree();
+tree.LinkFromOriginTo(1)
+    .NextTo(0, 2, 16)
+    .NextTo(1, 3, 23)
+    .NextTo(2, 4, 13)
+    .NextTo(3, 5, 18)
+    .NextTo(4, 7)
+    .NextTo(7, 21)
+    .NextTo(6,5,15)
+    .NextTo(9,12)
+    .NextTo(8,17)
+    .NextTo(11,22)
+    .NextTo(10,20)
+    .NextTo(8,13,26)
+    .NextTo(12,3,14,21)
+    .NextTo(13,15,25)
+    .NextTo(14,7,19)
+    .NextTo(1,17)
+    .NextTo(16,9,18)
+    .NextTo(17,4,19,27)
+    .NextTo(18,15,29)
+    .NextTo(11,21,31)
+    .NextTo(20,6)
+    .NextTo(10,23)
+    .NextTo(22,2,24,32)
+    .NextTo(23,13,25,33)
+    .NextTo(24,14,28)
+    .NextTo(12,27,30)
+    .NextTo(26,18,28,34)
+    .NextTo(27,25,29,36)
+    .NextTo(28,19)
+    .NextTo(26,31)
+    .NextTo(30,32,37)
+    .NextTo(31,23,33,38)
+    .NextTo(32,24,34)
+    .NextTo(33,27,35)
+    .NextTo(34,29)
+    .NextTo(28,39)
+    .NextTo(31,38)
+    .NextTo(37,32);
 
-tree = new Tree(28);
-tree.LinkFromOrigin().To(1)
-              .Next().To(0, 2, 12)
-              .Next().To(1, 3, 23)
-              .Next().To(2, 4, 13)
-              .Next().To(3, 5, 19)
-              .Next().To(4, 11)
-              .Next().To(7, 22)
-              .Next().To(6, 8, 17)
-              .Next().To(7, 9, 18)
-              .Next().To(8, 15)
-              .Next().To(11, 16)
-              .Next().To(10, 5, 14)
-              .Next().To(1, 13)
-              .Next().To(12, 3, 14)
-              .Next().To(13, 11, 15, 25)
-              .Next().To(14, 9, 21)
-              .Next().To(10, 17)
-              .Next().To(16, 7, 18)
-              .Next().To(17, 8, 19)
-              .Next().To(18, 4, 20)
-              .Next().To(19, 21, 24)
-              .Next().To(20, 15, 26)
-              .Next().To(6, 23)
-              .Next().To(22, 2, 24)
-              .Next().To(23, 20, 25)
-              .Next().To(24, 14, 26)
-              .Next().To(25, 21, 27);
-
-routes = tree.GetRoutes();
-allNodesRoutes = routes.Where(r => r.Nodes.Count == tree.Nodes.Count).ToList();
-foreach (var route in allNodesRoutes)
-    Console.WriteLine($"Possible solution : {route}");
-if (allNodesRoutes.Count == 0)
+routesCount = 0;
+routesWithAllNodesCount = 0;
+foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
-    var longestRoute = routes.MaxBy(r => r.Nodes.Count);
-    Console.WriteLine($"No route found that passe by all nodes. The longest is : {longestRoute}");
+    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    {
+        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
+        routesWithAllNodesCount++;
+    }
+    routesCount++;
 }
 
-var tree2 = new Tree(61);
-tree2.LinkFromOrigin().To(1)
-               .Next().To(2).To(8)
-               .Next().To(1).To(3).To(20)
-               .Next().To(2).To(4).To(21)
-               .Next().To(3).To(5).To(18)
-               .Next().To(4).To(6).To(29)
-               .Next().To(5).To(25)
-               .Next().To(8).To(19)
-               .Next().To(7).To(1).To(9)
-               .Next().To(8).To(10).To(16)
-               .Next().To(9).To(11).To(17)
-               .Next().To(10).To(12).To(36)
-               .Next().To(11).To(13).To(23)
-               .Next().To(12).To(14).To(24)
-               .Next().To(13).To(31)
-               .Next().To(8).To(16).To(33)
-               .Next().To(15).To(9).To(17).To(42)
-               .Next().To(16).To(10).To(18).To(28)
-               .Next().To(17).To(4).To(22)
-               .Next().To(7).To(20).To(26)
-               .Next().To(19).To(2).To(21).To(34)
-               .Next().To(20).To(3).To(22).To(27)
-               .Next().To(21).To(4).To(23).To(37)
-               .Next().To(22).To(12).To(24).To(38)
-               .Next().To(23).To(13).To(25).To(40)
-               .Next().To(24).To(6).To(30)
-               .Next().To(19).To(27).To(32)
-               .Next().To(26).To(21).To(28).To(35)
-               .Next().To(27).To(17).To(29).To(43)
-               .Next().To(28).To(5).To(30).To(39)
-               .Next().To(29).To(25).To(31).To(52)
-               .Next().To(30).To(14).To(47)
-               .Next().To(26).To(33)
-               .Next().To(32).To(15).To(34)
-               .Next().To(33).To(20).To(35).To(50)
-               .Next().To(34).To(27).To(36).To(51)
-               .Next().To(35).To(11).To(37)
-               .Next().To(36).To(22).To(38)
-               .Next().To(37).To(23).To(39).To(44)
-               .Next().To(38).To(29).To(40).To(45)
-               .Next().To(39).To(24).To(46)
-               .Next().To(49)
-               .Next().To(41).To(16).To(55)
-               .Next().To(42).To(28).To(44)
-               .Next().To(43).To(38).To(45)
-               .Next().To(44).To(39).To(46).To(56)
-               .Next().To(45).To(40).To(47).To(57)
-               .Next().To(46).To(31).To(48).To(53)
-               .Next().To(47)
-               .Next().To(41).To(50)
-               .Next().To(49).To(34).To(51)
-               .Next().To(50).To(35).To(52)
-               .Next().To(51).To(30).To(53)
-               .Next().To(52).To(47).To(54)
-               .Next().To(53).To(48).To(59)
-               .Next().To(42).To(56)
-               .Next().To(55).To(45).To(57)
-               .Next().To(56).To(46).To(58)
-               .Next().To(57).To(53).To(59)
-               .Next().To(58).To(54).To(60)
-               .Next().To(8).To(19);
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine("");
+Console.WriteLine("Other tree :");
 
-//var routes2 = tree2.GetRoutes();
-//var longestRoute2 = routes2.MaxBy(r => r.Nodes.Count);
-//if (longestRoute2!.Nodes.Count == tree2.Nodes.Count) Console.WriteLine($"Possible solution : {longestRoute2}");
-//else Console.WriteLine($"No route found that passe by all nodes. The longest is : {longestRoute2}");
+tree = new Tree();
+tree.LinkFromOriginTo(1)
+    .NextTo(0, 2, 15)
+    .NextTo(1, 3, 20)
+    .NextTo(2, 4, 11)
+    .NextTo(3, 5, 16)
+    .NextTo(4, 6, 22)
+    .NextTo(5, 17)
+    .NextTo(8, 12)
+    .NextTo(7, 9, 19)
+    .NextTo(8, 10, 25)
+    .NextTo(9, 11, 26)
+    .NextTo(10, 3, 21)
+    .NextTo(7, 13)
+    .NextTo(12, 14, 18)
+    .NextTo(13, 15, 40)
+    .NextTo(14, 1, 16, 23)
+    .NextTo(15, 4, 17, 28)
+    .NextTo(16, 6, 34)
+    .NextTo(13, 19)
+    .NextTo(18, 8, 20, 24)
+    .NextTo(19, 2, 21)
+    .NextTo(20, 11, 22, 27)
+    .NextTo(21, 5, 32)
+    .NextTo(15, 24, 36)
+    .NextTo(23, 19, 25, 37)
+    .NextTo(24, 9, 26, 29)
+    .NextTo(25, 10, 27, 30)
+    .NextTo(26, 21, 28, 31)
+    .NextTo(27, 16, 38)
+    .NextTo(25, 30, 42)
+    .NextTo(29, 26, 31, 43)
+    .NextTo(30, 27, 32, 44)
+    .NextTo(31, 22, 33, 45)
+    .NextTo(32, 34, 46)
+    .NextTo(33, 47)
+    .NextTo(36, 39)
+    .NextTo(35, 23, 37, 41)
+    .NextTo(36, 24, 38)
+    .NextTo(37, 28)
+    .NextTo(35, 40)
+    .NextTo(39, 14, 41)
+    .NextTo(40, 36, 42)
+    .NextTo(41, 29, 43)
+    .NextTo(42, 30, 44)
+    .NextTo(43, 31, 45)
+    .NextTo(44, 32, 46)
+    .NextTo(45, 33, 47)
+    .NextTo(46, 34, 48);
+
+routesCount = 0;
+routesWithAllNodesCount = 0;
+foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
+{
+    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    {
+        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
+        routesWithAllNodesCount++;
+    }
+    routesCount++;
+}
+
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine("");
+Console.WriteLine("Other tree :");
+
+tree = new Tree();
+tree.LinkFromOriginTo(1)
+     .NextTo(2, 8)
+     .NextTo(1, 3, 20)
+     .NextTo(2, 4, 21)
+     .NextTo(3, 5, 18)
+     .NextTo(4, 6, 29)
+     .NextTo(5, 25)
+     .NextTo(8, 19)
+     .NextTo(7, 1, 9, 15)
+     .NextTo(8, 10, 16)
+     .NextTo(9, 11, 17)
+     .NextTo(10, 12, 36)
+     .NextTo(11, 13, 23)
+     .NextTo(12, 14, 24)
+     .NextTo(13, 31)
+     .NextTo(8, 16, 33)
+     .NextTo(15, 9, 17, 42)
+     .NextTo(16, 10, 18, 28)
+     .NextTo(17, 4, 22)
+     .NextTo(7, 20, 26)
+     .NextTo(19, 2, 21, 34)
+     .NextTo(20, 3, 22, 27)
+     .NextTo(21, 18, 23, 37)
+     .NextTo(22, 12, 24, 38)
+     .NextTo(23, 13, 25, 40)
+     .NextTo(24, 6, 30)
+     .NextTo(19, 27, 32)
+     .NextTo(26, 21, 28, 35)
+     .NextTo(27, 17, 29, 43)
+     .NextTo(28, 5, 30, 39)
+     .NextTo(29, 25, 31, 52)
+     .NextTo(30, 14, 47)
+     .NextTo(26, 33)
+     .NextTo(32, 15, 34)
+     .NextTo(33, 20, 35, 50)
+     .NextTo(34, 27, 36, 51)
+     .NextTo(35, 11, 37)
+     .NextTo(36, 22, 38)
+     .NextTo(37, 23, 39, 44)
+     .NextTo(38, 29, 40, 45)
+     .NextTo(39, 24, 46)
+     .NextTo(42, 49)
+     .NextTo(41, 16, 43, 55)
+     .NextTo(42, 28, 44)
+     .NextTo(43, 38, 45)
+     .NextTo(44, 39, 46, 56)
+     .NextTo(45, 40, 47, 57)
+     .NextTo(46, 31, 48, 53)
+     .NextTo(47, 54)
+     .NextTo(41, 50)
+     .NextTo(49, 34, 51)
+     .NextTo(50, 35, 52)
+     .NextTo(51, 30, 53)
+     .NextTo(52, 47, 54, 58)
+     .NextTo(53, 48, 59)
+     .NextTo(42, 56)
+     .NextTo(55, 45, 57)
+     .NextTo(56, 46, 58)
+     .NextTo(57, 53, 59)
+     .NextTo(58, 54, 60);
+
+routesCount = 0;
+routesWithAllNodesCount = 0;
+foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
+{
+    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    {
+        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
+        routesWithAllNodesCount++;
+    }
+    routesCount++;
+}
+
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine("");
+Console.WriteLine("Other tree :");

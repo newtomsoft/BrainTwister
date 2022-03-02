@@ -4,10 +4,11 @@ public class Tree
 {
     public readonly List<Node> Nodes = new();
 
-    public Tree(int nodesNumber) => AddNodes(nodesNumber);
+    public Tree() { }
+
 
     /// <summary>
-    /// To link 2 nodes. Use Segment.To() immediatly after this
+    /// To link 2 nodes. Use Segment.To() immediately after this
     /// </summary>
     /// <param name="fromNodeNumber"></param>
     /// <returns>begin of the segment used to link 2 nodes</returns>
@@ -15,47 +16,43 @@ public class Tree
     public Segment LinkFrom(int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        return fromNode is null ? throw new ArgumentException("segment 'from' doesn't exist") : Segment.New(fromNode, Node.New(0), this);
+        return fromNode is null ? new(AddNode(fromNodeNumber), new(0), this) : new(fromNode, new(0), this);
     }
 
-    /// <summary>
-    /// LinkFrom(0)
-    /// </summary>
-    /// <returns></returns>
-    public Segment LinkFromOrigin() => LinkFrom(0);
+    public ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
 
 
     /// <summary>
-    /// Get all possibles route from first node to all nodes that have no linked node
+    /// Get all possibles routes from first node to all nodes that have no linked node
     /// </summary>
     /// <returns></returns>
-    public List<Route> GetRoutes()
+    public IEnumerable<Route> GetRoutesFromStartToDeadEnds()
     {
-        var beginTree = new Route();
-        beginTree.AddNode(Nodes.First());
-        return GetRoutes(beginTree);
+        var route = new Route(Nodes.First());
+        foreach (var currentRoute in GetRoutesToDeadEnd(route))
+            yield return currentRoute;
     }
 
-    private void AddNodes(int number) => Nodes.AddRange(Enumerable.Range(0, number).Select(n => Node.New(n)));
-
-    private static List<Route> GetRoutes(Route beginTree)
+    private static IEnumerable<Route> GetRoutesToDeadEnd(Route startTree)
     {
         var result = new List<Route>();
-        var nodeOrigin = beginTree.Nodes.Last();
-        if (nodeOrigin.LinkedNodes.Count == 0)
+        var startNode = startTree.Nodes.Last();
+        if (startNode.LinkedNodes.Count == 0)
+            yield return new Route(startTree.Nodes);
+
+        foreach (var node in startNode.LinkedNodes)
         {
-            var browsedTree = new Route();
-            browsedTree.AddNodes(beginTree.Nodes);
-            return new List<Route> { browsedTree };
+            if (startTree.Nodes.Any(n => n.Number == node.Number)) continue;
+            var route = new Route(startTree.Nodes);
+            route.AddNode(node);
+            foreach (var suitRoute in GetRoutesToDeadEnd(route))
+                yield return suitRoute;
         }
-        foreach (var node in nodeOrigin.LinkedNodes)
-        {
-            if (beginTree.Nodes.Any(n => n.Number == node.Number)) continue;
-            var browsedTree = new Route();
-            browsedTree.AddNodes(beginTree.Nodes);
-            browsedTree.AddNode(node);
-            result.AddRange(GetRoutes(browsedTree));
-        }
-        return result;
+    }
+    protected Node AddNode(int number)
+    {
+        var node = new Node(number);
+        Nodes.Add(node);
+        return node;
     }
 }

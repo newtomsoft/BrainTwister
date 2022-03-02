@@ -5,7 +5,7 @@ public class NodeTests
     [Fact]
     public void Create1Node()
     {
-        Node node = Node.New(0);
+        var node = new Node(0);
         node.Number.ShouldBe(0);
         node.LinkedNodes.Count.ShouldBe(0);
     }

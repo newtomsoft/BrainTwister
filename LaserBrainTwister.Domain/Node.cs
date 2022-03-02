@@ -3,15 +3,22 @@
 public class Node
 {
     public int Number { get; }
-    public List<Node> LinkedNodes { get; }
+    public List<Node> LinkedNodes { get; } = new();
 
-    public static Node New(int number) => new(number);
-
-    private Node(int number)
+    public Node(int number)
     {
         Number = number;
         LinkedNodes = new();
     }
 
-    internal void AddLinkedNode(Node node) => LinkedNodes.Add(node);
+    public Node(Node node)
+    {
+        Number = node.Number;
+        foreach (var currentNode in node.LinkedNodes)
+        {
+            LinkedNodes.Add(new Node(currentNode));
+        }
+    }
+
+    internal void LinkNode(Node node) => LinkedNodes.Add(node);
 }
