@@ -1,18 +1,7 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public interface ITree
-{
-    List<Node> Nodes { get; }
-    ISegment LinkFrom(int fromNodeNumber);
-    ISegment LinkFromOriginTo(params int[] nodesNumber);
-    IEnumerable<Route> GetRoutesFromStartToDeadEnds();
-}
-
 public class Tree : ITree
 {
-    public Tree() { }
-
-
     public List<Node> Nodes { get; } = new();
 
     /// <summary>
@@ -56,6 +45,7 @@ public class Tree : ITree
                 yield return suitRoute;
         }
     }
+
     private Node AddNode(int number)
     {
         var node = new Node(number);

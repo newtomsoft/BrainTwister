@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace LaserBrainTwister.Tests;
+﻿namespace LaserBrainTwister.Tests;
 public class WorkTreeTests
 {
     [Fact]

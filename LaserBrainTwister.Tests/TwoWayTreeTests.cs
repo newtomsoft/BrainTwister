@@ -36,7 +36,6 @@ public class TwoWayTreeTests
         tree.Nodes[1].LinkedNodes[0].ShouldBe(tree.Nodes[0]);
         tree.Nodes[2].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[2].LinkedNodes[0].ShouldBe(tree.Nodes[0]);
-
     }
 
     [Fact]
@@ -54,7 +53,6 @@ public class TwoWayTreeTests
         tree.Nodes[2].LinkedNodes[0].ShouldBe(tree.Nodes[0]);
         tree.Nodes[3].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[3].LinkedNodes[0].ShouldBe(tree.Nodes[0]);
-
     }
 
     [Fact]
@@ -87,8 +85,7 @@ public class TwoWayTreeTests
     public void Add2SuccessiveLinks()
     {
         var tree = new TwoWayTree();
-        var segment = tree.LinkFromOriginTo(1);
-        segment = segment.Then(2);
+        tree.LinkFromOriginTo(1).Then(2);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[0].LinkedNodes[0].ShouldBe(tree.Nodes[1]);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(2);
@@ -102,7 +99,7 @@ public class TwoWayTreeTests
     public void Add3SuccessiveLinks()
     {
         var tree = new TwoWayTree();
-        var segment = tree.LinkFromOriginTo(1).Then(2).Then(3);
+        tree.LinkFromOriginTo(1).Then(2).Then(3);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[0].LinkedNodes[0].ShouldBe(tree.Nodes[1]);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(2);
@@ -113,7 +110,6 @@ public class TwoWayTreeTests
         tree.Nodes[2].LinkedNodes[1].ShouldBe(tree.Nodes[3]);
         tree.Nodes[3].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[3].LinkedNodes[0].ShouldBe(tree.Nodes[2]);
-
     }
 
     [Fact]

@@ -1,6 +1,5 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-
 public class WorkTree : Tree
 {
     public WorkTree(Tree originTree)

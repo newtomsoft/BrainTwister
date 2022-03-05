@@ -66,7 +66,7 @@ public class Segment : ISegment
         }
         return new Segment(startNode, new(0), _tree);
     }
-    
+
     public ISegment NextTo(params int[] nodesNumber) => Next().To(nodesNumber);
     public ISegment Reverse() => new Segment(_end, _start, _tree);
 

@@ -10,15 +10,28 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaserBrainTwister.Tests", "
 		{4898DF58-6AB6-47DF-965A-4F39486763AE} = {4898DF58-6AB6-47DF-965A-4F39486763AE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserBrainTwister.Console", "LaserBrainTwister.Console\LaserBrainTwister.Console.csproj", "{77DA9BC6-3072-475E-8837-81A93F2163E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaserBrainTwister.Console", "LaserBrainTwister.Console\LaserBrainTwister.Console.csproj", "{77DA9BC6-3072-475E-8837-81A93F2163E2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4898DF58-6AB6-47DF-965A-4F39486763AE} = {4898DF58-6AB6-47DF-965A-4F39486763AE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaserBrainTwister.Benchmark", "LaserBrainTwister.Benchmark\LaserBrainTwister.Benchmark.csproj", "{0FE91404-6267-4DE6-B623-AC84949AE850}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaserBrainTwister.Benchmark", "LaserBrainTwister.Benchmark\LaserBrainTwister.Benchmark.csproj", "{0FE91404-6267-4DE6-B623-AC84949AE850}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4898DF58-6AB6-47DF-965A-4F39486763AE} = {4898DF58-6AB6-47DF-965A-4F39486763AE}
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LaserBrainTwister.UI.Blazor", "LaserBrainTwister.UI.Blazor\LaserBrainTwister.UI.Blazor.csproj", "{59E3EF9B-A297-45BB-8D70-0F15716D4CD0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4898DF58-6AB6-47DF-965A-4F39486763AE} = {4898DF58-6AB6-47DF-965A-4F39486763AE}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{A73EE54D-D7B1-46F8-A45C-2BEA5869012D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{E04AB344-B5D2-4D16-82AC-56A1AE8C5107}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3A54725C-6437-4261-9F7D-6107191A740C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{29929BCF-6F58-4DAC-B948-A9E5FAE9D728}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,9 +55,20 @@ Global
 		{0FE91404-6267-4DE6-B623-AC84949AE850}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FE91404-6267-4DE6-B623-AC84949AE850}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FE91404-6267-4DE6-B623-AC84949AE850}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E3EF9B-A297-45BB-8D70-0F15716D4CD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E3EF9B-A297-45BB-8D70-0F15716D4CD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E3EF9B-A297-45BB-8D70-0F15716D4CD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E3EF9B-A297-45BB-8D70-0F15716D4CD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4898DF58-6AB6-47DF-965A-4F39486763AE} = {E04AB344-B5D2-4D16-82AC-56A1AE8C5107}
+		{7FF2077F-AECF-438F-8053-5906FE166828} = {3A54725C-6437-4261-9F7D-6107191A740C}
+		{77DA9BC6-3072-475E-8837-81A93F2163E2} = {A73EE54D-D7B1-46F8-A45C-2BEA5869012D}
+		{0FE91404-6267-4DE6-B623-AC84949AE850} = {29929BCF-6F58-4DAC-B948-A9E5FAE9D728}
+		{59E3EF9B-A297-45BB-8D70-0F15716D4CD0} = {A73EE54D-D7B1-46F8-A45C-2BEA5869012D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {778E43FE-3698-4CA5-81FD-864E4CC648C8}

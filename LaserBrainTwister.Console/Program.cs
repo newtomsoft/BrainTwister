@@ -1,6 +1,6 @@
 ﻿using LaserBrainTwister.Domain;
 
-var tree = new Tree();
+ITree tree = new Tree();
 tree.LinkFromOriginTo(1)
     .NextTo(2, 11)
     .NextTo(1, 3, 12)
@@ -67,7 +67,7 @@ tree.LinkFromOriginTo(1)
     .NextTo(24, 3, 26)
     .NextTo(25, 19, 27);
 
-var routes = tree.GetRoutesFromStartToDeadEnds();
+var routes = tree.GetRoutesFromStartToDeadEnds().ToList();
 var allNodesRoutes = routes.Where(r => r.Nodes.Count == tree.Nodes.Count).ToList();
 foreach (var route in allNodesRoutes)
     Console.WriteLine($"Possible solution : {route}");
@@ -76,7 +76,7 @@ if (allNodesRoutes.Count == 0)
     var longestRoute = routes.MaxBy(r => r.Nodes.Count);
     Console.WriteLine($"No route found that passe by all nodes. The longest is : {longestRoute}");
 }
-
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
 Console.WriteLine("");
 Console.WriteLine("Other tree :");
 
@@ -88,39 +88,104 @@ tree.LinkFromOriginTo(1)
     .NextTo(3, 5, 18)
     .NextTo(4, 7)
     .NextTo(7, 21)
-    .NextTo(6,5,15)
-    .NextTo(9,12)
-    .NextTo(8,17)
-    .NextTo(11,22)
-    .NextTo(10,20)
-    .NextTo(8,13,26)
-    .NextTo(12,3,14,21)
-    .NextTo(13,15,25)
-    .NextTo(14,7,19)
-    .NextTo(1,17)
-    .NextTo(16,9,18)
-    .NextTo(17,4,19,27)
-    .NextTo(18,15,29)
-    .NextTo(11,21,31)
-    .NextTo(20,6)
-    .NextTo(10,23)
-    .NextTo(22,2,24,32)
-    .NextTo(23,13,25,33)
-    .NextTo(24,14,28)
-    .NextTo(12,27,30)
-    .NextTo(26,18,28,34)
-    .NextTo(27,25,29,36)
-    .NextTo(28,19)
-    .NextTo(26,31)
-    .NextTo(30,32,37)
-    .NextTo(31,23,33,38)
-    .NextTo(32,24,34)
-    .NextTo(33,27,35)
-    .NextTo(34,29)
-    .NextTo(28,39)
-    .NextTo(31,38)
-    .NextTo(37,32);
+    .NextTo(6, 5, 15)
+    .NextTo(9, 12)
+    .NextTo(8, 17)
+    .NextTo(11, 22)
+    .NextTo(10, 20)
+    .NextTo(8, 13, 26)
+    .NextTo(12, 3, 14, 21)
+    .NextTo(13, 15, 25)
+    .NextTo(14, 7, 19)
+    .NextTo(1, 17)
+    .NextTo(16, 9, 18)
+    .NextTo(17, 4, 19, 27)
+    .NextTo(18, 15, 29)
+    .NextTo(11, 21, 31)
+    .NextTo(20, 6)
+    .NextTo(10, 23)
+    .NextTo(22, 2, 24, 32)
+    .NextTo(23, 13, 25, 33)
+    .NextTo(24, 14, 28)
+    .NextTo(12, 27, 30)
+    .NextTo(26, 18, 28, 34)
+    .NextTo(27, 25, 29, 36)
+    .NextTo(28, 19)
+    .NextTo(26, 31)
+    .NextTo(30, 32, 37)
+    .NextTo(31, 23, 33, 38)
+    .NextTo(32, 24, 34)
+    .NextTo(33, 27, 35)
+    .NextTo(34, 29)
+    .NextTo(28, 39)
+    .NextTo(31, 38)
+    .NextTo(37, 32);
 
+routesCount = 0;
+routesWithAllNodesCount = 0;
+foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
+{
+    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    {
+        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
+        routesWithAllNodesCount++;
+    }
+    routesCount++;
+}
+
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine("");
+Console.WriteLine("Other tree :");
+
+var grid = new NodesGrid();
+var coordinates = new List<Coordinate>
+{
+    Coordinate.From(0, 0),
+    Coordinate.From(4, 0),
+    Coordinate.From(5, 0),
+    Coordinate.From(7, 0),
+    Coordinate.From(9, 0),
+    Coordinate.From(12, 0),
+    Coordinate.From(8, 1),
+    Coordinate.From(12, 1),
+    Coordinate.From(2, 2),
+    Coordinate.From(6, 2),
+    Coordinate.From(1, 3),
+    Coordinate.From(3, 3),
+    Coordinate.From(2, 4),
+    Coordinate.From(7, 4),
+    Coordinate.From(10, 4),
+    Coordinate.From(12, 4),
+    Coordinate.From(4, 5),
+    Coordinate.From(6, 5),
+    Coordinate.From(9, 5),
+    Coordinate.From(12, 5),
+    Coordinate.From(3, 6),
+    Coordinate.From(8, 6),
+    Coordinate.From(1, 7),
+    Coordinate.From(5, 7),
+    Coordinate.From(7, 7),
+    Coordinate.From(10, 7),
+    Coordinate.From(2, 8),
+    Coordinate.From(9, 8),
+    Coordinate.From(11, 8),
+    Coordinate.From(12, 8),
+    Coordinate.From(2, 9),
+    Coordinate.From(3, 9),
+    Coordinate.From(5, 9),
+    Coordinate.From(7, 9),
+    Coordinate.From(9, 9),
+    Coordinate.From(12, 9),
+    Coordinate.From(3, 10),
+    Coordinate.From(5, 10),
+    Coordinate.From(11, 11),
+    Coordinate.From(13, 11),
+};
+grid.SwitchNodesStatus(coordinates);
+grid.SetStartCoordinate(new Coordinate(0, 0));
+grid.SetEndCoordinate(new Coordinate(13, 11));
+
+var treeWithCoordinate = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
