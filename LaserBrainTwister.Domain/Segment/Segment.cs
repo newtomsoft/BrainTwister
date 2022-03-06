@@ -1,12 +1,12 @@
-﻿namespace LaserBrainTwister.Domain;
+﻿namespace LaserBrainTwister.Domain.Segment;
 
 public class Segment : ISegment
 {
-    private readonly Node _start;
-    private readonly Node _end;
-    private readonly Tree _tree;
+    private readonly Node.Node _start;
+    private readonly Node.Node _end;
+    private readonly Tree.Tree _tree;
 
-    public Segment(Node start, Node end, Tree tree)
+    public Segment(Node.Node start, Node.Node end, Tree.Tree tree)
     {
         _start = start;
         _end = end;
@@ -26,7 +26,7 @@ public class Segment : ISegment
             var nodeTo = _tree.Nodes.FirstOrDefault(n => n.Number == nodeNumber);
             if (nodeTo is null)
             {
-                nodeTo = new Node(nodeNumber);
+                nodeTo = new Node.Node(nodeNumber);
                 _tree.Nodes.Add(nodeTo);
             }
             To(nodeTo);
@@ -61,7 +61,7 @@ public class Segment : ISegment
         var startNode = _tree.Nodes.FirstOrDefault(n => n.Number == startNumber);
         if (startNode is null)
         {
-            startNode = new Node(startNumber);
+            startNode = new Node.Node(startNumber);
             _tree.Nodes.Add(startNode);
         }
         return new Segment(startNode, new(0), _tree);
@@ -70,7 +70,7 @@ public class Segment : ISegment
     public ISegment NextTo(params int[] nodesNumber) => Next().To(nodesNumber);
     public ISegment Reverse() => new Segment(_end, _start, _tree);
 
-    private Segment To(Node node)
+    private Segment To(Node.Node node)
     {
         _start.LinkNode(node);
         return new(_start, node, _tree);

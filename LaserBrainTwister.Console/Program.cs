@@ -1,4 +1,5 @@
 ﻿using LaserBrainTwister.Domain;
+using LaserBrainTwister.Domain.Tree;
 
 ITree tree = new Tree();
 tree.LinkFromOriginTo(1)
@@ -137,7 +138,7 @@ Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCou
 Console.WriteLine("");
 Console.WriteLine("Other tree :");
 
-var grid = new NodesGrid();
+var grid = new Grid();
 var coordinates = new List<Coordinate>
 {
     Coordinate.From(0, 0),
@@ -181,14 +182,14 @@ var coordinates = new List<Coordinate>
     Coordinate.From(11, 11),
     Coordinate.From(13, 11),
 };
-grid.SwitchNodesStatus(coordinates);
+grid.SwitchCoordinatesStatus(coordinates);
 grid.SetStartCoordinate(new Coordinate(0, 0));
 grid.SetEndCoordinate(new Coordinate(13, 11));
 
 var treeWithCoordinate = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
-foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
+foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds())
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
     {

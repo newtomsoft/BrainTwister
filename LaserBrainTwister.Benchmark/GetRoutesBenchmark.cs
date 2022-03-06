@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
-using LaserBrainTwister.Domain;
+using LaserBrainTwister.Domain.Route;
+using LaserBrainTwister.Domain.Tree;
 
 namespace LaserBrainTwister.Benchmark;
 

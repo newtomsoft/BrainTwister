@@ -4,12 +4,23 @@ using System.Linq;
 
 namespace LaserBrainTwister.Tests;
 
-public class NodesGridTests
+public class GridTests
 {
+    [Fact]
+    public void IsActivatedTest()
+    {
+        var grid = new Grid();
+        var coordinate = Coordinate.From(0, 0);
+        grid.SwitchNodeStatus(coordinate);
+        grid.IsActivated(coordinate).ShouldBeTrue();
+        grid.SwitchNodeStatus(coordinate);
+        grid.IsActivated(coordinate).ShouldBeFalse();
+    }
+
     [Fact]
     public void GridWithoutStartNode()
     {
-        var grid = new NodesGrid();
+        var grid = new Grid();
         grid.SetEndCoordinate(new Coordinate(0, 0));
         var action = () => grid.GenerateTree();
         action.ShouldThrow<ArgumentException>();
@@ -18,7 +29,7 @@ public class NodesGridTests
     [Fact]
     public void GridWithoutEndNode()
     {
-        var grid = new NodesGrid();
+        var grid = new Grid();
         grid.SetStartCoordinate(new Coordinate(0, 0));
         var action = () => grid.GenerateTree();
         action.ShouldThrow<ArgumentException>();
@@ -27,7 +38,7 @@ public class NodesGridTests
     [Fact]
     public void GridWithOnlyStartAndEndNode()
     {
-        var grid = new NodesGrid();
+        var grid = new Grid();
         var startCoordinate = Coordinate.From(0, 0);
         var endCoordinate = Coordinate.From(1, 0);
         grid.SetStartCoordinate(startCoordinate);
@@ -45,13 +56,35 @@ public class NodesGridTests
     }
 
     [Fact]
+    public void GridWithOnlyDefaultStartAndEndNode()
+    {
+        var grid = new Grid();
+        var startCoordinate = Coordinate.From(0, 0);
+        var endCoordinate = Coordinate.From(1, 0);
+        var coordinates = new List<Coordinate> { startCoordinate, endCoordinate };
+        grid.SwitchCoordinatesStatus(coordinates);
+        grid.SetDefaultStartCoordinate();
+        grid.SetDefaultEndCoordinate();
+        var tree = grid.GenerateTree();
+        tree.Nodes.Count.ShouldBe(2);
+        tree.Nodes[0].Number.ShouldBe(0);
+        tree.Nodes[0].Item.ShouldBe(startCoordinate);
+        tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
+        tree.Nodes[0].LinkedNodes[0].Number.ShouldBe(1);
+        tree.Nodes[1].Number.ShouldBe(1);
+        tree.Nodes[1].Item.ShouldBe(endCoordinate);
+        tree.Nodes[1].LinkedNodes.Count.ShouldBe(1);
+        tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
+    }
+
+    [Fact]
     public void GridWith3Nodes()
     {
-        var grid = new NodesGrid();
+        var grid = new Grid();
         var startCoordinate = Coordinate.From(0, 0);
         var coordinates = new List<Coordinate> { Coordinate.From(0, 10), };
         var endCoordinate = Coordinate.From(10, 10);
-        grid.SwitchNodesStatus(coordinates);
+        grid.SwitchCoordinatesStatus(coordinates);
         grid.SetStartCoordinate(startCoordinate);
         grid.SetEndCoordinate(endCoordinate);
 
@@ -75,13 +108,13 @@ public class NodesGridTests
     [Fact]
     public void GridWith4Nodes()
     {
-        var grid = new NodesGrid();
+        var grid = new Grid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0,  2),
             Coordinate.From(10,  2),
         };
-        grid.SwitchNodesStatus(coordinates);
+        grid.SwitchCoordinatesStatus(coordinates);
         grid.SetStartCoordinate(new Coordinate(0, 0));
         grid.SetEndCoordinate(new Coordinate(10, 10));
 
@@ -106,7 +139,7 @@ public class NodesGridTests
     [Fact]
     public void GridWithComplexesNodes()
     {
-        var grid = new NodesGrid();
+        var grid = new Grid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0),
@@ -150,7 +183,7 @@ public class NodesGridTests
             Coordinate.From(11, 11),
             Coordinate.From(13, 11),
         };
-        grid.SwitchNodesStatus(coordinates);
+        grid.SwitchCoordinatesStatus(coordinates);
         grid.SetStartCoordinate(new Coordinate(0, 0));
         grid.SetEndCoordinate(new Coordinate(13, 11));
 

@@ -1,4 +1,6 @@
-﻿namespace LaserBrainTwister.Tests;
+﻿using LaserBrainTwister.Domain.Tree;
+
+namespace LaserBrainTwister.Tests;
 public class WorkTreeTests
 {
     [Fact]

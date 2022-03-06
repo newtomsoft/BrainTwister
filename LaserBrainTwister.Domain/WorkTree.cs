@@ -1,13 +1,13 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public class WorkTree : Tree
+public class WorkTree : Tree.Tree
 {
-    public WorkTree(Tree originTree)
+    public WorkTree(Tree.Tree originTree)
     {
         Nodes.AddRange(originTree.Nodes);
     }
 
-    public readonly List<Route> RoutedNodes = new();
+    public readonly List<Route.Route> RoutedNodes = new();
 
     public void FirstPass()
     {
@@ -36,7 +36,7 @@ public class WorkTree : Tree
 
     private void StartRoute()
     {
-        var allLinkedNodes = new HashSet<Node>();
+        var allLinkedNodes = new HashSet<Node.Node>();
         foreach (var node in Nodes)
         {
             allLinkedNodes.UnionWith(node.LinkedNodes);
@@ -45,7 +45,7 @@ public class WorkTree : Tree
         var originNodes = Nodes.Where(node => allLinkedNodes.Contains(node) is not true);
         foreach (var originNode in originNodes)
         {
-            RoutedNodes.Add(new Route(originNode));
+            RoutedNodes.Add(new Route.Route(originNode));
         }
     }
 }

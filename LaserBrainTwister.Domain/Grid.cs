@@ -1,6 +1,6 @@
 ﻿namespace LaserBrainTwister.Domain;
 
-public class NodesGrid
+public class Grid
 {
     private readonly List<Coordinate> _coordinates = new();
     private Coordinate? _startCoordinate;
@@ -14,7 +14,7 @@ public class NodesGrid
 
     public bool IsActivated(Coordinate coordinate) => _coordinates.Contains(coordinate);
 
-    public void SwitchNodesStatus(IEnumerable<Coordinate> coordinates)
+    public void SwitchCoordinatesStatus(IEnumerable<Coordinate> coordinates)
     {
         foreach (var coordinate in coordinates) SwitchNodeStatus(coordinate);
     }
@@ -49,7 +49,7 @@ public class NodesGrid
 
     public ITree<Coordinate> GenerateTree()
     {
-        if (_startCoordinate is null || _endCoordinate is null) throw new ArgumentException("start or end n,ot defined");
+        if (_startCoordinate is null || _endCoordinate is null) throw new ArgumentException("start or end not defined");
         SetEndCoordinate(_coordinates.Last());
         var tree = new TwoWayTree<Coordinate>();
         var segment = tree.LinkFrom(_startCoordinate, 0);

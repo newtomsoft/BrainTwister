@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using LaserBrainTwister.Domain.Tree;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace LaserBrainTwister.Tests;

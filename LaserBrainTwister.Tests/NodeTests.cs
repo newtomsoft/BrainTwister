@@ -1,3 +1,5 @@
+using LaserBrainTwister.Domain.Node;
+
 namespace LaserBrainTwister.Tests;
 
 public class NodeTests
