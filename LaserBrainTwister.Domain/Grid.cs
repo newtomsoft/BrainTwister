@@ -72,6 +72,8 @@ public class Grid
         return tree;
     }
 
+    public override string ToString() => $"{_coordinates.Count} coordinates";
+
     private Coordinate FirstRightCoordinate(Coordinate coordinate) => _coordinates.FirstOrDefault(c => c.Y == coordinate.Y && c.X > coordinate.X) ?? coordinate;
 
     private Coordinate FirstBottomCoordinate(Coordinate coordinate) => _coordinates.FirstOrDefault(c => c.X == coordinate.X && c.Y > coordinate.Y) ?? coordinate;
