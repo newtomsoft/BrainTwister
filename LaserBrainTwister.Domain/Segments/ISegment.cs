@@ -1,4 +1,4 @@
-﻿namespace LaserBrainTwister.Domain.Segment;
+﻿namespace LaserBrainTwister.Domain.Segments;
 
 public interface ISegment
 {

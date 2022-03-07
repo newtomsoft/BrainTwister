@@ -1,4 +1,4 @@
-﻿namespace LaserBrainTwister.Domain.Segment;
+﻿namespace LaserBrainTwister.Domain.Segments;
 
 public class TwoWaySegment<T> : ISegment<T>
 {

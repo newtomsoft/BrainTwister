@@ -6,17 +6,17 @@ public class Grid
     private Coordinate? _startCoordinate;
     private Coordinate? _endCoordinate;
 
-    public void SwitchNodeStatus(Coordinate coordinate)
-    {
-        if (_coordinates.Contains(coordinate)) _coordinates.Remove(coordinate);
-        else _coordinates.Add(coordinate);
-    }
-
     public bool IsActivated(Coordinate coordinate) => _coordinates.Contains(coordinate);
 
     public void SwitchCoordinatesStatus(IEnumerable<Coordinate> coordinates)
     {
-        foreach (var coordinate in coordinates) SwitchNodeStatus(coordinate);
+        foreach (var coordinate in coordinates) SwitchCoordinateStatus(coordinate);
+    }
+
+    public void SwitchCoordinateStatus(Coordinate coordinate)
+    {
+        if (_coordinates.Contains(coordinate)) _coordinates.Remove(coordinate);
+        else _coordinates.Add(coordinate);
     }
 
     public void SetStartCoordinate(Coordinate coordinate)
@@ -56,23 +56,23 @@ public class Grid
         foreach (var coordinate in _coordinates)
         {
             if (coordinate != _startCoordinate) segment = segment.Next(coordinate);
-            var firstCoordinateRightNodeActivated = FirstRightNode(coordinate);
-            if (firstCoordinateRightNodeActivated != coordinate)
+            var firstCoordinateRightActivated = FirstRightCoordinate(coordinate);
+            if (firstCoordinateRightActivated != coordinate)
             {
-                var rightNodeNumber = _coordinates.FindIndex(c => c == firstCoordinateRightNodeActivated);
-                segment.To(firstCoordinateRightNodeActivated, rightNodeNumber);
+                var rightCoordinateNumber = _coordinates.FindIndex(c => c == firstCoordinateRightActivated);
+                segment.To(firstCoordinateRightActivated, rightCoordinateNumber);
             }
-            var firstCoordinateBottomNodeActivated = FirstBottomNode(coordinate);
-            if (firstCoordinateBottomNodeActivated != coordinate)
+            var firstCoordinateBottomActivated = FirstBottomCoordinate(coordinate);
+            if (firstCoordinateBottomActivated != coordinate)
             {
-                var bottomNodeNumber = _coordinates.FindIndex(c => c == firstCoordinateBottomNodeActivated);
-                segment.To(firstCoordinateBottomNodeActivated, bottomNodeNumber);
+                var bottomCoordinateNumber = _coordinates.FindIndex(c => c == firstCoordinateBottomActivated);
+                segment.To(firstCoordinateBottomActivated, bottomCoordinateNumber);
             }
         }
         return tree;
     }
 
-    private Coordinate FirstRightNode(Coordinate coordinate) => _coordinates.FirstOrDefault(c => c.Y == coordinate.Y && c.X > coordinate.X) ?? coordinate;
+    private Coordinate FirstRightCoordinate(Coordinate coordinate) => _coordinates.FirstOrDefault(c => c.Y == coordinate.Y && c.X > coordinate.X) ?? coordinate;
 
-    private Coordinate FirstBottomNode(Coordinate coordinate) => _coordinates.FirstOrDefault(c => c.X == coordinate.X && c.Y > coordinate.Y) ?? coordinate;
+    private Coordinate FirstBottomCoordinate(Coordinate coordinate) => _coordinates.FirstOrDefault(c => c.X == coordinate.X && c.Y > coordinate.Y) ?? coordinate;
 }

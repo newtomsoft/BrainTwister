@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace LaserBrainTwister.Tests;
 
@@ -11,9 +9,9 @@ public class GridTests
     {
         var grid = new Grid();
         var coordinate = Coordinate.From(0, 0);
-        grid.SwitchNodeStatus(coordinate);
+        grid.SwitchCoordinateStatus(coordinate);
         grid.IsActivated(coordinate).ShouldBeTrue();
-        grid.SwitchNodeStatus(coordinate);
+        grid.SwitchCoordinateStatus(coordinate);
         grid.IsActivated(coordinate).ShouldBeFalse();
     }
 

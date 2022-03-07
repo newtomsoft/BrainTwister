@@ -1,12 +1,12 @@
-﻿namespace LaserBrainTwister.Domain.Segment;
+﻿namespace LaserBrainTwister.Domain.Segments;
 
 public class TwoWaySegment : ISegment
 {
-    private readonly Node.Node _start;
-    private readonly Node.Node _end;
+    private readonly Node _start;
+    private readonly Node _end;
     private readonly ITree _tree;
 
-    public TwoWaySegment(Node.Node start, Node.Node end, ITree tree)
+    public TwoWaySegment(Node start, Node end, ITree tree)
     {
         _start = start;
         _end = end;
@@ -23,7 +23,7 @@ public class TwoWaySegment : ISegment
             if (nodeTo is not null && _start.LinkedNodes.Contains(nodeTo)) continue;
             if (nodeTo is null)
             {
-                nodeTo = new Node.Node(nodeNumber);
+                nodeTo = new Node(nodeNumber);
                 _tree.Nodes.Add(nodeTo);
             }
             segment = To(nodeTo);
@@ -43,19 +43,19 @@ public class TwoWaySegment : ISegment
     public ISegment NextTo(params int[] nodesNumber) => Next().To(nodesNumber);
     public ISegment Reverse() => new TwoWaySegment(_end, _start, _tree);
 
-    private TwoWaySegment To(Node.Node node)
+    private TwoWaySegment To(Node node)
     {
         _start.LinkNode(node);
         return new(_start, node, _tree);
     }
-    
+
     public ISegment Next()
     {
         var startNumber = _start.Number + 1;
         var startNode = _tree.Nodes.FirstOrDefault(n => n.Number == startNumber);
         if (startNode is null)
         {
-            startNode = new Node.Node(startNumber);
+            startNode = new Node(startNumber);
             _tree.Nodes.Add(startNode);
         }
         return new TwoWaySegment(startNode, new(0), _tree);

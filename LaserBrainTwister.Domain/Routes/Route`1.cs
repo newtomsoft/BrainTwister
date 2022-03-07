@@ -1,4 +1,4 @@
-﻿namespace LaserBrainTwister.Domain.Route;
+﻿namespace LaserBrainTwister.Domain.Routes;
 
 public class Route<T>
 {
@@ -8,6 +8,7 @@ public class Route<T>
     public Route(IEnumerable<Node<T>> nodes) => AddNodes(nodes);
 
     public void AddNode(Node<T> node) => Nodes.Add(node);
+
     private void AddNodes(IEnumerable<Node<T>> nodes) => Nodes.AddRange(nodes);
 
     public override string ToString()

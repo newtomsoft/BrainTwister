@@ -1,5 +1,4 @@
-﻿using LaserBrainTwister.Domain.Tree;
-using System;
+﻿using System;
 
 namespace LaserBrainTwister.Tests;
 

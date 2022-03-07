@@ -1,4 +1,4 @@
-using LaserBrainTwister.Domain.Node;
+using LaserBrainTwister.Domain.Nodes;
 
 namespace LaserBrainTwister.Tests;
 

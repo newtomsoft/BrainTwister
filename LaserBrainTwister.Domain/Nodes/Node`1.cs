@@ -1,4 +1,4 @@
-﻿namespace LaserBrainTwister.Domain.Node;
+﻿namespace LaserBrainTwister.Domain.Nodes;
 
 [DebuggerDisplay("Number = {Number}")]
 public class Node<T>

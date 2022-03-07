@@ -1,8 +1,8 @@
-﻿namespace LaserBrainTwister.Domain.Tree;
+﻿namespace LaserBrainTwister.Domain.Trees;
 
 public class Tree : ITree
 {
-    public List<Node.Node> Nodes { get; } = new();
+    public List<Node> Nodes { get; } = new();
 
     /// <summary>
     /// To link 2 nodes. Use Segment.To() immediately after this
@@ -13,7 +13,7 @@ public class Tree : ITree
     public ISegment LinkFrom(int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        return fromNode is null ? new Segment.Segment(AddNode(fromNodeNumber), new(0), this) : new(fromNode, new(0), this);
+        return fromNode is null ? new Segment(AddNode(fromNodeNumber), new(0), this) : new(fromNode, new(0), this);
     }
 
     public ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
@@ -23,32 +23,32 @@ public class Tree : ITree
     /// Get all possibles routes from first node to all nodes that have no linked node
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Route.Route> GetRoutesFromStartToDeadEnds()
+    public IEnumerable<Routes.Route> GetRoutesFromStartToDeadEnds()
     {
-        var route = new Route.Route(Nodes.First());
+        var route = new Routes.Route(Nodes.First());
         foreach (var currentRoute in GetRoutesToDeadEnd(route))
             yield return currentRoute;
     }
 
-    private static IEnumerable<Route.Route> GetRoutesToDeadEnd(Route.Route startTree)
+    private static IEnumerable<Routes.Route> GetRoutesToDeadEnd(Routes.Route startTree)
     {
         var startNode = startTree.Nodes.Last();
         if (startNode.LinkedNodes.Count == 0)
-            yield return new Route.Route(startTree.Nodes);
+            yield return new Routes.Route(startTree.Nodes);
 
         foreach (var node in startNode.LinkedNodes)
         {
             if (startTree.Nodes.Any(n => n.Number == node.Number)) continue;
-            var route = new Route.Route(startTree.Nodes);
+            var route = new Routes.Route(startTree.Nodes);
             route.AddNode(node);
             foreach (var suitRoute in GetRoutesToDeadEnd(route))
                 yield return suitRoute;
         }
     }
 
-    private Node.Node AddNode(int number)
+    private Node AddNode(int number)
     {
-        var node = new Node.Node(number);
+        var node = new Node(number);
         Nodes.Add(node);
         return node;
     }

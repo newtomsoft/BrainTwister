@@ -1,14 +1,14 @@
-﻿namespace LaserBrainTwister.Domain.Route;
+﻿namespace LaserBrainTwister.Domain.Routes;
 
 public class Route
 {
-    public readonly List<Node.Node> Nodes = new();
+    public readonly List<Node> Nodes = new();
 
-    public Route(Node.Node node) => AddNode(node);
-    public Route(IEnumerable<Node.Node> nodes) => AddNodes(nodes);
+    public Route(Node node) => AddNode(node);
+    public Route(IEnumerable<Node> nodes) => AddNodes(nodes);
 
-    public void AddNode(Node.Node node) => Nodes.Add(node);
-    private void AddNodes(IEnumerable<Node.Node> nodes) => Nodes.AddRange(nodes);
+    public void AddNode(Node node) => Nodes.Add(node);
+    private void AddNodes(IEnumerable<Node> nodes) => Nodes.AddRange(nodes);
 
     public override string ToString()
     {
