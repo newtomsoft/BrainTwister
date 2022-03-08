@@ -238,21 +238,16 @@ coordinates = new List<Coordinate>
 grid.SwitchCoordinatesStatus(coordinates);
 grid.SetDefaultStartCoordinate();
 grid.SetDefaultEndCoordinate();
-
 treeWithCoordinate = grid.GenerateTree();
-routesCount = 0;
-routesWithAllNodesCount = 0;
+
 Console.WriteLine("Tree 4 :");
-foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds())
+routesWithAllNodesCount = 0;
+foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesWithAllNodes())
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
-    {
-        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
-        routesWithAllNodesCount++;
-    }
-    routesCount++;
+    Console.WriteLine($"Possible route with all nodes : {routeWithAllNodes}");
+    routesWithAllNodesCount++;
 }
-Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes");
 Console.WriteLine("");
 var shortestRoute = treeWithCoordinate.GetShortestRoutesFromStartToDeadEnd();
 Console.WriteLine($"Shortest solution : {shortestRoute}");

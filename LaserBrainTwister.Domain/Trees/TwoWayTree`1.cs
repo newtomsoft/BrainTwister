@@ -21,6 +21,7 @@ public class TwoWayTree<T> : ITree<T>
             yield return currentRoute;
     }
 
+    public IEnumerable<Route<T>> GetRoutesWithAllNodes() => GetRoutesFromStartToDeadEnds().Where(r => r.Nodes.Count == Nodes.Count);
     public Route<T> GetLongestRoutesFromStartToDeadEnd() => GetRoutesFromStartToDeadEnds().OrderByDescending(r => r.Nodes.Count).First();
     public Route<T> GetShortestRoutesFromStartToDeadEnd() => GetRoutesFromStartToDeadEnds().OrderBy(r => r.Nodes.Count).First();
 
@@ -30,12 +31,98 @@ public class TwoWayTree<T> : ITree<T>
         {
             var routes = LinkNodesWith2LinkedNodes();
             routes = MergeRoutes(routes);
-            var changed0 = RemoveLinksWhereLinkedNodeHaveAlready2Links(routes);
+            var changed0 = RemoveLinksWhereLinkedNodesHaveAlready2Links(routes);
             var changed1 = RemoveLinksIfCycle(routes);
             if (!changed0 && !changed1) return routes;
         }
     }
+    private List<Route<T>> LinkNodesWith2LinkedNodes()
+    {
+        var allPartRoutes = new List<Route<T>>();
+        foreach (var node in Nodes.Where(node => node.LinkedNodes.Count == 2))
+        {
+            var nodesToExclude = allPartRoutes.SelectMany(r => r.Nodes.Where(n => n != r.Nodes[0] && n != r.Nodes[^1]).ToList());
+            if (nodesToExclude.Contains(node)) continue;
 
+            var isJoin = false;
+            var nodes = new List<Node<T>> { node.LinkedNodes[0], node, node.LinkedNodes[1] };
+            foreach (var route in allPartRoutes)
+            {
+                var intersect = route.Nodes.Intersect(nodes).ToList();
+                if (intersect.Count == 1) // ex : 0,1,2 et 2,3,4 
+                {
+                    isJoin = true;
+                    var element = intersect.First();
+                    if (route.Nodes[0] == element && nodes[^1] == element) // ex : 2,1,0 et 4,3,2 
+                    {
+                        nodes.RemoveAt(nodes.Count - 1);
+                        route.Nodes.InsertRange(0, nodes);
+                        break;
+                    }
+                    if (route.Nodes[^1] == element && nodes[0] == element) // ex : 0,1,2 et 2,3,4
+                    {
+                        nodes.RemoveAt(0);
+                        route.Nodes.AddRange(nodes);
+                        break;
+                    }
+                    if (route.Nodes[0] == element && nodes[0] == element) // ex : 2,1,0 et 2,3,4
+                    {
+                        nodes.RemoveAt(0);
+                        nodes.Reverse();
+                        route.Nodes.InsertRange(0, nodes);
+                        break;
+                    }
+                    if (route.Nodes[^1] == element && nodes[^1] == element) // ex : 0,1,2 et 4,3,2 
+                    {
+                        nodes.RemoveAt(nodes.Count - 1);
+                        nodes.Reverse();
+                        route.Nodes.AddRange(nodes);
+                        break;
+                    }
+                }
+                if (intersect.Count == 2) // 1234 et 345
+                {
+                    isJoin = true;
+                    var routeFirst = route.Nodes[0];
+                    var routeSecond = route.Nodes[1];
+                    var routeSecondToLast = route.Nodes[^2];
+                    var routeLast = route.Nodes[^1];
+                    var nodes0 = nodes[0];
+                    var nodes1 = nodes[1];
+                    var nodes2 = nodes[2];
+                    if (routeLast == nodes1) // ex 1234 345
+                    {
+                        if (routeSecondToLast == nodes0)
+                        {
+                            route.Nodes.Add(nodes[2]);
+                            break;
+                        }
+                        if (routeSecondToLast == nodes2)
+                        {
+                            route.Nodes.Add(nodes[0]);
+                            break;
+                        }
+                    }
+                    if (routeFirst == nodes1)
+                    {
+                        if (routeSecond == nodes0)
+                        {
+                            route.Nodes.Insert(0, nodes[2]);
+                            break;
+                        }
+                        if (routeSecond == nodes2)
+                        {
+                            route.Nodes.Insert(0, nodes[0]);
+                            break;
+                        }
+                    }
+                }
+            }
+            if (isJoin is false) allPartRoutes.Add(new Route<T>(nodes));
+        }
+        return allPartRoutes;
+    }
+    
     private static List<Route<T>> MergeRoutes(List<Route<T>> routes)
     {
         while (true)
@@ -132,94 +219,7 @@ public class TwoWayTree<T> : ITree<T>
         return routes;
     }
 
-    private List<Route<T>> LinkNodesWith2LinkedNodes()
-    {
-        var allPartRoutes = new List<Route<T>>();
-        foreach (var node in Nodes.Where(node => node.LinkedNodes.Count == 2))
-        {
-            var nodesToExclude = allPartRoutes.SelectMany(r => r.Nodes.Where(n => n != r.Nodes[0] && n != r.Nodes[^1]).ToList());
-            if (nodesToExclude.Contains(node)) continue;
-
-            var isJoin = false;
-            var nodes = new List<Node<T>> { node.LinkedNodes[0], node, node.LinkedNodes[1] };
-            foreach (var route in allPartRoutes)
-            {
-                var intersect = route.Nodes.Intersect(nodes).ToList();
-                if (intersect.Count == 1) // ex : 0,1,2 et 2,3,4 
-                {
-                    isJoin = true;
-                    var element = intersect.First();
-                    if (route.Nodes[0] == element && nodes[^1] == element) // ex : 2,1,0 et 4,3,2 
-                    {
-                        nodes.RemoveAt(nodes.Count - 1);
-                        route.Nodes.InsertRange(0, nodes);
-                        break;
-                    }
-                    if (route.Nodes[^1] == element && nodes[0] == element) // ex : 0,1,2 et 2,3,4
-                    {
-                        nodes.RemoveAt(0);
-                        route.Nodes.AddRange(nodes);
-                        break;
-                    }
-                    if (route.Nodes[0] == element && nodes[0] == element) // ex : 2,1,0 et 2,3,4
-                    {
-                        nodes.RemoveAt(0);
-                        nodes.Reverse();
-                        route.Nodes.InsertRange(0, nodes);
-                        break;
-                    }
-                    if (route.Nodes[^1] == element && nodes[^1] == element) // ex : 0,1,2 et 4,3,2 
-                    {
-                        nodes.RemoveAt(nodes.Count - 1);
-                        nodes.Reverse();
-                        route.Nodes.AddRange(nodes);
-                        break;
-                    }
-                }
-                if (intersect.Count == 2) // 1234 et 345
-                {
-                    isJoin = true;
-                    var routeFirst = route.Nodes[0];
-                    var routeSecond = route.Nodes[1];
-                    var routeSecondToLast = route.Nodes[^2];
-                    var routeLast = route.Nodes[^1];
-                    var nodes0 = nodes[0];
-                    var nodes1 = nodes[1];
-                    var nodes2 = nodes[2];
-                    if (routeLast == nodes1) // ex 1234 345
-                    {
-                        if (routeSecondToLast == nodes0)
-                        {
-                            route.Nodes.Add(nodes[2]);
-                            break;
-                        }
-                        if (routeSecondToLast == nodes2)
-                        {
-                            route.Nodes.Add(nodes[0]);
-                            break;
-                        }
-                    }
-                    if (routeFirst == nodes1)
-                    {
-                        if (routeSecond == nodes0)
-                        {
-                            route.Nodes.Insert(0, nodes[2]);
-                            break;
-                        }
-                        if (routeSecond == nodes2)
-                        {
-                            route.Nodes.Insert(0, nodes[0]);
-                            break;
-                        }
-                    }
-                }
-            }
-            if (isJoin is false) allPartRoutes.Add(new Route<T>(nodes));
-        }
-        return allPartRoutes;
-    }
-
-    private static bool RemoveLinksWhereLinkedNodeHaveAlready2Links(List<Route<T>> routes)
+    private static bool RemoveLinksWhereLinkedNodesHaveAlready2Links(List<Route<T>> routes)
     {
         var result = false;
         foreach (var route in routes)
