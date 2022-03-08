@@ -29,12 +29,8 @@ public class GetRoutesBenchmark
                 Coordinate.From(4, 6), Coordinate.From(6, 6),
                 Coordinate.From(4, 7), Coordinate.From(12, 7),
             };
-            var grid0 = new Grid();
-            grid0.SwitchCoordinatesStatus(coordinates0);
-            grid0.SetDefaultStartCoordinate();
-            grid0.SetDefaultEndCoordinate();
-            yield return grid0;
-
+            //yield return GetGrid(coordinates0);
+            
             var coordinates1 = new List<Coordinate>
             {
                 Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
@@ -50,11 +46,32 @@ public class GetRoutesBenchmark
                 Coordinate.From(3, 10), Coordinate.From(5, 10),
                 Coordinate.From(11, 11), Coordinate.From(13, 11),
             };
-            var grid1 = new Grid();
-            grid1.SwitchCoordinatesStatus(coordinates1);
-            grid1.SetDefaultStartCoordinate();
-            grid1.SetDefaultEndCoordinate();
-            yield return grid1;
+            //yield return GetGrid(coordinates1);
+
+            var coordinates2 = new List<Coordinate>
+            {
+                Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(8, 0), Coordinate.From(13, 0),
+                Coordinate.From(1, 1), Coordinate.From(3, 1), Coordinate.From(6, 1), Coordinate.From(8, 1), Coordinate.From(10, 1), Coordinate.From(12, 1),
+                Coordinate.From(2, 2), Coordinate.From(5, 2), Coordinate.From(8, 2), Coordinate.From(10, 2), Coordinate.From(11, 2),
+                Coordinate.From(3, 3), Coordinate.From(10, 3),
+                Coordinate.From(0, 4), Coordinate.From(6, 4),
+                Coordinate.From(2, 5), Coordinate.From(13, 5),
+                Coordinate.From(2, 6), Coordinate.From(4, 6), Coordinate.From(7, 6), Coordinate.From(10, 6), Coordinate.From(12, 6), Coordinate.From(13, 6),
+                Coordinate.From(0, 7), Coordinate.From(1, 7), Coordinate.From(5, 7), Coordinate.From(8, 7), Coordinate.From(9, 7), Coordinate.From(11, 7),
+                Coordinate.From(0, 8), Coordinate.From(1, 8), Coordinate.From(2, 8), Coordinate.From(7, 8), Coordinate.From(11, 8), Coordinate.From(13, 8),
+                Coordinate.From(1, 9), Coordinate.From(4, 9),
+                Coordinate.From(0, 10), Coordinate.From(9, 10), Coordinate.From(11, 10), Coordinate.From(14, 10),
+            };
+            yield return GetGrid(coordinates2);
         }
+    }
+
+    private static Grid GetGrid(IEnumerable<Coordinate> coordinates)
+    {
+        var grid = new Grid();
+        grid.SwitchCoordinatesStatus(coordinates);
+        grid.SetDefaultStartCoordinate();
+        grid.SetDefaultEndCoordinate();
+        return grid;
     }
 }

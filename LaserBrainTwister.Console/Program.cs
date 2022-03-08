@@ -150,11 +150,11 @@ var coordinates = new List<Coordinate>
     Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
     Coordinate.From(8, 1), Coordinate.From(12, 1),
     Coordinate.From(2, 2), Coordinate.From(6, 2),
-    Coordinate.From(1, 3), Coordinate.From(3, 3), Coordinate.From(2, 4),
-    Coordinate.From(7, 4), Coordinate.From(10, 4), Coordinate.From(12, 4),
+    Coordinate.From(1, 3), Coordinate.From(3, 3), 
+    Coordinate.From(2, 4), Coordinate.From(7, 4), Coordinate.From(10, 4), Coordinate.From(12, 4),
     Coordinate.From(4, 5), Coordinate.From(6, 5), Coordinate.From(9, 5), Coordinate.From(12, 5),
-    Coordinate.From(3, 6), Coordinate.From(8, 6), Coordinate.From(1, 7),
-    Coordinate.From(5, 7), Coordinate.From(7, 7), Coordinate.From(10, 7),
+    Coordinate.From(3, 6), Coordinate.From(8, 6),
+    Coordinate.From(1, 7), Coordinate.From(5, 7), Coordinate.From(7, 7), Coordinate.From(10, 7),
     Coordinate.From(2, 8), Coordinate.From(9, 8), Coordinate.From(11, 8), Coordinate.From(12, 8),
     Coordinate.From(2, 9), Coordinate.From(3, 9), Coordinate.From(5, 9), Coordinate.From(7, 9), Coordinate.From(9, 9), Coordinate.From(12, 9),
     Coordinate.From(3, 10), Coordinate.From(5, 10),
@@ -220,6 +220,46 @@ Console.WriteLine("");
 #endregion
 
 #region tree4
+grid = new Grid();
+coordinates = new List<Coordinate>
+{
+    Coordinate.From(-1, 0), Coordinate.From(4, 0), Coordinate.From(8, 0), Coordinate.From(13, 0),
+    Coordinate.From(1, 1), Coordinate.From(3, 1), Coordinate.From(6, 1), Coordinate.From(8, 1), Coordinate.From(10, 1), Coordinate.From(12, 1),
+    Coordinate.From(2, 2), Coordinate.From(5, 2), Coordinate.From(8, 2), Coordinate.From(10, 2), Coordinate.From(11, 2),
+    Coordinate.From(3, 3), Coordinate.From(10, 3),
+    Coordinate.From(0, 4), Coordinate.From(6, 4),
+    Coordinate.From(2, 5), Coordinate.From(13, 5),
+    Coordinate.From(2, 6), Coordinate.From(4, 6), Coordinate.From(7, 6), Coordinate.From(10, 6), Coordinate.From(12, 6), Coordinate.From(13, 6),
+    Coordinate.From(0, 7), Coordinate.From(1, 7), Coordinate.From(5, 7), Coordinate.From(8, 7), Coordinate.From(9, 7), Coordinate.From(11, 7),
+    Coordinate.From(0, 8), Coordinate.From(1, 8), Coordinate.From(2, 8), Coordinate.From(7, 8), Coordinate.From(11, 8), Coordinate.From(13, 8),
+    Coordinate.From(1, 9), Coordinate.From(4, 9),
+    Coordinate.From(0, 10), Coordinate.From(9, 10), Coordinate.From(11, 10), Coordinate.From(14, 10),
+};
+grid.SwitchCoordinatesStatus(coordinates);
+grid.SetDefaultStartCoordinate();
+grid.SetDefaultEndCoordinate();
+
+treeWithCoordinate = grid.GenerateTree();
+routesCount = 0;
+routesWithAllNodesCount = 0;
+Console.WriteLine("Tree 4 :");
+foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds())
+{
+    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    {
+        Console.WriteLine($"Possible solution : {routeWithAllNodes}");
+        routesWithAllNodesCount++;
+    }
+    routesCount++;
+}
+Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
+Console.WriteLine("");
+var shortestRoute = treeWithCoordinate.GetShortestRoutesFromStartToDeadEnd();
+Console.WriteLine($"Shortest solution : {shortestRoute}");
+
+#endregion
+
+#region tree5
 tree = new Tree();
 tree.LinkFromOriginTo(1)
     .NextTo(0, 2, 15)
@@ -272,7 +312,7 @@ tree.LinkFromOriginTo(1)
 
 routesCount = 0;
 routesWithAllNodesCount = 0;
-Console.WriteLine("Tree 4 :");
+Console.WriteLine("Tree 5 :");
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
@@ -286,7 +326,7 @@ Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCou
 Console.WriteLine("");
 #endregion
 
-#region tree4 with coordinates
+#region tree5 with coordinates
 grid = new Grid();
 coordinates = new List<Coordinate>
 {
@@ -304,7 +344,7 @@ grid.SetDefaultEndCoordinate();
 treeWithCoordinate = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
-Console.WriteLine("Tree 4 with coordinates :");
+Console.WriteLine("Tree 5 with coordinates :");
 foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds(true))
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
@@ -319,7 +359,7 @@ Console.WriteLine("");
 
 #endregion
 
-#region tree5
+#region tree6
 tree = new Tree();
 tree.LinkFromOriginTo(1)
      .NextTo(2, 8)
@@ -384,7 +424,7 @@ tree.LinkFromOriginTo(1)
 
 routesCount = 0;
 routesWithAllNodesCount = 0;
-Console.WriteLine("Tree 5 :");
+Console.WriteLine("Tree 6 :");
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)

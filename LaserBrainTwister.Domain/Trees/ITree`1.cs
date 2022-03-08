@@ -7,5 +7,6 @@ public interface ITree<T>
     ISegment<T> LinkFromOriginTo(T item, int nodeNumber);
     IEnumerable<Route<T>> GetRoutesFromStartToDeadEnds(bool bruteForce = false);
     Route<T> GetLongestRoutesFromStartToDeadEnd();
+    Route<T> GetShortestRoutesFromStartToDeadEnd();
     List<Route<T>> OptimizeRoutes();
 }

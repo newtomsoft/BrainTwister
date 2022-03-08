@@ -22,6 +22,7 @@ public class TwoWayTree<T> : ITree<T>
     }
 
     public Route<T> GetLongestRoutesFromStartToDeadEnd() => GetRoutesFromStartToDeadEnds().OrderByDescending(r => r.Nodes.Count).First();
+    public Route<T> GetShortestRoutesFromStartToDeadEnd() => GetRoutesFromStartToDeadEnds().OrderBy(r => r.Nodes.Count).First();
 
     public List<Route<T>> OptimizeRoutes()
     {
