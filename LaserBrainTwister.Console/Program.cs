@@ -150,7 +150,7 @@ var coordinates = new List<Coordinate>
     Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
     Coordinate.From(8, 1), Coordinate.From(12, 1),
     Coordinate.From(2, 2), Coordinate.From(6, 2),
-    Coordinate.From(1, 3), Coordinate.From(3, 3), 
+    Coordinate.From(1, 3), Coordinate.From(3, 3),
     Coordinate.From(2, 4), Coordinate.From(7, 4), Coordinate.From(10, 4), Coordinate.From(12, 4),
     Coordinate.From(4, 5), Coordinate.From(6, 5), Coordinate.From(9, 5), Coordinate.From(12, 5),
     Coordinate.From(3, 6), Coordinate.From(8, 6),

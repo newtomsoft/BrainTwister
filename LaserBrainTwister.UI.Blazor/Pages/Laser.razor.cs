@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace LaserBrainTwister.UI.Blazor.Pages;
+﻿namespace LaserBrainTwister.UI.Blazor.Pages;
 
 public partial class Laser : ComponentBase
 {
@@ -22,8 +20,8 @@ public partial class Laser : ComponentBase
         var tree = _nodesGrid.GenerateTree();
         var route = tree.GetRoutesWithAllNodes().FirstOrDefault() ?? tree.GetLongestRoute();
         if (route is null) return;
-        if (route.NodesNumber() == _nodesGrid.GetEnableNodesNumber()) 
-        await DrawLines(route);
+        if (route.NodesNumber() == _nodesGrid.GetEnableNodesNumber())
+            await DrawLines(route);
     }
 
     private async Task DrawLines(Route<Coordinate> route)

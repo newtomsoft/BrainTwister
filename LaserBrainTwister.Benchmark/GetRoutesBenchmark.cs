@@ -11,7 +11,7 @@ public class GetRoutesBenchmark
     {
         return Grid.GenerateTree().GetRoutes(bruteForce).ToList();
     }
-    
+
     [ParamsSource(nameof(SetGrid))]
     public Grid Grid { get; set; } = new();
 
@@ -30,7 +30,7 @@ public class GetRoutesBenchmark
                 Coordinate.From(4, 7), Coordinate.From(12, 7),
             };
             //yield return GetGrid(coordinates0);
-            
+
             var coordinates1 = new List<Coordinate>
             {
                 Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
