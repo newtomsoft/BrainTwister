@@ -1,47 +1,30 @@
 ﻿@page "/Laser"
-@using LaserBrainTwister.Domain
+@inject IJSRuntime _js
 
 <PageTitle>Laser Brain Twister</PageTitle>
 
 <h1>Laser Brain Twister</h1>
 
+<button id="generateTwoWayTree" type="button" class="btn btn-primary btn-lg" @onclick="GenerateTwoWayTree">Generate Tree</button>
+<br />
+
 <button class="btn-legend"></button>
+
 @for (sbyte x = 0; x < MaxRow; x++)
 {
     <button class="btn-legend">@x</button>
 }
 <br />
-
-@for (sbyte y = 0; y < MaxRow; y++)
-{
-    <button class="btn-legend">@y</button>
-    @for (sbyte x = 0; x < MaxRow; x++)
+<canvas id="canvas" width="500" height="500"></canvas>
+<div id="grid">
+    @for (sbyte y = 0; y < MaxRow; y++)
     {
-        var coordinate = new Coordinate(x, y);
-        <button class="@(_nodesGrid.IsActivated(coordinate) ? "btn-enabled" : "btn-disable")" @onclick="() => OnClick(coordinate)"></button>
+        <button class="btn-legend">@y</button>
+        @for (sbyte x = 0; x < MaxRow; x++)
+        {
+            var coordinate = new Coordinate(x, y);
+            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesGrid.IsActivated(coordinate) ? BtnEnabled : BtnDisable)" @onclick="() => OnClick(coordinate)"></button>
+        }
+        <br>
     }
-    <br>
-}
-<button type="button" class="btn btn-primary btn-lg" @onclick="GenerateTwoWayTree">Generate Tree</button>
-
-
-@code {
-    private const sbyte MaxRow = 9;
-    private readonly Grid _nodesGrid = new();
-
-    private void OnClick(Coordinate coordinate)
-    {
-        _nodesGrid.SwitchCoordinateStatus(coordinate);
-
-    }
-
-    private void GenerateTwoWayTree()
-    {
-        _nodesGrid.SetDefaultStartCoordinate();
-        _nodesGrid.SetDefaultEndCoordinate();
-        var tree = _nodesGrid.GenerateTree();
-        var routes = tree.GetRoutesFromStartToDeadEnds().OrderByDescending(r => r.Nodes.Count).ToArray();
-        var routeString0 = routes[0].ToString();
-        var routeString1 = routes[1].ToString();
-    }
-}
+</div>
