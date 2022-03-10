@@ -9,7 +9,7 @@ public class GetRoutesBenchmark
     [Arguments(true)]
     public List<Route<Coordinate>> GetRoutesFromStartToDeadEnds(bool bruteForce)
     {
-        return Grid.GenerateTree().GetRoutesFromStartToDeadEnds(bruteForce).ToList();
+        return Grid.GenerateTree().GetRoutes(bruteForce).ToList();
     }
     
     [ParamsSource(nameof(SetGrid))]

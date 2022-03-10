@@ -13,7 +13,7 @@ public class TwoWayTree<T> : ITree<T>
     }
     public ISegment<T> LinkFromOriginTo(T item, int nodeNumber) => LinkFrom(item, 0).To(item, nodeNumber);
 
-    public IEnumerable<Route<T>> GetRoutesFromStartToDeadEnds(bool bruteForce = false)
+    public IEnumerable<Route<T>> GetRoutes(bool bruteForce = false)
     {
         if (bruteForce is not true) OptimizeRoutes();
         var route = new Route<T>(Nodes.First());
@@ -21,9 +21,11 @@ public class TwoWayTree<T> : ITree<T>
             yield return currentRoute;
     }
 
-    public IEnumerable<Route<T>> GetRoutesWithAllNodes() => GetRoutesFromStartToDeadEnds().Where(r => r.Nodes.Count == Nodes.Count);
-    public Route<T> GetLongestRoutesFromStartToDeadEnd() => GetRoutesFromStartToDeadEnds().OrderByDescending(r => r.Nodes.Count).First();
-    public Route<T> GetShortestRoutesFromStartToDeadEnd() => GetRoutesFromStartToDeadEnds().OrderBy(r => r.Nodes.Count).First();
+    public IEnumerable<Route<T>> GetRoutesWithAllNodes() => GetRoutes().Where(r => r.Nodes.Count == Nodes.Count);
+
+    public Route<T>? GetLongestRoute() => GetRoutes().OrderByDescending(r => r.Nodes.Count).FirstOrDefault();
+
+    public Route<T>? GetShortestRoute() => GetRoutes().OrderBy(r => r.Nodes.Count).FirstOrDefault();
 
     public List<Route<T>> OptimizeRoutes()
     {
@@ -31,9 +33,7 @@ public class TwoWayTree<T> : ITree<T>
         {
             var routes = LinkNodesWith2LinkedNodes();
             routes = MergeRoutes(routes);
-            var changed0 = RemoveLinksWhereLinkedNodesHaveAlready2Links(routes);
-            var changed1 = RemoveLinksIfCycle(routes);
-            if (!changed0 && !changed1) return routes;
+            if (!RemoveLinksWhereLinkedNodesHaveAlready2Links(routes) && !RemoveLinksIfCycle(routes)) return routes;
         }
     }
     private List<Route<T>> LinkNodesWith2LinkedNodes()
@@ -49,30 +49,30 @@ public class TwoWayTree<T> : ITree<T>
             foreach (var route in allPartRoutes)
             {
                 var intersect = route.Nodes.Intersect(nodes).ToList();
-                if (intersect.Count == 1) // ex : 0,1,2 et 2,3,4 
+                if (intersect.Count == 1) // ex : 012 234 
                 {
                     isJoin = true;
                     var element = intersect.First();
-                    if (route.Nodes[0] == element && nodes[^1] == element) // ex : 2,1,0 et 4,3,2 
+                    if (route.Nodes[0] == element && nodes[^1] == element) // ex : 210 432 
                     {
                         nodes.RemoveAt(nodes.Count - 1);
                         route.Nodes.InsertRange(0, nodes);
                         break;
                     }
-                    if (route.Nodes[^1] == element && nodes[0] == element) // ex : 0,1,2 et 2,3,4
+                    if (route.Nodes[^1] == element && nodes[0] == element) // ex : 012 234
                     {
                         nodes.RemoveAt(0);
                         route.Nodes.AddRange(nodes);
                         break;
                     }
-                    if (route.Nodes[0] == element && nodes[0] == element) // ex : 2,1,0 et 2,3,4
+                    if (route.Nodes[0] == element && nodes[0] == element) // ex : 210 234
                     {
                         nodes.RemoveAt(0);
                         nodes.Reverse();
                         route.Nodes.InsertRange(0, nodes);
                         break;
                     }
-                    if (route.Nodes[^1] == element && nodes[^1] == element) // ex : 0,1,2 et 4,3,2 
+                    if (route.Nodes[^1] == element && nodes[^1] == element) // ex : 012 432 
                     {
                         nodes.RemoveAt(nodes.Count - 1);
                         nodes.Reverse();
@@ -80,7 +80,7 @@ public class TwoWayTree<T> : ITree<T>
                         break;
                     }
                 }
-                if (intersect.Count == 2) // 1234 et 345
+                if (intersect.Count == 2) // ex 1234 345
                 {
                     isJoin = true;
                     var routeFirst = route.Nodes[0];
@@ -122,7 +122,7 @@ public class TwoWayTree<T> : ITree<T>
         }
         return allPartRoutes;
     }
-    
+
     private static List<Route<T>> MergeRoutes(List<Route<T>> routes)
     {
         while (true)

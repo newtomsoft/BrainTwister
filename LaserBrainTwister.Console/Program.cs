@@ -168,7 +168,7 @@ var treeWithCoordinate = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 3 :");
-foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds())
+foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutes())
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
     {
@@ -206,7 +206,7 @@ treeWithCoordinate = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 3 bis :");
-foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds(true))
+foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutes(true))
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
     {
@@ -249,7 +249,7 @@ foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesWithAllNodes())
 }
 Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes");
 Console.WriteLine("");
-var shortestRoute = treeWithCoordinate.GetShortestRoutesFromStartToDeadEnd();
+var shortestRoute = treeWithCoordinate.GetShortestRoute();
 Console.WriteLine($"Shortest solution : {shortestRoute}");
 
 #endregion
@@ -340,7 +340,7 @@ treeWithCoordinate = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 5 with coordinates :");
-foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesFromStartToDeadEnds(true))
+foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutes(true))
 {
     if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
     {
