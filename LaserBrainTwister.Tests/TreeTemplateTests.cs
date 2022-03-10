@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LaserBrainTwister.Tests;
+﻿namespace LaserBrainTwister.Tests;
 
 public class TreeTemplateTests
 {

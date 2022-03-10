@@ -13,23 +13,23 @@ public class TwoWayTree : ITree
     }
     public ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
 
-    public IEnumerable<Routes.Route> GetRoutesFromStartToDeadEnds()
+    public IEnumerable<Route> GetRoutesFromStartToDeadEnds()
     {
-        var route = new Routes.Route(Nodes.First());
+        var route = new Route(Nodes.First());
         foreach (var currentRoute in GetRoutesToDeadEnd(route))
             yield return currentRoute;
     }
 
-    private static IEnumerable<Routes.Route> GetRoutesToDeadEnd(Routes.Route startTree)
+    private static IEnumerable<Route> GetRoutesToDeadEnd(Route startTree)
     {
         var startNode = startTree.Nodes.Last();
         if (startNode.LinkedNodes.Count == 1)
-            yield return new Routes.Route(startTree.Nodes);
+            yield return new Route(startTree.Nodes);
 
         foreach (var node in startNode.LinkedNodes)
         {
             if (startTree.Nodes.Any(n => n.Number == node.Number)) continue;
-            var route = new Routes.Route(startTree.Nodes);
+            var route = new Route(startTree.Nodes);
             route.AddNode(node);
             foreach (var suitRoute in GetRoutesToDeadEnd(route))
                 yield return suitRoute;

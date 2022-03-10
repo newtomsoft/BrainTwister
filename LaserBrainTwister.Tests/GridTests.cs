@@ -1,7 +1,4 @@
-﻿using LaserBrainTwister.Domain.Nodes;
-using LaserBrainTwister.Domain.Routes;
-
-namespace LaserBrainTwister.Tests;
+﻿namespace LaserBrainTwister.Tests;
 
 public class GridTests
 {
