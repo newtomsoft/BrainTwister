@@ -1,5 +1,6 @@
 ﻿namespace LaserBrainTwister.Domain.Routes;
 
+[DebuggerDisplay("{ToString()}")]
 public class Route<T>
 {
     public readonly List<Node<T>> Nodes = new();
