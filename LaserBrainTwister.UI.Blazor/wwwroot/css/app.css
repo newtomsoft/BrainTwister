@@ -70,6 +70,8 @@ button.btn-disable {
     height: 30px;
     width: 30px;
     margin: 5px;
+    border-radius: 50%;
+    opacity: 0.05;
 }
 
 button.btn-enabled {
@@ -79,6 +81,7 @@ button.btn-enabled {
     height: 30px;
     width: 30px;
     margin: 5px;
+    border-radius: 50%;
 }
 
 button.btn-legend {
@@ -91,4 +94,16 @@ button.btn-legend {
     margin: 5px;
     font-size: 10px;
     display: inline-block;
+}
+
+#canvas {
+    position: absolute;
+    height: auto ;
+    width: auto;
+    z-index: -1;
+}
+
+#grid {
+    position: relative;
+    z-index: 0;
 }

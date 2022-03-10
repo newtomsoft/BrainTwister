@@ -23,3 +23,37 @@
 </body>
 
 </html>
+
+<script>
+    function resetCanvas() {
+        const grid = document.getElementById('grid');
+        window.gridX = grid.getBoundingClientRect().left;
+        window.gridY = grid.getBoundingClientRect().top;
+        window.canvas = document.getElementById('canvas');
+        canvas.width = grid.getBoundingClientRect().width;
+        canvas.height = grid.getBoundingClientRect().height;
+        if (window.canvas.getContext) {
+            window.canvasContext = window.canvas.getContext('2d');
+            window.canvasContext.clearRect(0, 0, window.canvas.width, window.canvas.height);
+        }
+    }
+
+    function connectElements(firstElementId, secondElementId) {
+
+        const firstElement = document.getElementById(firstElementId);
+        const secondElement = document.getElementById(secondElementId);
+        const firstPosition = firstElement.getBoundingClientRect();
+        const firstX = (firstPosition.left + firstPosition.right) / 2 - gridX;
+        const firstY = (firstPosition.top + firstPosition.bottom) / 2 - gridY;
+        const secondPosition = secondElement.getBoundingClientRect();
+        const secondX = (secondPosition.left + secondPosition.right) / 2 - gridX;
+        const secondY = (secondPosition.top + secondPosition.bottom) / 2 - gridY;
+
+        canvasContext.beginPath();
+        canvasContext.moveTo(firstX, firstY);
+        canvasContext.lineTo(secondX, secondY);
+        canvasContext.strokeStyle = "green";
+        canvasContext.strokeWidth = "8px";
+        canvasContext.stroke();
+    }
+</script>
