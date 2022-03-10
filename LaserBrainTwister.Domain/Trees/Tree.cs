@@ -4,6 +4,8 @@ public class Tree : ITree
 {
     public List<Node> Nodes { get; } = new();
 
+    public int NodesNumber() => Nodes.Count;
+
     /// <summary>
     /// To link 2 nodes. Use Segment.To() immediately after this
     /// </summary>

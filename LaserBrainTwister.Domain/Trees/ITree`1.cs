@@ -3,6 +3,7 @@
 public interface ITree<T>
 {
     List<Node<T>> Nodes { get; }
+    int NodesNumber();
     ISegment<T> LinkFrom(T item, int fromNodeNumber);
     ISegment<T> LinkFromOriginTo(T item, int nodeNumber);
     IEnumerable<Route<T>> GetRoutes(bool bruteForce = false);

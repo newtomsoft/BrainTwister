@@ -22,6 +22,7 @@ public partial class Laser : ComponentBase
         var tree = _nodesGrid.GenerateTree();
         var route = tree.GetRoutesWithAllNodes().FirstOrDefault() ?? tree.GetLongestRoute();
         if (route is null) return;
+        if (route.NodesNumber() == _nodesGrid.GetEnableNodesNumber()) 
         await DrawLines(route);
     }
 

@@ -30,7 +30,7 @@ var routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 0:");
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;
@@ -72,13 +72,13 @@ tree.LinkFromOriginTo(1)
     .NextTo(25, 19, 27);
 
 var routes = tree.GetRoutesFromStartToDeadEnds().ToList();
-var allNodesRoutes = routes.Where(r => r.Nodes.Count == tree.Nodes.Count).ToList();
+var allNodesRoutes = routes.Where(r => r.NodesNumber() == tree.NodesNumber()).ToList();
 Console.WriteLine("Tree 1:");
 foreach (var route in allNodesRoutes)
     Console.WriteLine($"Possible solution : {route}");
 if (allNodesRoutes.Count == 0)
 {
-    var longestRoute = routes.MaxBy(r => r.Nodes.Count);
+    var longestRoute = routes.MaxBy(r => r.NodesNumber());
     Console.WriteLine($"No route found that passe by all nodes. The longest is : {longestRoute}");
 }
 Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCount} total routes");
@@ -132,7 +132,7 @@ routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 2 :");
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;
@@ -170,7 +170,7 @@ routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 3 :");
 foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutes())
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;
@@ -208,7 +208,7 @@ routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 3 bis :");
 foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutes(true))
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;
@@ -310,7 +310,7 @@ routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 5 :");
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;
@@ -342,7 +342,7 @@ routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 5 with coordinates :");
 foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutes(true))
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;
@@ -422,7 +422,7 @@ routesWithAllNodesCount = 0;
 Console.WriteLine("Tree 6 :");
 foreach (var routeWithAllNodes in tree.GetRoutesFromStartToDeadEnds())
 {
-    if (routeWithAllNodes.Nodes.Count == tree.Nodes.Count)
+    if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
     {
         Console.WriteLine($"Possible solution : {routeWithAllNodes}");
         routesWithAllNodesCount++;

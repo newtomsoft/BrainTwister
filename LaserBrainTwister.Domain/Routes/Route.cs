@@ -4,6 +4,8 @@ public class Route
 {
     public readonly List<Node> Nodes = new();
 
+    public int NodesNumber() => Nodes.Count;
+
     public Route(Node node) => AddNode(node);
     public Route(IEnumerable<Node> nodes) => AddNodes(nodes);
 

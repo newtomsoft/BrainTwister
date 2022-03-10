@@ -173,7 +173,7 @@ public class TwoWayTreeTests
         var expectedRoutesCount = expectedStringRoutesWithAllNodes.Count;
 
         var routeCount = 0;
-        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.Nodes.Count == tree.Nodes.Count))
+        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.NodesNumber() == tree.NodesNumber()))
         {
             routeCount++;
             var founded = expectedStringRoutesWithAllNodes.FirstOrDefault(str => str == allNodesRoute.ToString());

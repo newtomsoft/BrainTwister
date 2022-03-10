@@ -11,9 +11,9 @@ public class GridTests
         var grid = new Grid();
         var coordinate = Coordinate.From(0, 0);
         grid.SwitchCoordinateStatus(coordinate);
-        grid.IsActivated(coordinate).ShouldBeTrue();
+        grid.IsEnable(coordinate).ShouldBeTrue();
         grid.SwitchCoordinateStatus(coordinate);
-        grid.IsActivated(coordinate).ShouldBeFalse();
+        grid.IsEnable(coordinate).ShouldBeFalse();
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class GridTests
         grid.SetStartCoordinate(startCoordinate);
         grid.SetEndCoordinate(endCoordinate);
         var tree = grid.GenerateTree();
-        tree.Nodes.Count.ShouldBe(2);
+        tree.NodesNumber().ShouldBe(2);
         tree.Nodes[0].Number.ShouldBe(0);
         tree.Nodes[0].Item.ShouldBe(startCoordinate);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
@@ -65,7 +65,7 @@ public class GridTests
         grid.SetDefaultStartCoordinate();
         grid.SetDefaultEndCoordinate();
         var tree = grid.GenerateTree();
-        tree.Nodes.Count.ShouldBe(2);
+        tree.NodesNumber().ShouldBe(2);
         tree.Nodes[0].Number.ShouldBe(0);
         tree.Nodes[0].Item.ShouldBe(startCoordinate);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
@@ -88,7 +88,7 @@ public class GridTests
         grid.SetEndCoordinate(endCoordinate);
 
         var tree = grid.GenerateTree();
-        tree.Nodes.Count.ShouldBe(3);
+        tree.NodesNumber().ShouldBe(3);
         tree.Nodes[0].Number.ShouldBe(0);
         tree.Nodes[0].Item.ShouldBe(startCoordinate);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
@@ -118,7 +118,7 @@ public class GridTests
         grid.SetEndCoordinate(new Coordinate(10, 10));
 
         var tree = grid.GenerateTree();
-        tree.Nodes.Count.ShouldBe(4);
+        tree.NodesNumber().ShouldBe(4);
         tree.Nodes[0].Number.ShouldBe(0);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[0].LinkedNodes[0].Number.ShouldBe(1);

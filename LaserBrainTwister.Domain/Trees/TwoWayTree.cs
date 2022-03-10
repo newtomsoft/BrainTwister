@@ -4,6 +4,8 @@ public class TwoWayTree : ITree
 {
     public List<Node> Nodes { get; } = new();
 
+    public int NodesNumber() => Nodes.Count;
+
     public ISegment LinkFrom(int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);

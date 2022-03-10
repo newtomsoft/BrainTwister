@@ -4,6 +4,8 @@ public class TwoWayTree<T> : ITree<T>
 {
     public List<Node<T>> Nodes { get; } = new();
 
+    public int NodesNumber() => Nodes.Count;
+
     public ISegment<T> LinkFrom(T item, int fromNodeNumber)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
@@ -21,11 +23,11 @@ public class TwoWayTree<T> : ITree<T>
             yield return currentRoute;
     }
 
-    public IEnumerable<Route<T>> GetRoutesWithAllNodes() => GetRoutes().Where(r => r.Nodes.Count == Nodes.Count);
+    public IEnumerable<Route<T>> GetRoutesWithAllNodes() => GetRoutes().Where(r => r.NodesNumber() == NodesNumber());
 
-    public Route<T>? GetLongestRoute() => GetRoutes().OrderByDescending(r => r.Nodes.Count).FirstOrDefault();
+    public Route<T>? GetLongestRoute() => GetRoutes().OrderByDescending(r => r.NodesNumber()).FirstOrDefault();
 
-    public Route<T>? GetShortestRoute() => GetRoutes().OrderBy(r => r.Nodes.Count).FirstOrDefault();
+    public Route<T>? GetShortestRoute() => GetRoutes().OrderBy(r => r.NodesNumber()).FirstOrDefault();
 
     public List<Route<T>> OptimizeRoutes()
     {
@@ -140,7 +142,7 @@ public class TwoWayTree<T> : ITree<T>
                         var element = intersect.First();
                         if (routes[i].Nodes[0] == element && routes[j].Nodes[^1] == element) // ex : 2,1,0 et 4,3,2 
                         {
-                            routes[j].Nodes.RemoveAt(routes[j].Nodes.Count - 1);
+                            routes[j].Nodes.RemoveAt(routes[j].NodesNumber() - 1);
                             routes[i].Nodes.InsertRange(0, routes[j].Nodes);
                             break;
                         }
@@ -162,7 +164,7 @@ public class TwoWayTree<T> : ITree<T>
 
                         if (routes[i].Nodes[^1] == element && routes[j].Nodes[^1] == element) // ex : 0,1,2 et 4,3,2 
                         {
-                            routes[j].Nodes.RemoveAt(routes[j].Nodes.Count - 1);
+                            routes[j].Nodes.RemoveAt(routes[j].NodesNumber() - 1);
                             routes[j].Nodes.Reverse();
                             routes[i].Nodes.AddRange(routes[j].Nodes);
                             break;
@@ -206,7 +208,7 @@ public class TwoWayTree<T> : ITree<T>
 
                         if (routeSecond == nodesLast && routeFirst == nodesSecondToLast)
                         {
-                            routes[j].Nodes.RemoveRange(routes[j].Nodes.Count - 2, 2);
+                            routes[j].Nodes.RemoveRange(routes[j].NodesNumber() - 2, 2);
                             routes[i].Nodes.InsertRange(0, routes[j].Nodes);
                             break;
                         }
@@ -228,7 +230,7 @@ public class TwoWayTree<T> : ITree<T>
             withoutLimitsNodesRoute.RemoveAt(0);
             withoutLimitsNodesRoute.RemoveAt(withoutLimitsNodesRoute.Count - 1);
 
-            for (var i = 1; i < route.Nodes.Count - 1; i++)
+            for (var i = 1; i < route.NodesNumber() - 1; i++)
             {
                 var node = route.Nodes[i];
                 var previousNode = route.Nodes[i - 1];
@@ -267,7 +269,7 @@ public class TwoWayTree<T> : ITree<T>
     private static IEnumerable<Route<T>> GetRoutesToDeadEnd(Route<T> startTree)
     {
         var startNode = startTree.Nodes.Last();
-        if (startNode.LinkedNodes.Count == 1 && startTree.Nodes.Count > 1)
+        if (startNode.LinkedNodes.Count == 1 && startTree.NodesNumber() > 1)
             yield return new Route<T>(startTree.Nodes);
 
         foreach (var node in startNode.LinkedNodes)

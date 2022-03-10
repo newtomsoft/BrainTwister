@@ -3,7 +3,8 @@
 public interface ITree
 {
     List<Node> Nodes { get; }
+    int NodesNumber();
     ISegment LinkFrom(int fromNodeNumber);
     ISegment LinkFromOriginTo(params int[] nodesNumber);
-    IEnumerable<Routes.Route> GetRoutesFromStartToDeadEnds();
+    IEnumerable<Route> GetRoutesFromStartToDeadEnds();
 }

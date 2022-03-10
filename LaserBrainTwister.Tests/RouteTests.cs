@@ -28,7 +28,7 @@ public class RouteTests
 
         var routes = tree.GetRoutesFromStartToDeadEnds().ToList();
         routes.Count.ShouldBe(1);
-        routes[0].Nodes.Count.ShouldBe(3);
+        routes[0].NodesNumber().ShouldBe(3);
         routes[0].Nodes[0].Number.ShouldBe(0);
         routes[0].Nodes[1].Number.ShouldBe(1);
         routes[0].Nodes[2].Number.ShouldBe(2);
@@ -44,11 +44,11 @@ public class RouteTests
 
         var routes = tree.GetRoutesFromStartToDeadEnds().ToList();
         routes.Count.ShouldBe(2);
-        routes[0].Nodes.Count.ShouldBe(3);
+        routes[0].NodesNumber().ShouldBe(3);
         routes[0].Nodes[0].Number.ShouldBe(0);
         routes[0].Nodes[1].Number.ShouldBe(1);
         routes[0].Nodes[2].Number.ShouldBe(3);
-        routes[1].Nodes.Count.ShouldBe(3);
+        routes[1].NodesNumber().ShouldBe(3);
         routes[1].Nodes[0].Number.ShouldBe(0);
         routes[1].Nodes[1].Number.ShouldBe(2);
         routes[1].Nodes[2].Number.ShouldBe(3);
@@ -67,12 +67,12 @@ public class RouteTests
 
         var routes = tree.GetRoutesFromStartToDeadEnds().ToList();
         routes.Count.ShouldBe(3);
-        routes[0].Nodes.Count.ShouldBe(4);
+        routes[0].NodesNumber().ShouldBe(4);
         routes[0].Nodes[0].Number.ShouldBe(0);
         routes[0].Nodes[1].Number.ShouldBe(1);
         routes[0].Nodes[2].Number.ShouldBe(3);
         routes[0].Nodes[3].Number.ShouldBe(6);
-        routes[1].Nodes.Count.ShouldBe(4);
+        routes[1].NodesNumber().ShouldBe(4);
         routes[1].Nodes[0].Number.ShouldBe(0);
         routes[1].Nodes[1].Number.ShouldBe(1);
         routes[1].Nodes[2].Number.ShouldBe(4);
@@ -93,7 +93,7 @@ public class RouteTests
 
         var routes = tree.GetRoutesFromStartToDeadEnds().ToList();
         routes.Count.ShouldBe(1);
-        routes[0].Nodes.Count.ShouldBe(3);
+        routes[0].NodesNumber().ShouldBe(3);
         routes[0].Nodes[0].Number.ShouldBe(0);
         routes[0].Nodes[1].Number.ShouldBe(1);
         routes[0].Nodes[2].Number.ShouldBe(2);
@@ -157,7 +157,7 @@ public class RouteTests
         var expectedRoutesCount = expectedStringRoutesWithAllNodes.Count;
 
         var routeCount = 0;
-        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.Nodes.Count == tree.Nodes.Count))
+        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.NodesNumber() == tree.NodesNumber()))
         {
             routeCount++;
             var founded = expectedStringRoutesWithAllNodes.FirstOrDefault(str => str == allNodesRoute.ToString());
@@ -206,7 +206,7 @@ public class RouteTests
         var expectedRoutesCount = expectedStringRoutesWithAllNodes.Count;
 
         var routeCount = 0;
-        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.Nodes.Count == tree.Nodes.Count))
+        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.NodesNumber() == tree.NodesNumber()))
         {
             routeCount++;
             var founded = expectedStringRoutesWithAllNodes.FirstOrDefault(str => str == allNodesRoute.ToString());
@@ -269,7 +269,7 @@ public class RouteTests
         var expectedRoutesCount = expectedStringRoutesWithAllNodes.Count;
 
         var routeCount = 0;
-        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.Nodes.Count == tree.Nodes.Count))
+        foreach (var allNodesRoute in tree.GetRoutesFromStartToDeadEnds().Where(r => r.NodesNumber() == tree.NodesNumber()))
         {
             routeCount++;
             var founded = expectedStringRoutesWithAllNodes.FirstOrDefault(str => str == allNodesRoute.ToString());

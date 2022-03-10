@@ -5,7 +5,7 @@
 
 <h1>Laser Brain Twister</h1>
 
-<button id="generateTwoWayTree" type="button" class="btn btn-primary btn-lg" @onclick="GenerateTwoWayTree">Generate Tree</button>
+<button id="generateTwoWayTree" type="button" class="btn btn-primary btn-lg" @onclick="GenerateTwoWayTree">Test Tree</button>
 <br />
 
 <button class="btn-legend"></button>
@@ -23,7 +23,7 @@
         @for (sbyte x = 0; x < MaxRow; x++)
         {
             var coordinate = new Coordinate(x, y);
-            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesGrid.IsActivated(coordinate) ? BtnEnabled : BtnDisable)" @onclick="() => OnClick(coordinate)"></button>
+            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesGrid.IsEnable(coordinate) ? BtnEnabled : BtnDisable)" @onclick="() => OnClick(coordinate)"></button>
         }
         <br>
     }
