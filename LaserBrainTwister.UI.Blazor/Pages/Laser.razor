@@ -1,11 +1,12 @@
 ﻿@page "/Laser"
 @inject IJSRuntime _js
 
-<PageTitle>Laser Brain Twister</PageTitle>
+<PageTitle>Brain Twister</PageTitle>
 
-<h1>Laser Brain Twister</h1>
+<h1>Brain Twister</h1>
 
-<button id="generateTwoWayTree" type="button" class="btn btn-primary btn-lg" @onclick="GenerateTwoWayTree">Test Tree</button>
+<button id="generateTwoWayTree" type="button" class="btn btn-primary btn-lg" @onclick="Solve">Solve</button>
+<button id="export" type="button" class="btn btn-primary btn-lg" disabled="@(!_isSolved)" @onclick="Export">Export</button>
 <br />
 
 <button class="btn-legend"></button>
@@ -23,7 +24,7 @@
         @for (sbyte x = 0; x < MaxRow; x++)
         {
             var coordinate = new Coordinate(x, y);
-            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesGrid.IsEnable(coordinate) ? BtnEnabled : BtnDisable)" @onclick="() => OnClick(coordinate)"></button>
+            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesGrid.IsEnable(coordinate) ? (_nodesGrid.IsError(coordinate) ? NodeError : NodeEnabled ) : NodeDisable)" @onclick="() => OnClick(coordinate)"></button>
         }
         <br>
     }

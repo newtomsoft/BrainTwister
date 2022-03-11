@@ -11,12 +11,28 @@ public class LaserTests
 
         const string btnId = "#btn0_0";
         var btn = component.Find(btnId);
-        btn.ClassName!.ShouldContain(Laser.BtnDisable);
-        btn.ClassName!.ShouldNotContain(Laser.BtnEnabled);
+        btn.ClassName!.ShouldContain(Laser.NodeDisable);
+        btn.ClassName!.ShouldNotContain(Laser.NodeEnabled);
 
         btn.Click();
-        btn.ClassName!.ShouldContain(Laser.BtnEnabled);
-        btn.ClassName!.ShouldNotContain(Laser.BtnDisable);
+        btn.ClassName!.ShouldContain(Laser.NodeEnabled);
+        btn.ClassName!.ShouldNotContain(Laser.NodeDisable);
+    }
+
+    [Fact]
+    public void GridWithNodeInError()
+    {
+        using var testContext = new TestContext();
+        var jsrMock = new Mock<IJSRuntime>();
+        testContext.Services.AddSingleton(jsrMock.Object);
+        var component = testContext.RenderComponent<Laser>();
+        const string btnInErrorId = "#btn5_5";
+        component.Find("#btn0_0").Click();
+        component.Find("#btn1_0").Click();
+        component.Find(btnInErrorId).Click();
+        component.Find("#generateTwoWayTree").Click();
+        var btn = component.Find(btnInErrorId);
+        btn.ClassName!.ShouldContain(Laser.NodeError);
     }
 
     [Fact]

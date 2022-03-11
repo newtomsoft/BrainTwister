@@ -38,7 +38,7 @@
         }
     }
 
-    function connectElements(firstElementId, secondElementId) {
+    function connectElements(firstElementId, secondElementId, isSolved) {
 
         const firstElement = document.getElementById(firstElementId);
         const secondElement = document.getElementById(secondElementId);
@@ -52,8 +52,22 @@
         canvasContext.beginPath();
         canvasContext.moveTo(firstX, firstY);
         canvasContext.lineTo(secondX, secondY);
-        canvasContext.strokeStyle = "green";
+        if (isSolved) canvasContext.strokeStyle = "green";
+        else canvasContext.strokeStyle = "red";
         canvasContext.strokeWidth = "8px";
         canvasContext.stroke();
+    }
+
+    function BlazorDownloadFile(filename, contentType, content) {
+        const file = new File([content], filename, { type: contentType });
+        const exportUrl = URL.createObjectURL(file);
+
+        const a = document.createElement("a");
+        document.body.appendChild(a);
+        a.href = exportUrl;
+        a.download = filename;
+        a.target = "_self";
+        a.click();
+        URL.revokeObjectURL(exportUrl);
     }
 </script>

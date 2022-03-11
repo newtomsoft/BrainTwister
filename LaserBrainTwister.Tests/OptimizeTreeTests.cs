@@ -108,7 +108,7 @@ public class OptimizeTreeTests
         var routes = tree.OptimizeRoutes();
 
         routes.Count.ShouldBe(1);
-        routes[0].ToString().ShouldBe(tree.GetLongestRoute().ToString());
+        routes[0].ToString().ShouldBe(tree.GetRouteWithMostNodes().ToString());
     }
 
     [Fact]

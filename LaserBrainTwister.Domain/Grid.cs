@@ -2,13 +2,18 @@
 
 public class Grid
 {
-    private readonly List<Coordinate> _enableNodes = new();
+    public List<Coordinate> Nodes { get; } = new();
+
+    private readonly HashSet<Coordinate> _errorNodes = new();
     private Coordinate? _startNode;
     private Coordinate? _endNode;
 
-    public int GetEnableNodesNumber() => _enableNodes.Count;
+    public int GetEnableNodesNumber() => Nodes.Count;
 
-    public bool IsEnable(Coordinate coordinate) => _enableNodes.Contains(coordinate);
+    public bool IsEnable(Coordinate coordinate) => Nodes.Contains(coordinate);
+    public bool IsError(Coordinate coordinate) => _errorNodes.Contains(coordinate);
+    public void SetError(Coordinate coordinate) => _errorNodes.Add(coordinate);
+    public void ResetErrors() => _errorNodes.Clear();
 
     public void SwitchCoordinatesStatus(IEnumerable<Coordinate> coordinates)
     {
@@ -17,66 +22,67 @@ public class Grid
 
     public void SwitchCoordinateStatus(Coordinate coordinate)
     {
-        if (_enableNodes.Contains(coordinate)) _enableNodes.Remove(coordinate);
-        else _enableNodes.Add(coordinate);
+        if (Nodes.Contains(coordinate)) Nodes.Remove(coordinate);
+        else Nodes.Add(coordinate);
     }
 
     public void SetStartCoordinate(Coordinate coordinate)
     {
         _startNode = coordinate;
-        if (_enableNodes.Contains(coordinate)) _enableNodes.Remove(coordinate);
-        _enableNodes.Insert(0, coordinate);
+        if (Nodes.Contains(coordinate)) Nodes.Remove(coordinate);
+        Nodes.Insert(0, coordinate);
     }
 
     public void SetEndCoordinate(Coordinate coordinate)
     {
         _endNode = coordinate;
-        if (_enableNodes.Contains(coordinate)) _enableNodes.Remove(coordinate);
-        _enableNodes.Add(coordinate);
+        if (Nodes.Contains(coordinate)) Nodes.Remove(coordinate);
+        Nodes.Add(coordinate);
     }
 
     public void SetDefaultStartCoordinate()
     {
-        _startNode = _enableNodes.MinBy(c => c);
-        _enableNodes.Remove(_startNode!);
-        _enableNodes.Insert(0, _startNode!);
+        _startNode = Nodes.MinBy(c => c);
+        Nodes.Remove(_startNode!);
+        Nodes.Insert(0, _startNode!);
     }
 
     public void SetDefaultEndCoordinate()
     {
-        _endNode = _enableNodes.MaxBy(c => c);
-        _enableNodes.Remove(_endNode!);
-        _enableNodes.Add(_endNode!);
+        _endNode = Nodes.MaxBy(c => c);
+        Nodes.Remove(_endNode!);
+        Nodes.Add(_endNode!);
     }
 
     public ITree<Coordinate> GenerateTree()
     {
         if (_startNode is null || _endNode is null) throw new ArgumentException("start or end not defined");
-        SetEndCoordinate(_enableNodes.Last());
+        SetEndCoordinate(Nodes.Last());
         var tree = new TwoWayTree<Coordinate>();
         var segment = tree.LinkFrom(_startNode, 0);
-        foreach (var coordinate in _enableNodes)
+        foreach (var coordinate in Nodes)
         {
             if (coordinate != _startNode) segment = segment.Next(coordinate);
             var firstCoordinateRightActivated = FirstRightCoordinate(coordinate);
             if (firstCoordinateRightActivated != coordinate)
             {
-                var rightCoordinateNumber = _enableNodes.FindIndex(c => c == firstCoordinateRightActivated);
+                var rightCoordinateNumber = Nodes.FindIndex(c => c == firstCoordinateRightActivated);
                 segment.To(firstCoordinateRightActivated, rightCoordinateNumber);
             }
             var firstCoordinateBottomActivated = FirstBottomCoordinate(coordinate);
             if (firstCoordinateBottomActivated != coordinate)
             {
-                var bottomCoordinateNumber = _enableNodes.FindIndex(c => c == firstCoordinateBottomActivated);
+                var bottomCoordinateNumber = Nodes.FindIndex(c => c == firstCoordinateBottomActivated);
                 segment.To(firstCoordinateBottomActivated, bottomCoordinateNumber);
             }
         }
         return tree;
     }
 
-    public override string ToString() => $"{_enableNodes.Count} coordinates";
+    public override string ToString() => $"{Nodes.Count} coordinates";
 
-    private Coordinate FirstRightCoordinate(Coordinate coordinate) => _enableNodes.Where(c => c.Y == coordinate.Y && c.X > coordinate.X).MinBy(c => c.X) ?? coordinate;
+    private Coordinate FirstRightCoordinate(Coordinate coordinate) => Nodes.Where(c => c.Y == coordinate.Y && c.X > coordinate.X).MinBy(c => c.X) ?? coordinate;
 
-    private Coordinate FirstBottomCoordinate(Coordinate coordinate) => _enableNodes.Where(c => c.X == coordinate.X && c.Y > coordinate.Y).MinBy(c => c.Y) ?? coordinate;
+    private Coordinate FirstBottomCoordinate(Coordinate coordinate) => Nodes.Where(c => c.X == coordinate.X && c.Y > coordinate.Y).MinBy(c => c.Y) ?? coordinate;
+
 }

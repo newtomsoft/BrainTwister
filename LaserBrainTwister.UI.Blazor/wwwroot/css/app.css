@@ -84,6 +84,17 @@ button.btn-enabled {
     border-radius: 50%;
 }
 
+button.btn-error {
+    color: red;
+    background-color: red;
+    border: none;
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+    border-radius: 50%;
+}
+
+
 button.btn-legend {
     color: white;
     background-color: gray;

@@ -249,7 +249,7 @@ foreach (var routeWithAllNodes in treeWithCoordinate.GetRoutesWithAllNodes())
 }
 Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes");
 Console.WriteLine("");
-var shortestRoute = treeWithCoordinate.GetShortestRoute();
+var shortestRoute = treeWithCoordinate.GetRouteWithLeastNodes();
 Console.WriteLine($"Shortest solution : {shortestRoute}");
 
 #endregion

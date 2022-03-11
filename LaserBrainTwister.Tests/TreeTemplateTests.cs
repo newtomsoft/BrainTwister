@@ -7,7 +7,7 @@ public class TreeTemplateTests
     {
         var tree = new Tree();
         var action = () => tree.LinkFromOriginTo();
-        action.ShouldThrow<ArgumentException>();
+        action.ShouldThrow<ArgumentException>().Message.ShouldBe("enter at least one node number");
     }
 
     [Fact]

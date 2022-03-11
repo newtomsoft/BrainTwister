@@ -1,4 +1,6 @@
-﻿namespace LaserBrainTwister.Tests;
+﻿using System.Diagnostics;
+
+namespace LaserBrainTwister.Tests;
 
 public class GridTests
 {
@@ -149,7 +151,7 @@ public class GridTests
         var tree = grid.GenerateTree();
         tree.GetRoutesWithAllNodes().Count().ShouldBe(0);
 
-        var routes = tree.GetLongestRoute();
+        var routes = tree.GetRouteWithMostNodes();
         routes.ShouldBeNull();
     }
 
@@ -169,7 +171,26 @@ public class GridTests
 
         var tree = grid.GenerateTree();
         tree.GetRoutesWithAllNodes().Count().ShouldBe(0);
-        tree.GetLongestRoute()!.ToString().ShouldBe("(0,0) (1,0) (2,0) (2,2)");
+        tree.GetRouteWithMostNodes()!.ToString().ShouldBe("(0,0) (1,0) (2,0) (2,2)");
+    }
+
+    [Fact]
+    public void GetRouteWithLessNodes()
+    {
+        var grid = new Grid();
+        var coordinates = new List<Coordinate>
+        {
+            Coordinate.From(0, 0), Coordinate.From(1, 0), Coordinate.From(5, 0),
+            Coordinate.From(1, 1), Coordinate.From(2, 1), Coordinate.From(3, 1), Coordinate.From(4, 1),
+            Coordinate.From(2, 2), Coordinate.From(4, 2), Coordinate.From(5, 2), Coordinate.From(6, 2),
+        };
+        grid.SwitchCoordinatesStatus(coordinates);
+        grid.SetDefaultStartCoordinate();
+        grid.SetDefaultEndCoordinate();
+
+        var tree = grid.GenerateTree();
+        const string expectedStringRoutesWithLessNodes = "(0,0) (1,0) (5,0) (5,2) (6,2)";
+        tree.GetRouteWithLeastNodes()!.ToString().ShouldBe(expectedStringRoutesWithLessNodes);
     }
 
     [Fact]
@@ -333,5 +354,43 @@ public class GridTests
         expectedStringRoutesWithAllNodes.Count.ShouldBe(0);
     }
 
+    [Fact]
+    public void GetRoutesWithAllNodesOptimizeFasterThanBruteForce()
+    {
+        var grid = new Grid();
+        var coordinates = new List<Coordinate>
+        {
+            Coordinate.From(0, 0), Coordinate.From(3, 0), 
+            Coordinate.From(4, 1), Coordinate.From(6, 1), Coordinate.From(8, 1), Coordinate.From(10, 1), Coordinate.From(12, 1),
+            Coordinate.From(5, 2), Coordinate.From(8, 2), Coordinate.From(11, 2),
+            Coordinate.From(4, 3), Coordinate.From(6, 3), Coordinate.From(8, 3), Coordinate.From(10, 3),
+            Coordinate.From(7, 4), Coordinate.From(9, 4), Coordinate.From(12, 4),
+            Coordinate.From(1, 5), Coordinate.From(5, 5), Coordinate.From(8, 5), Coordinate.From(12, 5),
+            Coordinate.From(4, 6), Coordinate.From(7, 6), Coordinate.From(8, 6), Coordinate.From(12, 6),
+            Coordinate.From(6, 7), Coordinate.From(9, 7),
+            Coordinate.From(5, 8), Coordinate.From(10, 8), Coordinate.From(12, 8),
+            Coordinate.From(4, 9), Coordinate.From(5, 9), Coordinate.From(6, 9), Coordinate.From(8, 9), Coordinate.From(11,9),
+            Coordinate.From(3, 10), Coordinate.From(12, 10),
+            Coordinate.From(1,11), Coordinate.From(14, 11),
+        };
+        grid.SwitchCoordinatesStatus(coordinates);
+        grid.SetDefaultStartCoordinate();
+        grid.SetDefaultEndCoordinate();
 
+        var tree = grid.GenerateTree();
+        var sameTree = grid.GenerateTree();
+
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+        var routeOptimized = sameTree.GetRoutesWithAllNodes().ToList();
+        var elapsedOptimized = stopwatch.Elapsed;
+        
+        stopwatch.Stop();
+        stopwatch.Restart();
+        var routeBruteForce = tree.GetRoutesWithAllNodes(true).ToList();
+        var elapsedBruteForce = stopwatch.Elapsed;
+        
+        elapsedOptimized.ShouldBeLessThanOrEqualTo(elapsedBruteForce);
+        routeOptimized.ToString().ShouldBe(routeBruteForce.ToString());
+    }
 }
