@@ -14,8 +14,6 @@ public class OptimizeTreeTests
 
         };
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
 
         var tree = grid.GenerateTree();
         var routes = tree.OptimizeRoutes();
@@ -35,8 +33,6 @@ public class OptimizeTreeTests
 
         };
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
 
         var tree = grid.GenerateTree();
         var routes = tree.OptimizeRoutes();
@@ -53,8 +49,6 @@ public class OptimizeTreeTests
             Coordinate.From(0, 0), Coordinate.From(2, 0), Coordinate.From(4, 0), Coordinate.From(6, 0),
         };
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
 
         var tree = grid.GenerateTree();
         var routes = tree.OptimizeRoutes();
@@ -76,8 +70,6 @@ public class OptimizeTreeTests
             Coordinate.From(4, 6),
         };
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
 
         var tree = grid.GenerateTree();
         var routes = tree.OptimizeRoutes();
@@ -101,8 +93,6 @@ public class OptimizeTreeTests
             Coordinate.From(4, 7), Coordinate.From(12, 7),
         };
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
 
         var tree = grid.GenerateTree();
         var routes = tree.OptimizeRoutes();
@@ -127,11 +117,8 @@ public class OptimizeTreeTests
             Coordinate.From(2, 7), Coordinate.From(4, 7), Coordinate.From(5, 7), Coordinate.From(7, 7), Coordinate.From(9, 7), Coordinate.From(10, 7), Coordinate.From(13, 7), Coordinate.From(14, 7), Coordinate.From(15, 7),
         };
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
 
         var tree = grid.GenerateTree();
         var routes = tree.OptimizeRoutes();
-
     }
 }

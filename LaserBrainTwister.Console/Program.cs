@@ -1,7 +1,7 @@
 ﻿using LaserBrainTwister.Domain;
 
 
-#region tree3
+#region tree0
 var grid = new CoordinatesGrid();
 var coordinates = new List<Coordinate>
 {
@@ -19,13 +19,11 @@ var coordinates = new List<Coordinate>
     Coordinate.From(11, 11), Coordinate.From(13, 11),
 };
 grid.SwitchCoordinatesStatus(coordinates);
-grid.SetStartCoordinate(new Coordinate(0, 0));
-grid.SetEndCoordinate(new Coordinate(13, 11));
 
 var tree = grid.GenerateTree();
 var routesCount = 0;
 var routesWithAllNodesCount = 0;
-Console.WriteLine("Tree 3 :");
+Console.WriteLine("Tree 0 :");
 foreach (var routeWithAllNodes in tree.GetRoutes())
 {
     if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
@@ -39,7 +37,7 @@ Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCou
 Console.WriteLine("");
 #endregion
 
-#region tree3bis
+#region tree1
 grid = new CoordinatesGrid();
 coordinates = new List<Coordinate>
 {
@@ -57,13 +55,11 @@ coordinates = new List<Coordinate>
     Coordinate.From(11, 11), Coordinate.From(13, 11),
 };
 grid.SwitchCoordinatesStatus(coordinates);
-grid.SetStartCoordinate(new Coordinate(0, 0));
-grid.SetEndCoordinate(new Coordinate(13, 11));
 
 tree = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
-Console.WriteLine("Tree 3 bis :");
+Console.WriteLine("Tree 1 :");
 foreach (var routeWithAllNodes in tree.GetRoutes(true))
 {
     if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())
@@ -77,7 +73,7 @@ Console.WriteLine($"{routesWithAllNodesCount} routes with all nodes / {routesCou
 Console.WriteLine("");
 #endregion
 
-#region tree4
+#region tree2
 grid = new CoordinatesGrid();
 coordinates = new List<Coordinate>
 {
@@ -94,11 +90,9 @@ coordinates = new List<Coordinate>
     Coordinate.From(0, 10), Coordinate.From(9, 10), Coordinate.From(11, 10), Coordinate.From(14, 10),
 };
 grid.SwitchCoordinatesStatus(coordinates);
-grid.SetDefaultStartCoordinate();
-grid.SetDefaultEndCoordinate();
 tree = grid.GenerateTree();
 
-Console.WriteLine("Tree 4 :");
+Console.WriteLine("Tree 2 :");
 routesWithAllNodesCount = 0;
 foreach (var routeWithAllNodes in tree.GetRoutesWithAllNodes())
 {
@@ -112,7 +106,7 @@ Console.WriteLine($"Shortest solution : {shortestRoute}");
 
 #endregion
 
-#region tree5 with coordinates
+#region tree3
 grid = new CoordinatesGrid();
 coordinates = new List<Coordinate>
 {
@@ -125,12 +119,10 @@ coordinates = new List<Coordinate>
     Coordinate.From(4, 7), Coordinate.From(12, 7),
 };
 grid.SwitchCoordinatesStatus(coordinates);
-grid.SetDefaultStartCoordinate();
-grid.SetDefaultEndCoordinate();
 tree = grid.GenerateTree();
 routesCount = 0;
 routesWithAllNodesCount = 0;
-Console.WriteLine("Tree 5 with coordinates :");
+Console.WriteLine("Tree 3 :");
 foreach (var routeWithAllNodes in tree.GetRoutes(true))
 {
     if (routeWithAllNodes.NodesNumber() == tree.NodesNumber())

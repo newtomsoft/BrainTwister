@@ -20,8 +20,6 @@ public partial class Laser : ComponentBase
     private async Task Solve()
     {
         _nodesCoordinatesGrid.ResetErrors();
-        _nodesCoordinatesGrid.SetDefaultStartCoordinate();
-        _nodesCoordinatesGrid.SetDefaultEndCoordinate();
         var tree = _nodesCoordinatesGrid.GenerateTree();
         var route = tree.GetRoutesWithAllNodes().FirstOrDefault() ?? tree.GetRouteWithMostNodes();
         if (route is null) return;

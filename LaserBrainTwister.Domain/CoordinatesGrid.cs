@@ -26,56 +26,20 @@ public class CoordinatesGrid
         else Coordinates.Add(coordinate);
     }
 
-    public void SetStartCoordinate(Coordinate coordinate)
-    {
-        _startNode = coordinate;
-        if (Coordinates.Contains(coordinate)) Coordinates.Remove(coordinate);
-        Coordinates.Insert(0, coordinate);
-    }
-
-    public void SetEndCoordinate(Coordinate coordinate)
-    {
-        _endNode = coordinate;
-        if (Coordinates.Contains(coordinate)) Coordinates.Remove(coordinate);
-        Coordinates.Add(coordinate);
-    }
-
-    public void SetDefaultStartCoordinate()
-    {
-        _startNode = Coordinates.MinBy(c => c);
-        Coordinates.Remove(_startNode!);
-        Coordinates.Insert(0, _startNode!);
-    }
-
-    public void SetDefaultEndCoordinate()
-    {
-        _endNode = Coordinates.MaxBy(c => c);
-        Coordinates.Remove(_endNode!);
-        Coordinates.Add(_endNode!);
-    }
-
     public ITree<Coordinate> GenerateTree()
     {
-        if (_startNode is null) throw new ArgumentException("Start not defined");
-        if (_endNode is null) throw new ArgumentException("End not defined");
-        SetEndCoordinate(Coordinates.Last());
+        if (Coordinates.Count < 2) throw new ArgumentException("Not enough coordinates defined");
+        SetDefaultStartCoordinate();
+        SetDefaultEndCoordinate();
         var tree = new TwoWayTree<Coordinate>();
-        var segment = tree.LinkFrom(_startNode);
+        var segment = tree.LinkFrom(_startNode!);
         foreach (var coordinate in Coordinates)
         {
             if (coordinate != _startNode) segment = segment.Next(coordinate);
             var firstCoordinateRightActivated = FirstRightCoordinate(coordinate);
-            if (firstCoordinateRightActivated != coordinate)
-            {
-                var rightCoordinateNumber = Coordinates.FindIndex(c => c == firstCoordinateRightActivated);
-                segment.To(firstCoordinateRightActivated);
-            }
+            if (firstCoordinateRightActivated != coordinate) segment.To(firstCoordinateRightActivated);
             var firstCoordinateBottomActivated = FirstBottomCoordinate(coordinate);
-            if (firstCoordinateBottomActivated != coordinate)
-            {
-                var bottomCoordinateNumber = Coordinates.FindIndex(c => c == firstCoordinateBottomActivated);
-                segment.To(firstCoordinateBottomActivated);
-            }
+            if (firstCoordinateBottomActivated != coordinate) segment.To(firstCoordinateBottomActivated);
         }
         return tree;
     }
@@ -91,6 +55,20 @@ public class CoordinatesGrid
         });
         stringBuilder.Remove(stringBuilder.Length - 1, 1);
         return stringBuilder.ToString();
+    }
+
+    private void SetDefaultStartCoordinate()
+    {
+        _startNode = Coordinates.MinBy(c => c);
+        Coordinates.Remove(_startNode!);
+        Coordinates.Insert(0, _startNode!);
+    }
+
+    private void SetDefaultEndCoordinate()
+    {
+        _endNode = Coordinates.MaxBy(c => c);
+        Coordinates.Remove(_endNode!);
+        Coordinates.Add(_endNode!);
     }
 
     private Coordinate FirstRightCoordinate(Coordinate coordinate) => Coordinates.Where(c => c.Y == coordinate.Y && c.X > coordinate.X).MinBy(c => c.X) ?? coordinate;

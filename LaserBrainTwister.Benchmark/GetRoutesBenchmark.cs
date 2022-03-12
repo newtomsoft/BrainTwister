@@ -70,8 +70,6 @@ public class GetRoutesBenchmark
     {
         var grid = new CoordinatesGrid();
         grid.SwitchCoordinatesStatus(coordinates);
-        grid.SetDefaultStartCoordinate();
-        grid.SetDefaultEndCoordinate();
         return grid;
     }
 }
