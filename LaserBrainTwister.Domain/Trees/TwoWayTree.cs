@@ -6,14 +6,6 @@ public class TwoWayTree<T> : ITree<T> where T : IEquatable<T>
 
     public int NodesNumber() => Nodes.Count;
 
-    public ISegment<T> LinkFrom(T item, int fromNodeNumber)
-    {
-        var fromNode = Nodes.FirstOrDefault(n => n.Id == fromNodeNumber);
-        return fromNode is null
-            ? new TwoWaySegment<T>(AddNode(item, fromNodeNumber), new(item, 0), this)
-            : new TwoWaySegment<T>(fromNode, new(item, 0), this);
-    }
-
     public ISegment<T> LinkFrom(T item)
     {
         var fromNode = Nodes.FirstOrDefault(n => n.Item.Equals(item));
