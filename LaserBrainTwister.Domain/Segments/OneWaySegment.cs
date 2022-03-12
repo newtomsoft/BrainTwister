@@ -26,7 +26,7 @@ public class OneWaySegment<T> : ISegment<T> where T : IEquatable<T>
         return To(nodeTo);
     }
 
-    public ISegment<T> Then(T item) =>  Reverse().To(item);
+    public ISegment<T> Then(T item) => Reverse().To(item);
 
     public ISegment<T> Next(T item)
     {
