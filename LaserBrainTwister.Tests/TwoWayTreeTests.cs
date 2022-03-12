@@ -9,8 +9,8 @@ public class TwoWayTreeTests
         var tree = new TwoWayTree<string>();
         tree.LinkFrom("0").To("1");
 
-        tree.Nodes[0].LinkedNodes.ShouldBe(new[] {tree.Nodes[1] });
-        tree.Nodes[1].LinkedNodes.ShouldBe(new[] {tree.Nodes[0] });
+        tree.Nodes[0].LinkedNodes.ShouldBe(new[] { tree.Nodes[1] });
+        tree.Nodes[1].LinkedNodes.ShouldBe(new[] { tree.Nodes[0] });
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class TwoWayTreeTests
         var tree = new TwoWayTree<string>();
         tree.LinkFrom("0").To("1").Then("2");
 
-        tree.Nodes[0].LinkedNodes.ShouldBe(new[] { tree.Nodes[1]});
+        tree.Nodes[0].LinkedNodes.ShouldBe(new[] { tree.Nodes[1] });
         tree.Nodes[1].LinkedNodes.ShouldBe(new[] { tree.Nodes[0], tree.Nodes[2] });
         tree.Nodes[2].LinkedNodes.ShouldBe(new[] { tree.Nodes[1] });
     }

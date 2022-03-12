@@ -87,7 +87,7 @@ public class GridTests
     public void GridWith4Nodes()
     {
         var grid = new CoordinatesGrid();
-        var coordinates = new List<Coordinate> { new(0, 0), new(0,  2), new(10,  2), new(10, 10) };
+        var coordinates = new List<Coordinate> { new(0, 0), new(0, 2), new(10, 2), new(10, 10) };
         grid.SwitchCoordinatesStatus(coordinates);
         var tree = grid.GenerateTree();
         tree.NodesNumber().ShouldBe(4);
