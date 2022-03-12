@@ -56,7 +56,8 @@ public class Grid
 
     public ITree<Coordinate> GenerateTree()
     {
-        if (_startNode is null || _endNode is null) throw new ArgumentException("start or end not defined");
+        if (_startNode is null) throw new ArgumentException("Start not defined");
+        if (_endNode is null) throw new ArgumentException("End not defined");
         SetEndCoordinate(Nodes.Last());
         var tree = new TwoWayTree<Coordinate>();
         var segment = tree.LinkFrom(_startNode, 0);
@@ -79,7 +80,7 @@ public class Grid
         return tree;
     }
 
-    public override string ToString() => $"{Nodes.Count} coordinates";
+    public override string ToString() => $"{Nodes.Count} nodes";
 
     private Coordinate FirstRightCoordinate(Coordinate coordinate) => Nodes.Where(c => c.Y == coordinate.Y && c.X > coordinate.X).MinBy(c => c.X) ?? coordinate;
 

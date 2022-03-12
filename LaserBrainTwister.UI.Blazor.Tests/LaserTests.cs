@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace LaserBrainTwister.UI.Blazor.Tests;
 public class LaserTests
 {
@@ -17,10 +19,12 @@ public class LaserTests
         btn.Click();
         btn.ClassName!.ShouldContain(Laser.NodeEnabled);
         btn.ClassName!.ShouldNotContain(Laser.NodeDisable);
+
+        component.Find("#exportGrid").Attributes.Select(a => a.Name).ShouldContain("disabled");
     }
 
     [Fact]
-    public void GridWithNodeInError()
+    public void GridWithBadNodes()
     {
         using var testContext = new TestContext();
         var jsrMock = new Mock<IJSRuntime>();
@@ -31,12 +35,13 @@ public class LaserTests
         component.Find("#btn1_0").Click();
         component.Find(btnInErrorId).Click();
         component.Find("#generateTwoWayTree").Click();
-        var btn = component.Find(btnInErrorId);
-        btn.ClassName!.ShouldContain(Laser.NodeError);
+        var elementInError = component.Find(btnInErrorId);
+        elementInError.ClassName!.ShouldContain(Laser.NodeError);
+        component.Find("#exportGrid").Attributes.Select(a => a.Name).ShouldContain("disabled");
     }
 
     [Fact]
-    public void Test1()
+    public void GridWithGoodNodes()
     {
         using var testContext = new TestContext();
         var jsrMock = new Mock<IJSRuntime>();
@@ -48,6 +53,8 @@ public class LaserTests
         component.Find("#btn1_1").Click();
 
         component.Find("#generateTwoWayTree").Click();
+        component.Find("#exportGrid").Attributes.Select(a => a.Name).ShouldNotContain("disabled");
+
         var canvas = component.Find("#canvas");
 
         //cut.Find("p").MarkupMatches("<p>Current count: 1</p>");

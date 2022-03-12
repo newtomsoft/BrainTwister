@@ -11,8 +11,11 @@ public class GridTests
         var coordinate = Coordinate.From(0, 0);
         grid.SwitchCoordinateStatus(coordinate);
         grid.IsEnable(coordinate).ShouldBeTrue();
+        grid.ToString().ShouldBe("1 nodes");
+
         grid.SwitchCoordinateStatus(coordinate);
         grid.IsEnable(coordinate).ShouldBeFalse();
+        grid.ToString().ShouldBe("0 nodes");
     }
 
     [Fact]
@@ -21,7 +24,7 @@ public class GridTests
         var grid = new Grid();
         grid.SetEndCoordinate(new Coordinate(0, 0));
         var action = () => grid.GenerateTree();
-        action.ShouldThrow<ArgumentException>();
+        action.ShouldThrow<ArgumentException>().Message.ShouldBe("Start not defined");
     }
 
     [Fact]
@@ -30,7 +33,7 @@ public class GridTests
         var grid = new Grid();
         grid.SetStartCoordinate(new Coordinate(0, 0));
         var action = () => grid.GenerateTree();
-        action.ShouldThrow<ArgumentException>();
+        action.ShouldThrow<ArgumentException>().Message.ShouldBe("End not defined"); ;
     }
 
     [Fact]
@@ -51,6 +54,9 @@ public class GridTests
         tree.Nodes[1].Item.ShouldBe(endCoordinate);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
+        tree.GetRouteWithMostNodes()!.Nodes.Count.ShouldBe(2);
+        tree.GetRouteWithMostNodes()!.Nodes[0].Item.ToString().ShouldBe("(0,0)");
+        tree.GetRouteWithMostNodes()!.Nodes[1].Item.ToString().ShouldBe("(1,0)");
     }
 
     [Fact]
@@ -73,6 +79,9 @@ public class GridTests
         tree.Nodes[1].Item.ShouldBe(endCoordinate);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(1);
         tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
+        tree.GetRouteWithMostNodes()!.Nodes.Count.ShouldBe(2);
+        tree.GetRouteWithMostNodes()!.Nodes[0].Item.ToString().ShouldBe("(0,0)");
+        tree.GetRouteWithMostNodes()!.Nodes[1].Item.ToString().ShouldBe("(1,0)");
     }
 
     [Fact]
