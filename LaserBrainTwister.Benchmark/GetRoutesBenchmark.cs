@@ -9,13 +9,13 @@ public class GetRoutesBenchmark
     [Arguments(true)]
     public List<Route<Coordinate>> GetRoutesFromStartToDeadEnds(bool bruteForce)
     {
-        return Grid.GenerateTree().GetRoutes(bruteForce).ToList();
+        return CoordinatesGrid.GenerateTree().GetRoutes(bruteForce).ToList();
     }
 
     [ParamsSource(nameof(SetGrid))]
-    public Grid Grid { get; set; } = new();
+    public CoordinatesGrid CoordinatesGrid { get; set; } = new();
 
-    public IEnumerable<Grid> SetGrid
+    public IEnumerable<CoordinatesGrid> SetGrid
     {
         get
         {
@@ -66,9 +66,9 @@ public class GetRoutesBenchmark
         }
     }
 
-    private static Grid GetGrid(IEnumerable<Coordinate> coordinates)
+    private static CoordinatesGrid GetGrid(IEnumerable<Coordinate> coordinates)
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         grid.SwitchCoordinatesStatus(coordinates);
         grid.SetDefaultStartCoordinate();
         grid.SetDefaultEndCoordinate();

@@ -7,21 +7,21 @@ public class GridTests
     [Fact]
     public void IsActivatedTest()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinate = Coordinate.From(0, 0);
         grid.SwitchCoordinateStatus(coordinate);
         grid.IsEnable(coordinate).ShouldBeTrue();
-        grid.ToString().ShouldBe("1 nodes");
+        grid.ToString().ShouldBe("(0,0)");
 
         grid.SwitchCoordinateStatus(coordinate);
         grid.IsEnable(coordinate).ShouldBeFalse();
-        grid.ToString().ShouldBe("0 nodes");
+        grid.ToString().ShouldBe(string.Empty);
     }
 
     [Fact]
     public void GridWithoutStartNode()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         grid.SetEndCoordinate(new Coordinate(0, 0));
         var action = () => grid.GenerateTree();
         action.ShouldThrow<ArgumentException>().Message.ShouldBe("Start not defined");
@@ -30,7 +30,7 @@ public class GridTests
     [Fact]
     public void GridWithoutEndNode()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         grid.SetStartCoordinate(new Coordinate(0, 0));
         var action = () => grid.GenerateTree();
         action.ShouldThrow<ArgumentException>().Message.ShouldBe("End not defined"); ;
@@ -39,11 +39,13 @@ public class GridTests
     [Fact]
     public void GridWithOnlyStartAndEndNode()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var startCoordinate = Coordinate.From(0, 0);
         var endCoordinate = Coordinate.From(1, 0);
-        grid.SetStartCoordinate(startCoordinate);
-        grid.SetEndCoordinate(endCoordinate);
+        var coordinates = new List<Coordinate> { Coordinate.From(0, 0), Coordinate.From(1, 0), };
+        grid.SwitchCoordinatesStatus(coordinates);
+        grid.SetDefaultStartCoordinate();
+        grid.SetDefaultEndCoordinate();
         var tree = grid.GenerateTree();
         tree.NodesNumber().ShouldBe(2);
         tree.Nodes[0].Id.ShouldBe(0);
@@ -62,7 +64,7 @@ public class GridTests
     [Fact]
     public void GridWithOnlyDefaultStartAndEndNode()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var startCoordinate = Coordinate.From(0, 0);
         var endCoordinate = Coordinate.From(1, 0);
         var coordinates = new List<Coordinate> { startCoordinate, endCoordinate };
@@ -87,7 +89,7 @@ public class GridTests
     [Fact]
     public void GridWith3Nodes()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var startCoordinate = Coordinate.From(0, 0);
         var coordinates = new List<Coordinate> { Coordinate.From(0, 10), };
         var endCoordinate = Coordinate.From(10, 10);
@@ -115,7 +117,7 @@ public class GridTests
     [Fact]
     public void GridWith4Nodes()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0,  2),
@@ -146,7 +148,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWhenNoRouteFound()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0),
@@ -167,7 +169,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWhenNoRouteWithAllNodesFound()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0), Coordinate.From(1, 0), Coordinate.From(2, 0),
@@ -186,7 +188,7 @@ public class GridTests
     [Fact]
     public void GetRouteWithLessNodes()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0), Coordinate.From(1, 0), Coordinate.From(5, 0),
@@ -205,7 +207,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWithAllNodesGridWithComplexesWith12Nodes()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0), Coordinate.From(3, 0), Coordinate.From(5, 0), Coordinate.From(7, 0),
@@ -234,7 +236,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWithAllNodesGridWithComplexesWith29Nodes()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0), Coordinate.From(2, 0),
@@ -270,7 +272,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWithAllNodesGridWithComplexesWith29NodesRandomPlaces()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0),
@@ -326,7 +328,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWithAllNodesGridWithComplexesNodes()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
@@ -366,7 +368,7 @@ public class GridTests
     [Fact]
     public void GetRoutesWithAllNodesOptimizeFasterThanBruteForce()
     {
-        var grid = new Grid();
+        var grid = new CoordinatesGrid();
         var coordinates = new List<Coordinate>
         {
             Coordinate.From(0, 0), Coordinate.From(3, 0),

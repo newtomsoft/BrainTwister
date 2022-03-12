@@ -5,7 +5,7 @@ namespace LaserBrainTwister.UI.Blazor.Pages;
 public partial class Laser : ComponentBase
 {
     private const sbyte MaxRow = 15;
-    private readonly Grid _nodesGrid = new();
+    private readonly CoordinatesGrid _nodesCoordinatesGrid = new();
     private bool _isSolved;
     public const string NodeEnabled = "btn-enabled";
     public const string NodeDisable = "btn-disable";
@@ -14,22 +14,22 @@ public partial class Laser : ComponentBase
     private async Task OnClick(Coordinate coordinate)
     {
         await _js.InvokeAsync<string>("resetCanvas");
-        _nodesGrid.SwitchCoordinateStatus(coordinate);
+        _nodesCoordinatesGrid.SwitchCoordinateStatus(coordinate);
     }
 
     private async Task Solve()
     {
-        _nodesGrid.ResetErrors();
-        _nodesGrid.SetDefaultStartCoordinate();
-        _nodesGrid.SetDefaultEndCoordinate();
-        var tree = _nodesGrid.GenerateTree();
+        _nodesCoordinatesGrid.ResetErrors();
+        _nodesCoordinatesGrid.SetDefaultStartCoordinate();
+        _nodesCoordinatesGrid.SetDefaultEndCoordinate();
+        var tree = _nodesCoordinatesGrid.GenerateTree();
         var route = tree.GetRoutesWithAllNodes().FirstOrDefault() ?? tree.GetRouteWithMostNodes();
         if (route is null) return;
-        _isSolved = route.NodesNumber() == _nodesGrid.GetEnableNodesNumber();
+        _isSolved = route.NodesNumber() == _nodesCoordinatesGrid.GetEnableNodesNumber();
         if (!_isSolved)
         {
-            var coordinatesInError = _nodesGrid.Nodes.Except(route.Nodes.Select(n => n.Item)).ToList();
-            coordinatesInError.ForEach(c => _nodesGrid.SetError(c));
+            var coordinatesInError = _nodesCoordinatesGrid.Coordinates.Except(route.Nodes.Select(n => n.Item)).ToList();
+            coordinatesInError.ForEach(c => _nodesCoordinatesGrid.SetError(c));
         }
         await DrawLines(route);
     }
@@ -56,7 +56,7 @@ public partial class Laser : ComponentBase
     private async Task Export()
     {
         if (_isSolved is not true) return;
-        var json = JsonSerializer.Serialize(_nodesGrid.Nodes);
+        var json = JsonSerializer.Serialize(_nodesCoordinatesGrid.Coordinates);
         await _js.InvokeVoidAsync("BlazorDownloadFile", $"grid{DateTime.Now.ToFileTime()}.json", "application/octet-stream", json);
     }
 }

@@ -24,7 +24,7 @@
         @for (sbyte x = 0; x < MaxRow; x++)
         {
             var coordinate = new Coordinate(x, y);
-            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesGrid.IsEnable(coordinate) ? (_nodesGrid.IsError(coordinate) ? NodeError : NodeEnabled ) : NodeDisable)" @onclick="() => OnClick(coordinate)"></button>
+            <button id="btn@(coordinate.X)_@(coordinate.Y)" class="@(_nodesCoordinatesGrid.IsEnable(coordinate) ? (_nodesCoordinatesGrid.IsError(coordinate) ? NodeError : NodeEnabled ) : NodeDisable)" @onclick="() => OnClick(coordinate)"></button>
         }
         <br>
     }

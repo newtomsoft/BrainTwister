@@ -2,7 +2,7 @@
 
 
 #region tree3
-var grid = new Grid();
+var grid = new CoordinatesGrid();
 var coordinates = new List<Coordinate>
 {
     Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
@@ -40,7 +40,7 @@ Console.WriteLine("");
 #endregion
 
 #region tree3bis
-grid = new Grid();
+grid = new CoordinatesGrid();
 coordinates = new List<Coordinate>
 {
     Coordinate.From(0, 0), Coordinate.From(4, 0), Coordinate.From(5, 0), Coordinate.From(7, 0), Coordinate.From(9, 0), Coordinate.From(12, 0),
@@ -78,7 +78,7 @@ Console.WriteLine("");
 #endregion
 
 #region tree4
-grid = new Grid();
+grid = new CoordinatesGrid();
 coordinates = new List<Coordinate>
 {
     Coordinate.From(-1, 0), Coordinate.From(4, 0), Coordinate.From(8, 0), Coordinate.From(13, 0),
@@ -113,7 +113,7 @@ Console.WriteLine($"Shortest solution : {shortestRoute}");
 #endregion
 
 #region tree5 with coordinates
-grid = new Grid();
+grid = new CoordinatesGrid();
 coordinates = new List<Coordinate>
 {
     Coordinate.From(0, 0), Coordinate.From(2, 0), Coordinate.From(4, 0), Coordinate.From(7, 0), Coordinate.From(9, 0),
