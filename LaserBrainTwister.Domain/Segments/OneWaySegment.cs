@@ -13,25 +13,17 @@ public class OneWaySegment<T> : ISegment<T> where T : IEquatable<T>
         _tree = tree;
     }
 
-    public ISegment<T> ToOld(T item, int nodeId)
-    {
-        throw new NotImplementedException();
-    }
-
     public ISegment<T> To(T item)
     {
-        ISegment<T> segment = this;
-
         var nodeTo = _tree.Nodes.FirstOrDefault(n => n.Item.Equals(item));
-        if (nodeTo is not null && _start.LinkedNodes.Contains(nodeTo)) return segment;
+        if (nodeTo is not null && _start.LinkedNodes.Contains(nodeTo)) return this;
         if (nodeTo is null)
         {
             var id = _tree.Nodes.Max(n => n.Id) + 1;
             nodeTo = new Node<T>(item, id);
             _tree.Nodes.Add(nodeTo);
         }
-        segment = To(nodeTo);
-        return segment;
+        return To(nodeTo);
     }
 
     public ISegment<T> Then(T item) =>  Reverse().To(item);
@@ -54,10 +46,5 @@ public class OneWaySegment<T> : ISegment<T> where T : IEquatable<T>
     {
         _start.LinkNode(node);
         return new(_start, node, _tree);
-    }
-
-    public ISegment<T> ThenOld(T item, int nodeId)
-    {
-        throw new NotImplementedException();
     }
 }

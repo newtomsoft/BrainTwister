@@ -68,13 +68,11 @@ public class Grid
             if (firstCoordinateRightActivated != coordinate)
             {
                 var rightCoordinateNumber = Nodes.FindIndex(c => c == firstCoordinateRightActivated);
-                segment.ToOld(firstCoordinateRightActivated, rightCoordinateNumber);
             }
             var firstCoordinateBottomActivated = FirstBottomCoordinate(coordinate);
             if (firstCoordinateBottomActivated != coordinate)
             {
                 var bottomCoordinateNumber = Nodes.FindIndex(c => c == firstCoordinateBottomActivated);
-                segment.ToOld(firstCoordinateBottomActivated, bottomCoordinateNumber);
             }
         }
         return tree;
