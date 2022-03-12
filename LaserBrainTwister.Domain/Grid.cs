@@ -53,7 +53,7 @@ public class Grid
         Nodes.Remove(_endNode!);
         Nodes.Add(_endNode!);
     }
-    
+
     public ITree<Coordinate> GenerateTree()
     {
         if (_startNode is null) throw new ArgumentException("Start not defined");
