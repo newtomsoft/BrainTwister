@@ -33,7 +33,7 @@ public class OneWayTree<T> : ITree<T> where T : IEquatable<T>
     private static IEnumerable<Route<T>> GetRoutesToDeadEnd(Route<T> startTree)
     {
         var startNode = startTree.Nodes.Last();
-        if (startNode.LinkedNodes.Count == 1 && startTree.NodesNumber() > 1)
+        if (startNode.LinkedNodes.Count == 0 && startTree.NodesNumber() > 1)
             yield return new Route<T>(startTree.Nodes);
 
         foreach (var node in startNode.LinkedNodes)
