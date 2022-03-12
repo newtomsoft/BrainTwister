@@ -53,31 +53,7 @@ public class Grid
         Nodes.Remove(_endNode!);
         Nodes.Add(_endNode!);
     }
-
-    public ITree<Coordinate> GenerateTreeOld()
-    {
-        if (_startNode is null) throw new ArgumentException("Start not defined");
-        if (_endNode is null) throw new ArgumentException("End not defined");
-        SetEndCoordinate(Nodes.Last());
-        var tree = new TwoWayTree<Coordinate>();
-        var segment = tree.LinkFrom(_startNode, 0);
-        foreach (var coordinate in Nodes)
-        {
-            if (coordinate != _startNode) segment = segment.Next(coordinate);
-            var firstCoordinateRightActivated = FirstRightCoordinate(coordinate);
-            if (firstCoordinateRightActivated != coordinate)
-            {
-                var rightCoordinateNumber = Nodes.FindIndex(c => c == firstCoordinateRightActivated);
-            }
-            var firstCoordinateBottomActivated = FirstBottomCoordinate(coordinate);
-            if (firstCoordinateBottomActivated != coordinate)
-            {
-                var bottomCoordinateNumber = Nodes.FindIndex(c => c == firstCoordinateBottomActivated);
-            }
-        }
-        return tree;
-    }
-
+    
     public ITree<Coordinate> GenerateTree()
     {
         if (_startNode is null) throw new ArgumentException("Start not defined");
