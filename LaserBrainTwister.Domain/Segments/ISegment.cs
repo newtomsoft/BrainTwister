@@ -1,10 +1,10 @@
 ﻿namespace LaserBrainTwister.Domain.Segments;
 
-public interface ISegment
+public interface ISegment<in T>
 {
-    ISegment To(params int[] nodesNumber);
-    ISegment Then(params int[] nodesNumber);
-    ISegment NextTo(params int[] nodesNumber);
-    ISegment Next();
-    ISegment Reverse();
+    ISegment<T> ToOld(T item, int nodeId);
+    ISegment<T> To(T item);
+    ISegment<T> ThenOld(T item, int nodeId);
+    ISegment<T> Then(T item);
+    ISegment<T> Next(T item);
 }

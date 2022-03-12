@@ -1,16 +1,19 @@
 ﻿namespace LaserBrainTwister.Domain.Nodes;
 
-[DebuggerDisplay("Number = {Number}")]
-public class Node
+[DebuggerDisplay("Id = {Id}")]
+public class Node<T>
 {
-    public int Number { get; }
-    public List<Node> LinkedNodes { get; } = new();
+    public int Id { get; }
+    public List<Node<T>> LinkedNodes { get; }
+    public T Item { get; }
 
-    public Node(int number)
+    public Node(T item, int id)
     {
-        Number = number;
+        Item = item;
+        Id = id;
         LinkedNodes = new();
     }
 
-    internal void LinkNode(Node node) => LinkedNodes.Add(node);
+    internal void LinkNode(Node<T> node) => LinkedNodes.Add(node);
 }
+

@@ -28,7 +28,7 @@ public partial class Laser : ComponentBase
         _isSolved = route.NodesNumber() == _nodesGrid.GetEnableNodesNumber();
         if (!_isSolved)
         {
-            var coordinatesInError = _nodesGrid.Nodes.Except(route.Nodes.Select(n=> n.Item)).ToList();
+            var coordinatesInError = _nodesGrid.Nodes.Except(route.Nodes.Select(n => n.Item)).ToList();
             coordinatesInError.ForEach(c => _nodesGrid.SetError(c));
         }
         await DrawLines(route);

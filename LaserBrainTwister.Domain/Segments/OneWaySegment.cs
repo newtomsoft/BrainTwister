@@ -1,12 +1,12 @@
 ﻿namespace LaserBrainTwister.Domain.Segments;
 
-public class TwoWaySegment<T> : ISegment<T> where T : IEquatable<T>
+public class OneWaySegment<T> : ISegment<T> where T : IEquatable<T>
 {
     private readonly Node<T> _start;
     private readonly Node<T> _end;
     private readonly ITree<T> _tree;
 
-    public TwoWaySegment(Node<T> start, Node<T> end, ITree<T> tree)
+    public OneWaySegment(Node<T> start, Node<T> end, ITree<T> tree)
     {
         _start = start;
         _end = end;
@@ -16,18 +16,6 @@ public class TwoWaySegment<T> : ISegment<T> where T : IEquatable<T>
     public ISegment<T> ToOld(T item, int nodeId)
     {
         throw new NotImplementedException();
-        ISegment<T> segment = this;
-
-        var nodeTo = _tree.Nodes.FirstOrDefault(n => n.Id == nodeId);
-        if (nodeTo is not null && _start.LinkedNodes.Contains(nodeTo)) return segment;
-        if (nodeTo is null)
-        {
-            nodeTo = new Node<T>(item, nodeId);
-            _tree.Nodes.Add(nodeTo);
-        }
-        segment = To(nodeTo);
-        segment.ThenOld(item, _start.Id);
-        return segment;
     }
 
     public ISegment<T> To(T item)
@@ -43,13 +31,10 @@ public class TwoWaySegment<T> : ISegment<T> where T : IEquatable<T>
             _tree.Nodes.Add(nodeTo);
         }
         segment = To(nodeTo);
-        segment.ThenOld(_start.Item, _start.Id);
         return segment;
     }
 
-    public ISegment<T> ThenOld(T item, int nodeId) => Reverse().To(item);
-
-    public ISegment<T> Then(T item) => Reverse().To(item);
+    public ISegment<T> Then(T item) =>  Reverse().To(item);
 
     public ISegment<T> Next(T item)
     {
@@ -60,14 +45,19 @@ public class TwoWaySegment<T> : ISegment<T> where T : IEquatable<T>
             _tree.Nodes.Add(startNode);
         }
 
-        return new TwoWaySegment<T>(startNode, new(default, 0), _tree);
+        return new OneWaySegment<T>(startNode, new(default, 0), _tree);
     }
 
-    private ISegment<T> Reverse() => new TwoWaySegment<T>(_end, _start, _tree);
+    private ISegment<T> Reverse() => new OneWaySegment<T>(_end, _start, _tree);
 
-    private TwoWaySegment<T> To(Node<T> node)
+    private OneWaySegment<T> To(Node<T> node)
     {
         _start.LinkNode(node);
         return new(_start, node, _tree);
+    }
+
+    public ISegment<T> ThenOld(T item, int nodeId)
+    {
+        throw new NotImplementedException();
     }
 }

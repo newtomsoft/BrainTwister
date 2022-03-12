@@ -46,14 +46,14 @@ public class GridTests
         grid.SetEndCoordinate(endCoordinate);
         var tree = grid.GenerateTree();
         tree.NodesNumber().ShouldBe(2);
-        tree.Nodes[0].Number.ShouldBe(0);
+        tree.Nodes[0].Id.ShouldBe(0);
         tree.Nodes[0].Item.ShouldBe(startCoordinate);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[0].LinkedNodes[0].Number.ShouldBe(1);
-        tree.Nodes[1].Number.ShouldBe(1);
+        tree.Nodes[0].LinkedNodes[0].Id.ShouldBe(1);
+        tree.Nodes[1].Id.ShouldBe(1);
         tree.Nodes[1].Item.ShouldBe(endCoordinate);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
+        tree.Nodes[1].LinkedNodes[0].Id.ShouldBe(0);
         tree.GetRouteWithMostNodes()!.Nodes.Count.ShouldBe(2);
         tree.GetRouteWithMostNodes()!.Nodes[0].Item.ToString().ShouldBe("(0,0)");
         tree.GetRouteWithMostNodes()!.Nodes[1].Item.ToString().ShouldBe("(1,0)");
@@ -71,14 +71,14 @@ public class GridTests
         grid.SetDefaultEndCoordinate();
         var tree = grid.GenerateTree();
         tree.NodesNumber().ShouldBe(2);
-        tree.Nodes[0].Number.ShouldBe(0);
+        tree.Nodes[0].Id.ShouldBe(0);
         tree.Nodes[0].Item.ShouldBe(startCoordinate);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[0].LinkedNodes[0].Number.ShouldBe(1);
-        tree.Nodes[1].Number.ShouldBe(1);
+        tree.Nodes[0].LinkedNodes[0].Id.ShouldBe(1);
+        tree.Nodes[1].Id.ShouldBe(1);
         tree.Nodes[1].Item.ShouldBe(endCoordinate);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
+        tree.Nodes[1].LinkedNodes[0].Id.ShouldBe(0);
         tree.GetRouteWithMostNodes()!.Nodes.Count.ShouldBe(2);
         tree.GetRouteWithMostNodes()!.Nodes[0].Item.ToString().ShouldBe("(0,0)");
         tree.GetRouteWithMostNodes()!.Nodes[1].Item.ToString().ShouldBe("(1,0)");
@@ -97,19 +97,19 @@ public class GridTests
 
         var tree = grid.GenerateTree();
         tree.NodesNumber().ShouldBe(3);
-        tree.Nodes[0].Number.ShouldBe(0);
+        tree.Nodes[0].Id.ShouldBe(0);
         tree.Nodes[0].Item.ShouldBe(startCoordinate);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[0].LinkedNodes[0].Number.ShouldBe(1);
-        tree.Nodes[1].Number.ShouldBe(1);
+        tree.Nodes[0].LinkedNodes[0].Id.ShouldBe(1);
+        tree.Nodes[1].Id.ShouldBe(1);
         tree.Nodes[1].Item.ShouldBe(coordinates[0]);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(2);
-        tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
-        tree.Nodes[1].LinkedNodes[1].Number.ShouldBe(2);
-        tree.Nodes[2].Number.ShouldBe(2);
+        tree.Nodes[1].LinkedNodes[0].Id.ShouldBe(0);
+        tree.Nodes[1].LinkedNodes[1].Id.ShouldBe(2);
+        tree.Nodes[2].Id.ShouldBe(2);
         tree.Nodes[2].Item.ShouldBe(endCoordinate);
         tree.Nodes[2].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[2].LinkedNodes[0].Number.ShouldBe(1);
+        tree.Nodes[2].LinkedNodes[0].Id.ShouldBe(1);
     }
 
     [Fact]
@@ -127,20 +127,20 @@ public class GridTests
 
         var tree = grid.GenerateTree();
         tree.NodesNumber().ShouldBe(4);
-        tree.Nodes[0].Number.ShouldBe(0);
+        tree.Nodes[0].Id.ShouldBe(0);
         tree.Nodes[0].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[0].LinkedNodes[0].Number.ShouldBe(1);
-        tree.Nodes[1].Number.ShouldBe(1);
+        tree.Nodes[0].LinkedNodes[0].Id.ShouldBe(1);
+        tree.Nodes[1].Id.ShouldBe(1);
         tree.Nodes[1].LinkedNodes.Count.ShouldBe(2);
-        tree.Nodes[1].LinkedNodes[0].Number.ShouldBe(0);
-        tree.Nodes[1].LinkedNodes[1].Number.ShouldBe(2);
-        tree.Nodes[2].Number.ShouldBe(2);
+        tree.Nodes[1].LinkedNodes[0].Id.ShouldBe(0);
+        tree.Nodes[1].LinkedNodes[1].Id.ShouldBe(2);
+        tree.Nodes[2].Id.ShouldBe(2);
         tree.Nodes[2].LinkedNodes.Count.ShouldBe(2);
-        tree.Nodes[2].LinkedNodes[0].Number.ShouldBe(1);
-        tree.Nodes[2].LinkedNodes[1].Number.ShouldBe(3);
-        tree.Nodes[3].Number.ShouldBe(3);
+        tree.Nodes[2].LinkedNodes[0].Id.ShouldBe(1);
+        tree.Nodes[2].LinkedNodes[1].Id.ShouldBe(3);
+        tree.Nodes[3].Id.ShouldBe(3);
         tree.Nodes[3].LinkedNodes.Count.ShouldBe(1);
-        tree.Nodes[3].LinkedNodes[0].Number.ShouldBe(2);
+        tree.Nodes[3].LinkedNodes[0].Id.ShouldBe(2);
     }
 
     [Fact]
@@ -369,7 +369,7 @@ public class GridTests
         var grid = new Grid();
         var coordinates = new List<Coordinate>
         {
-            Coordinate.From(0, 0), Coordinate.From(3, 0), 
+            Coordinate.From(0, 0), Coordinate.From(3, 0),
             Coordinate.From(4, 1), Coordinate.From(6, 1), Coordinate.From(8, 1), Coordinate.From(10, 1), Coordinate.From(12, 1),
             Coordinate.From(5, 2), Coordinate.From(8, 2), Coordinate.From(11, 2),
             Coordinate.From(4, 3), Coordinate.From(6, 3), Coordinate.From(8, 3), Coordinate.From(10, 3),
@@ -393,12 +393,12 @@ public class GridTests
         stopwatch.Start();
         var routeOptimized = sameTree.GetRoutesWithAllNodes().ToList();
         var elapsedOptimized = stopwatch.Elapsed;
-        
+
         stopwatch.Stop();
         stopwatch.Restart();
         var routeBruteForce = tree.GetRoutesWithAllNodes(true).ToList();
         var elapsedBruteForce = stopwatch.Elapsed;
-        
+
         elapsedOptimized.ShouldBeLessThanOrEqualTo(elapsedBruteForce);
         routeOptimized.ToString().ShouldBe(routeBruteForce.ToString());
     }

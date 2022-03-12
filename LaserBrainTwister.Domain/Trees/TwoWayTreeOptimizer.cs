@@ -1,6 +1,6 @@
 ﻿namespace LaserBrainTwister.Domain.Trees;
 
-public static class OptimizedTwoWayTree<T>
+public static class TwoWayTreeOptimizer<T> where T : IEquatable<T>
 {
     public static List<Route<T>> OptimizeRoutes(TwoWayTree<T> twoWayTree)
     {

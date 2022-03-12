@@ -1,19 +1,18 @@
 ﻿namespace LaserBrainTwister.Domain.Trees;
 
-public class TwoWayTree<T> : ITree<T>
+public class OneWayTree<T> : ITree<T> where T : IEquatable<T>
 {
     public List<Node<T>> Nodes { get; } = new();
-    
+
     public int NodesNumber() => Nodes.Count;
 
-    public ISegment<T> LinkFrom(T item, int fromNodeNumber)
+    public ISegment<T> LinkFrom(T item)
     {
-        var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
+        var fromNode = Nodes.FirstOrDefault(n => n.Item.Equals(item));
         return fromNode is null
-            ? new TwoWaySegment<T>(AddNode(item, fromNodeNumber), new(item, 0), this)
-            : new TwoWaySegment<T>(fromNode, new(item, 0), this);
+            ? new OneWaySegment<T>(AddNode(item, Nodes.Any() ? Nodes.Max(n => n.Id) + 1 : 0), new(item, 0), this)
+            : new OneWaySegment<T>(fromNode, new(item, 0), this);
     }
-    public ISegment<T> LinkFromOriginTo(T item, int nodeNumber) => LinkFrom(item, 0).To(item, nodeNumber);
 
     public IEnumerable<Route<T>> GetRoutes(bool bruteForce = false)
     {
@@ -29,7 +28,7 @@ public class TwoWayTree<T> : ITree<T>
 
     public Route<T>? GetRouteWithLeastNodes() => GetRoutes(true).OrderBy(r => r.NodesNumber()).FirstOrDefault();
 
-    public List<Route<T>> OptimizeRoutes() => OptimizedTwoWayTree<T>.OptimizeRoutes(this);
+    public List<Route<T>> OptimizeRoutes() => throw new NotSupportedException();
 
     private static IEnumerable<Route<T>> GetRoutesToDeadEnd(Route<T> startTree)
     {
@@ -39,7 +38,7 @@ public class TwoWayTree<T> : ITree<T>
 
         foreach (var node in startNode.LinkedNodes)
         {
-            if (startTree.Nodes.Any(n => n.Number == node.Number)) continue;
+            if (startTree.Nodes.Any(n => n.Id == node.Id)) continue;
             var route = new Route<T>(startTree.Nodes);
             route.AddNode(node);
             foreach (var suitRoute in GetRoutesToDeadEnd(route))

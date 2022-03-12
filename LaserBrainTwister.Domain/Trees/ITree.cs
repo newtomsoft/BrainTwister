@@ -1,10 +1,13 @@
 ﻿namespace LaserBrainTwister.Domain.Trees;
 
-public interface ITree
+public interface ITree<T>
 {
-    List<Node> Nodes { get; }
+    List<Node<T>> Nodes { get; }
     int NodesNumber();
-    ISegment LinkFrom(int fromNodeNumber);
-    ISegment LinkFromOriginTo(params int[] nodesNumber);
-    IEnumerable<Route> GetRoutesFromStartToDeadEnds();
+    ISegment<T> LinkFrom(T item);
+    IEnumerable<Route<T>> GetRoutes(bool bruteForce = false);
+    IEnumerable<Route<T>> GetRoutesWithAllNodes(bool bruteForce = false);
+    Route<T>? GetRouteWithMostNodes();
+    Route<T>? GetRouteWithLeastNodes();
+    List<Route<T>> OptimizeRoutes();
 }

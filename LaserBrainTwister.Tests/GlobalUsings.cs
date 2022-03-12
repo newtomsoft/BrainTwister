@@ -1,5 +1,5 @@
 ﻿global using LaserBrainTwister.Domain;
-global using LaserBrainTwister.Domain.Trees;
+global using LaserBrainTwister.Domain.Nodes;
 global using Shouldly;
 global using System;
 global using System.Collections.Generic;

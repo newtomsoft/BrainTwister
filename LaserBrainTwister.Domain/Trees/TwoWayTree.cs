@@ -1,44 +1,62 @@
 ﻿namespace LaserBrainTwister.Domain.Trees;
 
-public class TwoWayTree : ITree
+public class TwoWayTree<T> : ITree<T> where T : IEquatable<T>
 {
-    public List<Node> Nodes { get; } = new();
+    public List<Node<T>> Nodes { get; } = new();
 
     public int NodesNumber() => Nodes.Count;
 
-    public ISegment LinkFrom(int fromNodeNumber)
+    public ISegment<T> LinkFrom(T item, int fromNodeNumber)
     {
-        var fromNode = Nodes.FirstOrDefault(n => n.Number == fromNodeNumber);
-        return fromNode is null ? new TwoWaySegment(AddNode(fromNodeNumber), new(0), this) : new TwoWaySegment(fromNode, new(0), this);
+        var fromNode = Nodes.FirstOrDefault(n => n.Id == fromNodeNumber);
+        return fromNode is null
+            ? new TwoWaySegment<T>(AddNode(item, fromNodeNumber), new(item, 0), this)
+            : new TwoWaySegment<T>(fromNode, new(item, 0), this);
     }
-    public ISegment LinkFromOriginTo(params int[] nodesNumber) => LinkFrom(0).To(nodesNumber);
 
-    public IEnumerable<Route> GetRoutesFromStartToDeadEnds()
+    public ISegment<T> LinkFrom(T item)
     {
-        var route = new Route(Nodes.First());
+        var fromNode = Nodes.FirstOrDefault(n => n.Item.Equals(item));
+        return fromNode is null
+            ? new TwoWaySegment<T>(AddNode(item, Nodes.Any() ? Nodes.Max(n => n.Id) + 1 : 0), new(item, 0), this)
+            : new TwoWaySegment<T>(fromNode, new(item, 0), this);
+    }
+
+    public IEnumerable<Route<T>> GetRoutes(bool bruteForce = false)
+    {
+        if (bruteForce is not true) OptimizeRoutes();
+        var route = new Route<T>(Nodes.First());
         foreach (var currentRoute in GetRoutesToDeadEnd(route))
             yield return currentRoute;
     }
 
-    private static IEnumerable<Route> GetRoutesToDeadEnd(Route startTree)
+    public IEnumerable<Route<T>> GetRoutesWithAllNodes(bool bruteForce = false) => GetRoutes(bruteForce).Where(r => r.NodesNumber() == NodesNumber());
+
+    public Route<T>? GetRouteWithMostNodes() => GetRoutes(true).OrderByDescending(r => r.NodesNumber()).FirstOrDefault();
+
+    public Route<T>? GetRouteWithLeastNodes() => GetRoutes(true).OrderBy(r => r.NodesNumber()).FirstOrDefault();
+
+    public List<Route<T>> OptimizeRoutes() => TwoWayTreeOptimizer<T>.OptimizeRoutes(this);
+
+    private static IEnumerable<Route<T>> GetRoutesToDeadEnd(Route<T> startTree)
     {
         var startNode = startTree.Nodes.Last();
-        if (startNode.LinkedNodes.Count == 1)
-            yield return new Route(startTree.Nodes);
+        if (startNode.LinkedNodes.Count == 1 && startTree.NodesNumber() > 1)
+            yield return new Route<T>(startTree.Nodes);
 
         foreach (var node in startNode.LinkedNodes)
         {
-            if (startTree.Nodes.Any(n => n.Number == node.Number)) continue;
-            var route = new Route(startTree.Nodes);
+            if (startTree.Nodes.Any(n => n.Id == node.Id)) continue;
+            var route = new Route<T>(startTree.Nodes);
             route.AddNode(node);
             foreach (var suitRoute in GetRoutesToDeadEnd(route))
                 yield return suitRoute;
         }
     }
 
-    private Node AddNode(int number)
+    private Node<T> AddNode(T item, int number)
     {
-        var node = new Node(number);
+        var node = new Node<T>(item, number);
         Nodes.Add(node);
         return node;
     }
