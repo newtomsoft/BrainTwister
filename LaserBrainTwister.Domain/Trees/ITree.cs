@@ -1,6 +1,6 @@
 ﻿namespace LaserBrainTwister.Domain.Trees;
 
-public interface ITree<T>
+public interface ITree<T> where T : IEquatable<T>
 {
     List<Node<T>> Nodes { get; }
     int NodesNumber();
